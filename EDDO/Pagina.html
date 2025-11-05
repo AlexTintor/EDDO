@@ -15,8 +15,8 @@
     </div>
     <ul>
       <li class="active" data-section="inicio"><i class="fa fa-home"></i> Inicio</li>
-      <li data-section="expediente"><i class="fa fa-folder"></i> Expediente</li>
-      <li data-section="tickets"><i class="fa fa-ticket-alt"></i> Tickets</li>
+      <li data-section="expediente"><i class="btnExpediente" id ="btnExpediente"></i> Expediente</li>
+      <li data-section="tickets"><i class="fa fa-ticket-alt" id = "btnTickets"></i> Tickets</li>
       <li data-section="reclamo"><i class="fa fa-comment-dots"></i> Reclamo</li>
     </ul>
     <div class="bottom">
@@ -28,11 +28,11 @@
   <div class="main">
 
     <!-- 🏠 INICIO -->
-    <section id="inicio-True" class="section visible">
+    <section  class="section visible" id ="section visible">
         <div class="logo-container">
             <header class="logo-header">
                 <img src="img/LogoTec.png" alt="Logo EDDO" class="logo-tec">
-                <p>TECNM</p>
+                <p>TecNM</p>
             </header>
         </div>
         <div class="lineaAzul">
@@ -40,10 +40,10 @@
         </div>
         <div class = "logo-content">
             <p>
-                ESTIMULO AL DESEMPEÑO ONLINE
+                ESTIMULO AL DESEMPEÑO DOCENTE ONLINE
             </p>
             <div class="logo-eddo">
-                <img src="img/LogoUnicoEDDO.png" alt="Logo EDDO">
+                <img src="img/LogoUnicoEDDO.png" alt="Logo EDDO" class = "logoEDDO">
             </div>
             <p>
                 BIENVENIDO
@@ -154,9 +154,16 @@
 
     <!-- ⚙️ CUENTA -->
     <section id="cuenta" class="section">
-      <h1>Cuenta</h1>
-      <p>Configuración y datos del usuario docente.</p>
-    </section>
+      <h1>Identificacion</h1>
+      <div>
+        <h3>Nombre</h3>
+        <h3>Correo</h3>
+        <button>Cambiar contraseña  </button>
+        <h3>Telefono</h3>
+        <h3>Departamento</h3>
+        <h3>Campus</h3>
+      </div>
+      </section>
   </div>
 </body>
 </html>

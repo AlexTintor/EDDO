@@ -187,7 +187,13 @@ th, td {
 }
 .logo-container {
     display:flex;
-
+    font-size:40px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: gray;
+}
+.logo-tec {
+    width: 350px;
+    height: 90%;
 }
 
 .logo-header {
@@ -200,9 +206,17 @@ th, td {
 .lineaAzul{
     background-color: #273b67;
     width: 100%;
-    height: 25px;
-    margin: 20px;
+    height: 35px;
+    margin-top: 20px;
 }
 .logo-content {
     justify-items: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color:#1c2b4e;
+    font-size:30px;
+}
+.logoEDDO{
+  width: 150px;
+  height: 60%;
+
 }

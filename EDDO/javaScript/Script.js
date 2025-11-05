@@ -18,20 +18,3 @@ menuItems.forEach(item => {
     });
   });
 });
-
-// Visualizar documento cargado
-const fileInput = document.getElementById('fileInput');
-const docViewer = document.getElementById('docViewer');
-const noFileMsg = document.getElementById('noFileMsg');
-
-if (fileInput) {
-  fileInput.addEventListener('change', () => {
-    const file = fileInput.files[0];
-    if (file) {
-      const fileURL = URL.createObjectURL(file);
-      docViewer.src = fileURL;
-      docViewer.style.display = 'block';
-      noFileMsg.style.display = 'none';
-    }
-  });
-}
