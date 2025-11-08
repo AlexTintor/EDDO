@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Recuperar Contraseña | EDDO</title>
+  <link rel="stylesheet" href="./css/Estilos.css"/>
+</head>
+<body>
+  <section class="auth-layout">
+    <main class="auth-main">
+      <article class="login-card recover-card" aria-labelledby="recover-title">
+        <header class="login-card__header">
+          <figure class="brand">
+            <img class="brand__logo" src="./img/EDDO.png" alt="Logo EDDO">
+          </figure>
+          <h1 id="recover-title" class="recover-title">Recuperar Contraseña</h1>
+        </header>
+        <hr class="divider"/>
+        <form class="recover-form" id="recover-form" novalidate>
+          <fieldset class="field">
+            <label for="recover-email">Correo electrónico</label>
+            <input id="recover-email" name="email" type="email" placeholder="Ingrese su correo" autocomplete="username" required>
+            <p id="email-error" class="field__error" role="alert" hidden>Correo electrónico incorrecto.</p>
+          </fieldset>
+          <button type="submit" class="btn btn--primary">Enviar correo</button>
+          <nav class="form-actions">
+            <a class="link link--small" href="./index.html">Volver al inicio</a>
+          </nav>
+        </form>
+      </article>
+    </main>
+  </section>
+  <script src="./js/recover.js"></script>
+</body>
+</html>

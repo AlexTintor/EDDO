@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Verificar Código | EDDO</title>
+  <link rel="stylesheet" href="./css/Estilos.css"/>
+</head>
+<body>
+  <section class="auth-layout">
+    <main class="auth-main">
+      <article class="login-card verify-card" role="region" aria-labelledby="verify-title">
+        <header class="login-card__header">
+          <figure class="brand">
+            <img class="brand__logo" src="./img/EDDO.png" alt="Logo EDDO">
+          </figure>
+          <h1 id="verify-title" class="recover-title">Verificar Código</h1>
+        </header>
+        <hr class="divider"/>
+        <form class="login-form code-form" id="code-form" novalidate>
+          <p class="code-email-line">
+            Correo: <span id="code-email-value"></span>
+          </p>
+          <fieldset class="code-fieldset">
+            <legend class="code-legend">Código de verificación</legend>
+            <div class="code-inputs" role="group" aria-label="Ingresar código de 6 dígitos">
+              <input class="code-cell" type="text" maxlength="1" aria-label="Dígito 1">
+              <input class="code-cell" type="text" maxlength="1" aria-label="Dígito 2">
+              <input class="code-cell" type="text" maxlength="1" aria-label="Dígito 3">
+              <input class="code-cell" type="text" maxlength="1" aria-label="Dígito 4">
+              <input class="code-cell" type="text" maxlength="1" aria-label="Dígito 5">
+              <input class="code-cell" type="text" maxlength="1" aria-label="Dígito 6">
+            </div>
+            <p class="field__error" id="code-error" role="alert" hidden>Código inválido.</p>
+          </fieldset>
+          <button type="submit" class="btn btn--primary" id="btn-verify" disabled>VERIFICAR</button>
+          <nav class="code-actions">
+            <a class="link back-btn" href="./recuperar.html">← Regresar</a>
+            <button type="button" class="link resend-btn" id="btn-resend" disabled>Reenviar código (30s)</button>
+          </nav>
+        </form>
+      </article>
+    </main>
+  </section>
+  <script src="./js/verificar.js"></script>
+</body>
+</html>

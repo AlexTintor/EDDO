@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Acceso | EDDO</title>
+  <link rel="stylesheet" href="./css/Estilos.css" />
+</head>
+<body>
+  <section class="auth-layout">
+    <main class="auth-main">
+      <article class="login-card" role="region" aria-labelledby="login-title">
+        <header class="login-card__header">
+          <figure class="brand">
+            <img class="brand__logo" src="./img/EDDO.png" alt="Logo EDDO">
+          </figure>
+          <h2 id="login-title" class="login-card__title">ACCESO AL PORTAL EDDO</h2>
+        </header>
+        <hr class="divider" />
+        <form class="login-form" method="post" action="#" novalidate>
+          <fieldset class="field">
+            <label for="email">Correo electrónico</label>
+            <input id="email" name="email" type="email" placeholder="Ingrese su correo" required autocomplete="username" inputmode="email">
+          </fieldset>
+          <fieldset class="field field--password">
+            <label for="password">Contraseña</label>
+            <input id="password" name="password" type="password" placeholder="Ingrese su contraseña" required autocomplete="current-password">
+            <button type="button" class="toggle-password" aria-label="Mostrar u ocultar contraseña">
+              <img class="icon-eye" src="./img/Ver_Ocultar_Contraseña.png" alt="">
+            </button>
+          </fieldset>
+          <nav class="form-actions" aria-label="Opciones de acceso">
+            <a class="link link--small" href="./recuperar.html">¿Recuperar Contraseña?</a>
+          </nav>
+          <button type="submit" class="btn btn--primary">INICIAR SESIÓN</button>
+        </form>
+      </article>
+    </main>
+  </section>
+  <script src="./js/login.js"></script>
+</body>
+</html>
