@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/prueba.css">
+    <script src="js/prueba.js" defer></script>
+    <title>Document</title>
+</head>
+<body>
+    <main class = "mainLogin">
+        <article>
+            <header class = "headerLogin ">
+                <figure class = "figureLogoEddo">
+                    <img src="../img/EDDO.png" alt="Logo EDDO" class = "logoEddo">
+                </figure>
+                <h2>ACCESO AL PORTAL EDDO</h2>
+            </header>
+            <hr class="divisor" />
+            <form class="loginForm">
+                <label for="email" class ="lblSesion">Correo electrónico</label>
+                <input id="email" class = "inputSesion" type="email" placeholder="Ingrese su correo" inputmode="email">  
+                <label for="password" class ="lblSesion">Contraseña</label>
+                <div class =" divInputPassword">
+                    <input id="password"  class = "inputSesion" name="password" type="password" placeholder="Ingrese su contraseña"></input>
+                    <button type="button" class = "btnVerContraseña" id = "btnVerContrasea">
+                        <img class="icon-eye" src="../img/Ver_Ocultar_Contraseña.png" alt="">
+                    </button>
+                </div>
+                <nav class="form-actions" aria-label="Opciones de acceso">
+                    <a class="linkRecuperar" href="recuperar.html">¿Recuperar Contraseña?</a>
+                </nav>
+                <div class = "divBtnIniciarSesion"> 
+                    <button type="submit" class="btnIniciarSesion">INICIAR SESIÓN</button>        
+                </div>
+            </form>
+        </article>
+    </main>
+</body>
+</html>

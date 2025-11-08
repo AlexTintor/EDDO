@@ -1,0 +1,349 @@
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: #f4f5f7;
+  display: flex;
+  width: 100%;
+  color: #333;
+}
+
+h2{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 28px;
+    color: #273b67;
+    margin-left: 15px;
+}
+
+
+/*Todo el contenedor de la derecha*/
+.contenedorDerecho{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+/*Linea decoratvia de la derecha*/
+.lineaAzulSuperior{
+  background: #273b67;
+  height: 80px;
+  width: 100%;
+}
+/* Sidebar */
+.logo {
+  text-align: center;
+
+}
+.sidebar {
+  width: 250px;
+  background: #273b67;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 20px;
+  height: 100%;
+}
+ul  {
+  list-style: none;
+  padding: 0;
+}
+li{
+  border-radius: 6px;
+}
+ul li a {
+    color: white;
+    display: block;       
+    width: 100%;             
+    padding: 10px 15px;      
+    text-decoration: none;   
+}
+
+/*Cuando el mouse pasa por encima de las categorias  */
+li:hover,
+li.active {
+  background: #4a6acb;
+}
+
+.Sides_bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 310px;
+}
+
+button {
+  background: #1c2b4e;
+  border: none;
+  color: white;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #4a6acb;
+}
+
+/* Main content */
+.main {
+    flex: 1;
+    padding: 0 25px;
+    height: 100%;
+}
+
+h1, h2 {
+  color: #273b67;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: white;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+thead {
+  background: #273b67;
+  color: white;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: white;
+}
+
+.btn.descargar { background: #4a6acb; }
+.btn.ver { background: #3c538c; }
+.btn.abrir { background: #273b67; }
+.btn.regresar { background: #4a6acb; margin-bottom: 10px; }
+
+.btn:hover { opacity: 0.85; }
+
+.status {
+  padding: 4px 10px;
+  border-radius: 6px;
+  color: white;
+}
+
+.status.Generada { background: #4caf50; }
+.status.Atendido { background: #2196f3; }
+.status.Atendiendo { background: #ff9800; }
+.status.Pendiente { background: #f44336; }
+
+/* Viewer */
+.upload-area {
+  margin-bottom: 15px;
+}
+
+.upload-label {
+  background: #273b67;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.viewer {
+  border: 1px solid #ccc;
+  background: white;
+  height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+
+.logo-image {
+  width: 120px;
+  height:80px;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+/* Color de fondo: #273b67 */
+
+/*Interfaz inicio*/
+.logo-container {
+    display:flex;
+    font-size:40px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: gray;
+
+}
+.logo-tec {
+    width: 350px;
+    height: 120px;
+}
+.logo-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.lineaAzul{
+    background-color: #273b67;
+    width: 100%;
+    height: 35px;
+    margin-top: 20px;
+}
+.logo-content {
+    justify-items: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color:#1c2b4e;
+    font-size:30px;
+}
+.logoEDDO{
+  width: 150px;
+  height: 60%;
+
+}
+
+
+
+
+/* Interfaz Cuenta*/
+
+.contenedor{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 70px;
+}
+
+.textInicio{
+    border-radius: 6px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    width: 500px;
+    border: 2px solid #273b67;
+    padding: 7px;
+}
+
+.labelInicio{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 22px;
+    margin-left: 15px;
+    margin-top:0;
+}
+
+.btnContra{
+    color: black;
+    background: #ccc;
+    margin: 20px 10px;
+    padding: 8px 15px;
+    border:1px solid ;
+    border-radius: 6px;
+    border-color: black;
+    width: 300px;
+    cursor: pointer;
+}
+.btnContra:hover{
+    background: #273b67;
+    color: white;
+}
+.fotoUsuario{
+    margin-right: 50px;
+    border: 2px solid black;
+    height: 220px;
+    border-radius: 10px;
+}
+.imagenUsuario{
+    width: 200px;
+    height: 200px;
+    padding:10px;
+}
+.imagenLapiz{
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    border: 2px solid black;
+    border-radius: 10px;
+    margin:10px;
+}
+
+
+
+/*VerDocumento*/
+
+.documentoPDF {
+  width: 100%;
+  height: 600px;
+}
+
+.headerPDF {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-right:25px  ;
+}
+
+.btn.btn.regresar{
+  width: 100px;
+  height: 40px;
+  margin-top: 15px;
+  font-size: medium;
+}
+
+
+
+
+
+/*Pantalla de cerrar sesion*/
+.modal {
+  display: none; /* Oculto por defecto */
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(57, 57, 57, 0.668);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #273b67;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  width: 400px;
+  color: white;
+}
+
+.modal-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+.labelCerrarSesion{
+  color: white;
+}
+
+.btn.confirmar {
+  background-color: #e63946;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn.cancelar {
+  background-color: #ccc;
+  color: black;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}

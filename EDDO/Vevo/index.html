@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script defer src="js/script.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    
+    <title>Document</title>
+</head>
+<body>  
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="../img/LogoEDDO2.png" alt="Logo EDDO" class="logo-image">
+            </div>
+                <ul>
+                    <li class="active">
+                        <a href="#" data-page="inicio.html">
+                        <i></i> Inicio
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" data-page="expediente.html">
+                        <i></i> Expediente
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" data-page="ticket.html">
+                        <i></i> Tickets
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" data-page="reclamo.html">
+                        <i></i> Reclamo
+                        </a>
+                    </li>
+                </ul>
+
+            <div class="Sides_bottom">
+                <button class="cuenta" data-page="cuenta.html"><i></i> Cuenta</button>
+                <button class="salir" id = "btnCerrarSesion"><i></i> Cerrar Sesión</button>
+            </div>
+        </aside>
+
+    </div>
+    <div class = "contenedorDerecho">
+        <div class = "lineaAzulSuperior"></div>
+        <main class="main" id = "content">
+        </main>
+    </div>
+
+    <div id="modalSalida" class="modal">
+        <div class="modal-content">
+            <h2 class = "labelCerrarSesion">¿Seguro que quieres salir?</h2>
+            <p>Tu sesión se cerrará y volverás al inicio.</p>
+            <div class="modal-buttons">
+            <button id="confirmarSalir" class="btn confirmar">Sí, salir</button>
+            <button id="cancelarSalir" class="btn cancelar">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

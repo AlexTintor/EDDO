@@ -128,10 +128,8 @@ th, td {
   color: white;
 }
 
-.status.generated { background: #4caf50; }
-.status.atendiendo { background: #ff9800; }
-.status.atendido { background: #2196f3; }
 .status.pendiente { background: #f44336; }
+.status.generated { background: #4caf50; }
 
 /* Viewer */
 .upload-area {
@@ -174,17 +172,19 @@ th, td {
 }
 
 /* Color de fondo: #273b67 */
+
+/* Interfaz Inicio*/
 .inicio-True {
     background-color: white; 
     display: flex;
     flex-direction: column; 
     justify-content: space-between;
     align-items: center;/* Centra horizontalmente */
-    min-height: 100vh;       /* Asegura que el cuerpo ocupe toda la altura de la ventana */
+    width: 100%;
     margin: 0;
-    width: 1000px;
     font-family: Arial, sans-serif; /* Puedes ajustar la fuente para que se parezca más */
 }
+
 .logo-container {
     display:flex;
     font-size:40px;
