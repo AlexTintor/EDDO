@@ -1,10 +1,76 @@
 
 document.addEventListener("DOMContentLoaded", () => {
+  login();
+});
+
+/*Funcion que se encarga de desplegar la ventana de cerrar Sesion y mandarte al login */
+function desplegarInterfazSalir(){
+  const modal = document.getElementById("modalSalida");
+  const btnConfirmar = document.getElementById("confirmarSalir");
+  const btnCancelar = document.getElementById("cancelarSalir");
+
+    modal.style.display = "flex"; 
+
+  btnCancelar.addEventListener("click", () => {
+    modal.style.display = "none"; // Ocultar modal
+  });
+
+  btnConfirmar.addEventListener("click", () => {
+    localStorage.clear();
+    window.location.href = "login.html";
+  });
+}
+
+
+function login(){
+  const input = document.getElementById('password');
+  const btn = document.getElementById('btnVerContrasea');
+  const btniniciar = document.getElementById('btnIniciarSesion');
+
+  if (btniniciar) {
+    btniniciar.addEventListener('click', (event) => {
+      event.preventDefault();
+      const correo = document.getElementById('email').value;
+      const contra = document.getElementById('password').value;
+      fetch("http://localhost:5000/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ correo: correo, contra: contra})
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.estatus) {
+                localStorage.setItem("idDocente", data.id_docente);
+                window.location.href = "principal.html";
+            } else {
+                alert("Error: " + data.error);
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+    });
+  }
+
+
+  if (btn && input) {
+    btn.addEventListener('click', () => {
+      const visible = input.type === 'text';
+      input.type = visible ? 'password' : 'text';
+    });
+  }
+}
+
+function pagina(){
   const links = document.querySelectorAll(".sidebar a");
   const content = document.getElementById("content");
 
   // Cargar por defecto la página de inicio
+  console.log("Cargando página de inicio por defecto");
   loadPage("inicio.html");
+  console.log("Página de inicio cargada");
 
   links.forEach(link => {
     link.addEventListener("click", e => {
@@ -72,25 +138,60 @@ document.addEventListener("DOMContentLoaded", () => {
     return datos;
   }
 
-  /* Funcion para agregar un nuevo documento a la tabla de expediente */
-function agregarRegistroDocumento(nombre,estado) {
-    const tbody = document.querySelector("#tablaDocumentos tbody");
+async function traerDatosExpediente() {
+  try {
+    const response = await fetch("http://localhost:5000/expediente", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ idDocente: localStorage.getItem("idDocente") })
+    });
 
-    const tr = document.createElement("tr");
+    const data = await response.json();
 
-    tr.innerHTML = `
-            <td><i></i> ${nombre}</td>
-            <td class="status ${estado}"><i></i> ${estado}</td>
-            <td><button class="btn descargar">Descargar</button></td>
-            <td><button class="btn ver" data-section="ver-documento">Ver</button></td>
-            <td><button class="btn abrir">Abrir</button></td>`;
-
-    tbody.appendChild(tr);
+    if (data.estatus) {
+      console.log("Datos del expediente:", data);
+      return data;
+    } else {
+      console.error("Error:", data.error);
+      return null;
+    }
+  } catch (error) {
+    console.error("Error en traerDatosExpediente:", error);
+    return null;
+  }
 }
 
 
+  /* Funcion para agregar un nuevo documento a la tabla de expediente */
+async function agregarRegistroDocumento() {
+  const datos = await traerDatosExpediente();
+  const tbody = document.querySelector("#tablaDocumentos tbody");
+
+
+  if (!datos || !datos.expediente) {
+    console.error("No se pudieron obtener los datos del expediente.");
+    return;
+  }
+
+    datos.expediente.forEach(doc => {
+    const tr = document.createElement("tr");
+    const estado = doc.Aprovacion ? "Generada" : "Pendiente";
+
+    tr.innerHTML = `
+      <td><i></i> ${doc.Nombre_documento}</td>
+      <td class="status ${estado}"><i></i> ${estado}</td>
+      <td><button class="btn descargar">Descargar</button></td>
+      <td><button class="btn ver" data-section="ver-documento">Ver</button></td>
+      <td><button class="btn abrir">Abrir</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+
+
 /*Fumcopm para agregar reclamos de forma dinamica*/
-function agregarReclamo(folioRec,nombreDoc,folioDoc,fecha,estado) {
+function agregarReclamo() {
     const tbody = document.querySelector("#tablaReclamos tbody");
 
     const tr = document.createElement("tr");
@@ -139,19 +240,15 @@ function regresarPaginaExpediente(){
 
 
 
-
 /* Funcion que cambia de html dependiendo la page*/ 
 function loadPage(page) {
   fetch(`pages/${page}`)
   .then(response => response.text())
   .then(html => {
-      // 👇 Aquí el contenido ya se inserta correctamente
       content.innerHTML = html;
-      actualizarDatosCuenta();
-
 
       if (page === "expediente.html") {
-        agregarRegistroDocumento("Constancia de Servicios","Pendiente");
+        agregarRegistroDocumento(); 
         guardarNombreDoc();
       }
 
@@ -165,30 +262,4 @@ function loadPage(page) {
       content.innerHTML = "<h2>Error al cargar la página</h2>";
     });
   }
-});
-
-/*Agregando un evento al btn CerrarSesion */
-const btnCerrarSesion = document.getElementById("btnCerrarSesion");
-if (btnCerrarSesion) {
-  btnCerrarSesion.addEventListener("click", () => {
-    desplegarInterfazSalir();
-  });
-}
-
-/*Funcion que se encarga de desplegar la ventana de cerrar Sesion y mandarte al login */
-function desplegarInterfazSalir(){
-  const modal = document.getElementById("modalSalida");
-  const btnConfirmar = document.getElementById("confirmarSalir");
-  const btnCancelar = document.getElementById("cancelarSalir");
-
-    modal.style.display = "flex"; 
-
-  btnCancelar.addEventListener("click", () => {
-    modal.style.display = "none"; // Ocultar modal
-  });
-
-  btnConfirmar.addEventListener("click", () => {
-    localStorage.clear();
-    window.location.href = "login.html";
-  });
 }

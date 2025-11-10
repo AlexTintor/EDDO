@@ -37,7 +37,7 @@ def login():
     data = request.get_json()
     correo = data.get("correo")
     contra = data.get("contra")
-
+    
     if not correo or not contra:
         return jsonify({"estatus": False, "error": "Faltan datos"}), 400
 
@@ -53,3 +53,49 @@ def login():
     else:
         return jsonify({"estatus": False, "error": "Credenciales inválidas"}), 401
     
+
+@app.route("/datos-cuenta", methods=["POST"])
+def datos_cuenta():
+    data = request.get_json()
+    docente_id = data.get("docenteId")
+
+    if not docente_id:
+        return jsonify({"ok": False, "error": "Faltan datos"}), 400
+
+    conexion = conectar_bd()
+    if not conexion:
+        return jsonify({"ok": False, "error": "No se pudo conectar a la base de datos"}), 500
+
+    cuenta = traerExpediente(conexion, docente_id)
+    conexion.close()
+
+    if cuenta:
+        return jsonify({"ok": True, "cuenta": cuenta})
+    else:
+        return jsonify({"ok": False, "error": "No se encontraron datos de la cuenta"}), 404
+
+
+@app.route("/expediente", methods=["POST"])
+def expediente():
+    data = request.get_json()
+    docente_id = data.get("idDocente")
+
+    if not docente_id:
+        return jsonify({"estatus": False, "error": "Faltan datos"}), 400
+
+    conexion = conectar_bd()
+    if not conexion:
+        return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
+
+    expediente = traerExpediente(conexion, docente_id)
+    conexion.close()
+
+    if expediente:
+        return jsonify({"estatus": True, "expediente": expediente})
+    else:
+        return jsonify({"estatus": False, "error": "No se encontró expediente"}), 404
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
