@@ -95,48 +95,57 @@ function pagina(){
 
 
     /*Funciones para rellenar los datos de la interfaz Cuenta*/
-  function actualizarDatosCuenta(){
-      // 👇 Ahora sí existe el elemento textNombre
-      const datos = traerDatos();
+  async function actualizarDatosCuenta(){
+      const datos1 = await traerDatosCuenta();
+      const datos = datos1.cuenta[0];
+      console.log(datos);
       const textNombre = document.getElementById("textNombre");
       if (textNombre) {
-        textNombre.textContent = datos["nombre"];
+        textNombre.textContent = datos.NOMBRE;
       }
 
       const textCorreo = document.getElementById("textCorreo");
       if (textCorreo) {
-        textCorreo.textContent = datos["correo"];
+        textCorreo.textContent = datos.CORREO;
       }
+      
 
       const textTelefono = document.getElementById("textTelefono");
       if(textTelefono){
-        textTelefono.textContent = datos["telefono"];
+        textTelefono.textContent = datos.TELEFONO;
       }
 
       const textDepa = document.getElementById("textDepa");
       if(textDepa){
-        textDepa.textContent = datos["depa"];
+        textDepa.textContent = datos.DEPARTAMENTO;
       }
 
       const textCampus = document.getElementById("textCampus");
       if(textCampus){
-        textCampus.textContent = datos["campus"];
+        textCampus.textContent = datos.CAMPUS;
       }
   }
 
-  function traerDatos(){
-    const nombre = "Irvin Jair Carrillo Beltran";
-    const correo = "Irvin@culiacan.tecnm.mx";
-    const telefono = "66745968258";
-    const depa = "Ciencias de la computacion";
-    const campus = "Culiacan";
-    const datos = {
-      "nombre":nombre,
-      "campus":campus,
-      "correo":correo,
-      "depa":depa,
-      "telefono":telefono};
-    return datos;
+  async function traerDatosCuenta(){
+    try{
+      const response = await fetch("http://localhost:5000/cuenta", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idDocente: localStorage.getItem("idDocente") })
+      });
+      const data = await response.json();
+
+      if (data.estatus) {
+        console.log("Datos de cuenta:", data);
+        return data;
+      } else {
+        console.log("Error:", data.error);
+        return null;
+      }
+    } catch (error) {
+      console.error("Error en traerDatosExpediente:", error);
+      return null;
+    }
   }
 
 async function traerDatosExpediente() {
@@ -229,7 +238,7 @@ async function traerDatosReclamo() {
     const data = await response.json();
 
     if (data.estatus) {
-      console.log("Datos de los reclamos:", data);
+      console.log("Datos de la cuenta:", data);
       return data;
     } else {
       console.error("Error:", data.error);
@@ -293,8 +302,8 @@ function loadPage(page) {
             agregarRegistroDocumento(datos);
             guardarNombreDoc();
           }
+        }
       }
-    }
 
       if(page === "verDocumento.html"){
         regresarPaginaExpediente();
@@ -305,6 +314,8 @@ function loadPage(page) {
           const datos = JSON.parse(localStorage.getItem("reclamos"));
           agregarReclamo(datos);
         }
+
+
         else {
           const datos = await traerDatosReclamo();
           if (datos) {
@@ -313,6 +324,17 @@ function loadPage(page) {
           }
       }
     }
+
+      if (page === "cuenta.html") {
+        const datosCuenta = await traerDatosCuenta();
+        if (datosCuenta) {
+          actualizarDatosCuenta(datosCuenta);
+        }
+        }
+
+
+
+
     })
 
     .catch((error) => {

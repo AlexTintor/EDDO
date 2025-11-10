@@ -2,8 +2,24 @@ from flask import Flask, request, jsonify
 import smtplib, random
 from email.message import EmailMessage
 from flask_cors import CORS
-from traerDatos import conectar_bd, validarLogin, traerExpediente, traerReclamos
+from traerDatos import validarLogin, traerExpediente, traerReclamos
+from bdTec import  traerEmpleados
 
+import pyodbc
+
+def conectar_bd(bd):
+    try:
+        conexion = pyodbc.connect(
+            f'DRIVER={{ODBC Driver 17 for SQL Server}};'
+            f'SERVER=localhost;'
+            f'DATABASE={bd};'
+            f'UID=irvin;'
+            f'PWD=123;'
+        )
+        return conexion
+    except Exception as e:
+        print("❌ Error al conectar a la base de datos:", e)
+        return None
 app = Flask(__name__)
 CORS(app)
 @app.route("/enviar-codigo", methods=["POST"])
@@ -32,6 +48,8 @@ def enviar_codigo():
     except Exception as e:
         return jsonify({"estatus": False, "error": str(e)}), 500
 
+
+
 @app.route("/login", methods=["POST"])
 def login():
     data = request.get_json()
@@ -41,7 +59,7 @@ def login():
     if not correo or not contra:
         return jsonify({"estatus": False, "error": "Faltan datos"}), 400
 
-    conexion = conectar_bd()
+    conexion = conectar_bd("EDDO")
     if not conexion:
         return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
 
@@ -62,7 +80,7 @@ def datos_cuenta():
     if not docente_id:
         return jsonify({"ok": False, "error": "Faltan datos"}), 400
 
-    conexion = conectar_bd()
+    conexion = conectar_bd("EDDO")
     if not conexion:
         return jsonify({"ok": False, "error": "No se pudo conectar a la base de datos"}), 500
 
@@ -83,7 +101,7 @@ def expediente():
     if not docente_id:
         return jsonify({"estatus": False, "error": "Faltan datos"}), 400
 
-    conexion = conectar_bd()
+    conexion = conectar_bd("EDDO")
     if not conexion:
         return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
 
@@ -103,7 +121,7 @@ def reclamos():
     if not docente_id:
         return jsonify({"estatus": False, "error": "Faltan datos"}), 400
     
-    conexion = conectar_bd()
+    conexion = conectar_bd("EDDO")
     if not conexion:
         return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
     
@@ -114,6 +132,27 @@ def reclamos():
         return jsonify({"estatus": True, "reclamos": reclamos})
     else:
         return jsonify({"estatus": False, "error": "No se encontraron reclamos"}), 404
+    
+
+@app.route("/cuenta", methods=["POST"])
+def cuenta():
+    data = request.get_json()
+    docente_id = data.get("idDocente")
+
+    if not docente_id:
+        return jsonify({"estatus": False, "error": "Faltan datos"}), 400
+
+    conexion = conectar_bd("BDTEC")
+    if not conexion:
+        return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
+
+    cuenta = traerEmpleados(conexion, docente_id)
+    conexion.close()
+
+    if cuenta:
+        return jsonify({"estatus": True, "cuenta": cuenta})
+    else:
+        return jsonify({"estatus": False, "error": "No se encontraron datos de la cuenta"}), 404 
     
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,19 +1,3 @@
-import pyodbc
-
-def conectar_bd():
-    try:
-        conexion = pyodbc.connect(
-            f'DRIVER={{ODBC Driver 17 for SQL Server}};'
-            f'SERVER=localhost;'
-            f'DATABASE=EDDO;'
-            f'UID=irvin;'
-            f'PWD=123;'
-        )
-        return conexion
-    except Exception as e:
-        print("❌ Error al conectar a la base de datos:", e)
-        return None
-    
 def validarLogin(conexion,correo,contra):
     try:
         cursor = conexion.cursor()
@@ -73,7 +57,6 @@ def traerReclamos(conexion, docenteID):
             for fila in filas:
                 id_reclamo, nombre_doc, folio, fecha = fila  # Desempaqueta la tupla
                 if id_reclamo or fecha or nombre_doc or folio:
-                    print(id_reclamo)  
                     reclamos.append({
                         "id_reclamo": id_reclamo,
                         "nombre_documento": nombre_doc,
