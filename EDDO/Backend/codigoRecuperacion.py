@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 import smtplib, random
 from email.message import EmailMessage
 from flask_cors import CORS
-from traerDatos import conectar_bd, validarLogin, traerExpediente
+from traerDatos import conectar_bd, validarLogin, traerExpediente, traerReclamos
 
 app = Flask(__name__)
 CORS(app)
@@ -95,7 +95,26 @@ def expediente():
     else:
         return jsonify({"estatus": False, "error": "No se encontró expediente"}), 404
 
+@app.route("/reclamos", methods=["POST"])
+def reclamos():
+    data = request.get_json()
+    docente_id = data.get("idDocente")
 
+    if not docente_id:
+        return jsonify({"estatus": False, "error": "Faltan datos"}), 400
+    
+    conexion = conectar_bd()
+    if not conexion:
+        return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
+    
+    reclamos = traerReclamos(conexion, docente_id)
+    conexion.close()
+    
+    if reclamos:
+        return jsonify({"estatus": True, "reclamos": reclamos})
+    else:
+        return jsonify({"estatus": False, "error": "No se encontraron reclamos"}), 404
+    
 if __name__ == "__main__":
     app.run(debug=True)
 

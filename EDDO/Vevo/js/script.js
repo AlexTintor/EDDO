@@ -120,7 +120,6 @@ function pagina(){
       if(textCampus){
         textCampus.textContent = datos["campus"];
       }
-
   }
 
   function traerDatos(){
@@ -163,16 +162,16 @@ async function traerDatosExpediente() {
 
 
   /* Funcion para agregar un nuevo documento a la tabla de expediente */
-async function agregarRegistroDocumento(datos) {
+async function agregarRegistroDocumento(expediente) {
   const tbody = document.querySelector("#tablaDocumentos tbody");
 
 
-  if (!datos || !datos.expediente) {
+  if (!expediente || !expediente.expediente) {
     console.error("No se pudieron obtener los datos del expediente.");
     return;
   }
 
-    datos.expediente.forEach(doc => {
+    expediente.expediente.forEach(doc => {
     const tr = document.createElement("tr");
     const estado = doc.Aprovacion ? "Generada" : "Pendiente";
 
@@ -190,21 +189,56 @@ async function agregarRegistroDocumento(datos) {
 
 
 /*Fumcopm para agregar reclamos de forma dinamica*/
-function agregarReclamo() {
+function agregarReclamo(reclamos) {
     const tbody = document.querySelector("#tablaReclamos tbody");
-
-    const tr = document.createElement("tr");
-
-    tr.innerHTML = `
-            <td><i></i>${folioRec}</td>
-            <td class=""><i></i> ${nombreDoc}</td>
-            <td class=""><i></i> ${folioDoc}</td>
-            <td class=""><i></i> ${fecha}</td>
-            <td class="status ${estado}"><i></i> ${estado}</td>
-            <td><button class="btn abrir">Abrir</button></td>`;
-
-    tbody.appendChild(tr);
+    console.log("Reclamos recibidos para agregar:", reclamos);
+    if (!reclamos || reclamos.reclamos.length === 0) {
+        console.error("No se pudieron obtener los datos de los reclamos.");
+        return;
+    }
+    reclamos.reclamos.forEach(rec => {
+      const nombreDoc = rec.nombre_documento;
+      const folioRec = rec.id_reclamo;
+      const folioDoc = rec.folio;
+      const fecha = new Date(rec.fecha).toLocaleDateString();
+      const estado = "sale";
+      if (rec.id_reclamo) {
+      const tr = document.createElement("tr");
+        tr.innerHTML = `
+                <td><i></i>${folioRec}</td>
+                <td class=""><i></i> ${nombreDoc}</td>
+                <td class=""><i></i> ${folioDoc}</td>
+                <td class=""><i></i> ${fecha}</td>
+                <td class="status ${estado}"><i></i> ${estado}</td>
+                <td><button class="btn abrir">Abrir</button></td>`;
+        tbody.appendChild(tr);
+      }
+  });
 }
+
+async function traerDatosReclamo() {
+  try {
+    const response = await fetch("http://localhost:5000/reclamos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ idDocente: localStorage.getItem("idDocente") })
+    });
+
+    const data = await response.json();
+
+    if (data.estatus) {
+      console.log("Datos de los reclamos:", data);
+      return data;
+    } else {
+      console.error("Error:", data.error);
+      return null;
+    }
+  } catch (error) {
+    console.error("Error en :", error);
+    return null;
+  }
+}
+
 
 
 /* Al presionar el btnVer de expediente guardara el nombre del archivo para cargarlo*/ 
@@ -238,7 +272,6 @@ function regresarPaginaExpediente(){
 
 
 
-
 /* Funcion que cambia de html dependiendo la page*/ 
 function loadPage(page) {
   fetch(`pages/${page}`)
@@ -261,13 +294,27 @@ function loadPage(page) {
       }
     }
 
-
       if(page === "verDocumento.html"){
         regresarPaginaExpediente();
       }
+
+      if (page === "reclamo.html") {
+        if(localStorage.getItem("reclamos")){
+          const datos = JSON.parse(localStorage.getItem("reclamos"));
+          agregarReclamo(datos);
+        }
+        else {
+          const datos = await traerDatosReclamo();
+          if (datos) {
+            localStorage.setItem("reclamos", JSON.stringify(datos));
+            agregarReclamo(datos);
+          }
+      }
+    }
     })
 
-    .catch(() => {
+    .catch((error) => {
+      console.error("Error al cargar la página:", page, error);
       content.innerHTML = "<h2>Error al cargar la página</h2>";
     });
   }

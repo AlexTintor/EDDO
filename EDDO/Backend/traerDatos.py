@@ -29,6 +29,7 @@ def validarLogin(conexion,correo,contra):
     except Exception as e:
         print("❌ Error al consultar nombre de usuario:", e)
         return None
+    
 def traerExpediente(conexion, docenteID):
     try:
         cursor = conexion.cursor()
@@ -56,4 +57,34 @@ def traerExpediente(conexion, docenteID):
         print("❌ Error al consultar expediente:", e)
         return None
 
+def traerReclamos(conexion, docenteID):
+    try:
+        cursor = conexion.cursor()
+        cursor.execute("""
+            SELECT id_reclamo,NOMBRE_DOCUMENTO, FOLIO_DOCUMENTO, FECHA_RECLAMO
+            FROM vw_Documento
+            WHERE ID_DOCENTE = ?
+        """, (docenteID,))  # 👈 importante: coma final
+
+        filas = cursor.fetchall()
+
+        if filas:
+            reclamos = []
+            for fila in filas:
+                id_reclamo, nombre_doc, folio, fecha = fila  # Desempaqueta la tupla
+                if id_reclamo or fecha or nombre_doc or folio:
+                    print(id_reclamo)  
+                    reclamos.append({
+                        "id_reclamo": id_reclamo,
+                        "nombre_documento": nombre_doc,
+                        "folio": folio,
+                        "fecha": fecha
+                    })
+            return reclamos
+        else:
+            return []
+
+    except Exception as e:
+        print("❌ Error al consultar reclamos:", e)
+        return None
     
