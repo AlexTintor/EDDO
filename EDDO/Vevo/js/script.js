@@ -163,8 +163,7 @@ async function traerDatosExpediente() {
 
 
   /* Funcion para agregar un nuevo documento a la tabla de expediente */
-async function agregarRegistroDocumento() {
-  const datos = await traerDatosExpediente();
+async function agregarRegistroDocumento(datos) {
   const tbody = document.querySelector("#tablaDocumentos tbody");
 
 
@@ -244,13 +243,23 @@ function regresarPaginaExpediente(){
 function loadPage(page) {
   fetch(`pages/${page}`)
   .then(response => response.text())
-  .then(html => {
+  .then(async html => {
       content.innerHTML = html;
 
       if (page === "expediente.html") {
-        agregarRegistroDocumento(); 
-        guardarNombreDoc();
+        if(localStorage.getItem("expediente")){
+          const datos = JSON.parse(localStorage.getItem("expediente"));
+          agregarRegistroDocumento(datos);
+          guardarNombreDoc();
+        } else {
+          const datos = await traerDatosExpediente();
+          if (datos) {
+            localStorage.setItem("expediente", JSON.stringify(datos));
+            agregarRegistroDocumento(datos);
+            guardarNombreDoc();
+          }
       }
+    }
 
 
       if(page === "verDocumento.html"){
