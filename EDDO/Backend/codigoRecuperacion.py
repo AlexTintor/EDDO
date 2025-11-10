@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import smtplib, random
 from email.message import EmailMessage
 from flask_cors import CORS
+from traerDatos import conectar_bd, validarLogin, traerExpediente
 
 app = Flask(__name__)
 CORS(app)
@@ -31,5 +32,24 @@ def enviar_codigo():
     except Exception as e:
         return jsonify({"estatus": False, "error": str(e)}), 500
 
-if __name__ == "__main__":
-    app.run(debug=True)
+@app.route("/login", methods=["POST"])
+def login():
+    data = request.get_json()
+    correo = data.get("correo")
+    contra = data.get("contra")
+
+    if not correo or not contra:
+        return jsonify({"estatus": False, "error": "Faltan datos"}), 400
+
+    conexion = conectar_bd()
+    if not conexion:
+        return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
+
+    docente_id = validarLogin(conexion, correo, contra)
+    conexion.close()
+
+    if docente_id:
+        return jsonify({"estatus": True, "id_docente": docente_id})
+    else:
+        return jsonify({"estatus": False, "error": "Credenciales inválidas"}), 401
+    
