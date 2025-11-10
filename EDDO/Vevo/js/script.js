@@ -12,12 +12,12 @@ function desplegarInterfazSalir(){
     modal.style.display = "flex"; 
 
   btnCancelar.addEventListener("click", () => {
-    modal.style.display = "none"; // Ocultar modal
+    modal.style.display = "none"; 
   });
 
   btnConfirmar.addEventListener("click", () => {
     localStorage.clear();
-    window.location.href = "login.html";
+    window.location.href = "inicioSesion.html";
   });
 }
 
@@ -80,7 +80,9 @@ function pagina(){
 
     });
   });
-  
+  const btnSalir = document.getElementById("btnCerrarSesion");
+  btnSalir.addEventListener("click", desplegarInterfazSalir);
+
   const botonCuenta = document.querySelector(".cuenta");
 
   loadPage("inicio.html");
