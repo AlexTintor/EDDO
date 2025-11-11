@@ -21,6 +21,7 @@ def conectar_bd(bd):
         print("❌ Error al conectar a la base de datos:", e)
         return None
 app = Flask(__name__)
+
 CORS(app)
 @app.route("/enviar-codigo", methods=["POST"])
 def enviar_codigo():
