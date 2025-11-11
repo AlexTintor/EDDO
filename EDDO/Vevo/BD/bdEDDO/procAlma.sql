@@ -15,6 +15,5 @@ BEGIN
 	BEGIN
 		RAISERROR('Credenciales invalidas',16,1)
 	END
-
 END
 GO

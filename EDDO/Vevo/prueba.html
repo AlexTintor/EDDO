@@ -1,36 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/prueba.css">
-    <script defer src="js/prueba.js"></script>
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <title>Chat de dos personas</title>
+  <style>
+    body { font-family: Arial; background: #f4f4f4; }
+    .chat-box { width: 400px; margin: 20px auto; background: white; padding: 10px; border-radius: 10px; }
+    .messages { height: 300px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; }
+    .msg { margin: 5px 0; padding: 5px 10px; border-radius: 10px; max-width: 70%; }
+    .user1 { background: #d1f5d3; align-self: flex-start; }
+    .user2 { background: #cce0ff; align-self: flex-end; text-align: right; }
+    .input-area { display: flex; gap: 5px; margin-top: 10px; }
+  </style>
 </head>
 <body>
-    <section class="tablaDocumentos">
-        <table>
-            <thead>
-                <tr>
-                <th>Folio de reclamo</th>
-                <th>Nombre Documento</th>
-                <th>Folio documento</th>
-                <th>Fecha apertura</th>
-                <th>Estatus</th>
-                <th>Chat</th>
-            </tr>
-            </thead>
-            <tbody>
-                <tr>
-                <td><i></i>10001</td>
-                <td class=""><i></i> Constancia de tutorias</td>
-                <td class=""><i></i> BSDF115</td>
-                <td class=""><i></i> 12/10/25</td>
-                <td class="status Atendido"><i></i> Atendido</td>
-                <td><button class="btn abrir">Abrir</button></td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
+  <div class="chat-box">
+    <div class="messages" id="messages"></div>
+
+    <div class="input-area">
+      <select id="user">
+        <option value="user1">Usuario 1</option>
+        <option value="user2">Usuario 2</option>
+      </select>
+      <input type="text" id="messageInput" placeholder="Escribe un mensaje..." />
+      <button id="sendBtn">Enviar</button>
+    </div>
+  </div>
+
+  <script>
+    const messagesDiv = document.getElementById("messages");
+    const input = document.getElementById("messageInput");
+    const userSelect = document.getElementById("user");
+    const sendBtn = document.getElementById("sendBtn");
+
+    sendBtn.addEventListener("click", () => {
+      const text = input.value.trim();
+      if (!text) return;
+
+      const user = userSelect.value;
+      const msg = document.createElement("div");
+      msg.classList.add("msg", user);
+      msg.textContent = text;
+      messagesDiv.appendChild(msg);
+
+      input.value = "";
+      messagesDiv.scrollTop = messagesDiv.scrollHeight; // auto scroll
+    });
+  </script>
 </body>
 </html>

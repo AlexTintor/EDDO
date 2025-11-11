@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", () => {
   login();
 });
@@ -43,7 +42,10 @@ function login(){
         .then(data => {
             if (data.estatus) {
                 localStorage.setItem("idDocente", data.id_docente);
-                window.location.href = "principal.html";
+                if(data.id_docente < 1000)
+                  window.location.href = "principal.html";
+                else
+                  window.location.href = "EddoJefe.html";
             } else {
                 alert("Error: " + data.error);
             }
@@ -65,16 +67,24 @@ function login(){
 
 function pagina(){
   const links = document.querySelectorAll(".sidebar a");
-  const content = document.getElementById("content");
-
-  // Cargar por defecto la página de inicio
-  console.log("Cargando página de inicio por defecto");
   loadPage("inicio.html");
-  console.log("Página de inicio cargada");
 
+  let opcionActual = null;
   links.forEach(link => {
+    const liPadre = link.parentElement;
     link.addEventListener("click", e => {
       e.preventDefault();
+
+      liPadre.classList.add("active");
+
+      links.forEach(otherLink => {
+        if (otherLink !== link) {
+          otherLink.parentElement.classList.remove("active");
+          opcionActual = link; 
+        }
+      }
+    );
+
       const page = e.target.getAttribute("data-page");
       loadPage(page);
 
@@ -88,87 +98,47 @@ function pagina(){
   loadPage("inicio.html");
 
   botonCuenta.addEventListener("click", () => {
+
+    links.forEach(link => {
+      link.parentElement.classList.remove("active"); 
+    });
+
     const page = botonCuenta.getAttribute("data-page");
     loadPage(page);
   });
 
-
+}
 
     /*Funciones para rellenar los datos de la interfaz Cuenta*/
-  async function actualizarDatosCuenta(){
-      const datos1 = await traerDatosCuenta();
-      const datos = datos1.cuenta[0];
-      console.log(datos);
-      const textNombre = document.getElementById("textNombre");
-      if (textNombre) {
-        textNombre.textContent = datos.NOMBRE;
-      }
-
-      const textCorreo = document.getElementById("textCorreo");
-      if (textCorreo) {
-        textCorreo.textContent = datos.CORREO;
-      }
-      
-
-      const textTelefono = document.getElementById("textTelefono");
-      if(textTelefono){
-        textTelefono.textContent = datos.TELEFONO;
-      }
-
-      const textDepa = document.getElementById("textDepa");
-      if(textDepa){
-        textDepa.textContent = datos.DEPARTAMENTO;
-      }
-
-      const textCampus = document.getElementById("textCampus");
-      if(textCampus){
-        textCampus.textContent = datos.CAMPUS;
-      }
-  }
-
-  async function traerDatosCuenta(){
-    try{
-      const response = await fetch("http://localhost:5000/cuenta", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ idDocente: localStorage.getItem("idDocente") })
-      });
-      const data = await response.json();
-
-      if (data.estatus) {
-        console.log("Datos de cuenta:", data);
-        return data;
-      } else {
-        console.log("Error:", data.error);
-        return null;
-      }
-    } catch (error) {
-      console.error("Error en traerDatosExpediente:", error);
-      return null;
+async function actualizarDatosCuenta(){
+    const datos1 = await traerDatosCuenta();
+    const datos = datos1.cuenta[0];
+    console.log(datos);
+    const textNombre = document.getElementById("textNombre");
+    if (textNombre) {
+      textNombre.textContent = datos.NOMBRE;
     }
-  }
 
-async function traerDatosExpediente() {
-  try {
-    const response = await fetch("http://localhost:5000/expediente", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ idDocente: localStorage.getItem("idDocente") })
-    });
-
-    const data = await response.json();
-
-    if (data.estatus) {
-      console.log("Datos del expediente:", data);
-      return data;
-    } else {
-      console.error("Error:", data.error);
-      return null;
+    const textCorreo = document.getElementById("textCorreo");
+    if (textCorreo) {
+      textCorreo.textContent = datos.CORREO;
     }
-  } catch (error) {
-    console.error("Error en traerDatosExpediente:", error);
-    return null;
-  }
+    
+
+    const textTelefono = document.getElementById("textTelefono");
+    if(textTelefono){
+      textTelefono.textContent = datos.TELEFONO;
+    }
+
+    const textDepa = document.getElementById("textDepa");
+    if(textDepa){
+      textDepa.textContent = datos.DEPARTAMENTO;
+    }
+
+    const textCampus = document.getElementById("textCampus");
+    if(textCampus){
+      textCampus.textContent = datos.CAMPUS;
+    }
 }
 
 
@@ -197,8 +167,6 @@ async function agregarRegistroDocumento(expediente) {
   });
 }
 
-
-
 /*Fumcopm para agregar reclamos de forma dinamica*/
 function agregarReclamo(reclamos) {
     const tbody = document.querySelector("#tablaReclamos tbody");
@@ -226,30 +194,6 @@ function agregarReclamo(reclamos) {
       }
   });
 }
-
-async function traerDatosReclamo() {
-  try {
-    const response = await fetch("http://localhost:5000/reclamos", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ idDocente: localStorage.getItem("idDocente") })
-    });
-
-    const data = await response.json();
-
-    if (data.estatus) {
-      console.log("Datos de la cuenta:", data);
-      return data;
-    } else {
-      console.error("Error:", data.error);
-      return null;
-    }
-  } catch (error) {
-    console.error("Error en :", error);
-    return null;
-  }
-}
-
 
 
 /* Al presionar el btnVer de expediente guardara el nombre del archivo para cargarlo*/ 
@@ -280,6 +224,85 @@ function regresarPaginaExpediente(){
     });
   }
 }
+
+
+
+
+
+
+async function traerDatosCuenta(){
+  try{
+    const response = await fetch("http://localhost:5000/cuenta", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ idDocente: localStorage.getItem("idDocente") })
+    });
+    const data = await response.json();
+
+    if (data.estatus) {
+      console.log("Datos de cuenta:", data);
+      return data;
+    } else {
+      console.log("Error:", data.error);
+      return null;
+    }
+  } catch (error) {
+    console.error("Error en traerDatosExpediente:", error);
+    return null;
+  }
+}
+
+
+async function traerDatosExpediente() {
+  try {
+    const response = await fetch("http://localhost:5000/expediente", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ idDocente: localStorage.getItem("idDocente") })
+    });
+
+    const data = await response.json();
+
+    if (data.estatus) {
+      console.log("Datos del expediente:", data);
+      return data;
+    } else {
+      console.error("Error:", data.error);
+      return null;
+    }
+  } catch (error) {
+    console.error("Error en traerDatosExpediente:", error);
+    return null;
+  }
+}
+
+async function traerDatosReclamo() {
+  try {
+    const response = await fetch("http://localhost:5000/reclamos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ idDocente: localStorage.getItem("idDocente") })
+    });
+
+    const data = await response.json();
+
+    if (data.estatus) {
+      console.log("Datos de la cuenta:", data);
+      return data;
+    } else {
+      console.error("Error:", data.error);
+      return null;
+    }
+  } catch (error) {
+    console.error("Error en :", error);
+    return null;
+  }
+}
+
+
+
+
+
 
 
 
@@ -330,7 +353,7 @@ function loadPage(page) {
         if (datosCuenta) {
           actualizarDatosCuenta(datosCuenta);
         }
-        }
+      }
 
 
 
@@ -342,4 +365,4 @@ function loadPage(page) {
       content.innerHTML = "<h2>Error al cargar la página</h2>";
     });
   }
-}
+

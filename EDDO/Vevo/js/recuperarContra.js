@@ -4,6 +4,23 @@ document.addEventListener("DOMContentLoaded", ()=>{
         validarCodigo();
     } else if (pagina === "recuperarContra.html"){
         enviarCodigo();
+    }else if(pagina === "restablecerContra.html"){
+        const input = document.getElementById('password');
+        const btn = document.getElementById('btnVerContrasea');
+          if (btn && input) {
+            btn.addEventListener('click', () => {
+            const visible = input.type === 'text';
+            input.type = visible ? 'password' : 'text';
+            });
+        }
+        const input1 = document.getElementById('password1');
+        const btn1 = document.getElementById('btnVerContrasea1');
+          if (btn1 && input1) {
+            btn1.addEventListener('click', () => {
+            const visible = input1.type === 'text';
+            input1.type = visible ? 'password' : 'text';
+            });
+        }
     }
 });
 function enviarCodigo() {

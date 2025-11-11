@@ -116,7 +116,7 @@ LEFT JOIN vw_ComentariosReclamo CR
     ON DOC.FOLIO = CR.ID_DOCUMENTO;
 GO
 
-
+select * from vw_Documento
 SELECT * FROM DOCENTE where ID_DOCENTE = 1;
 
 INSERT INTO JEFE (JEFE_ID, NOMBRE, VIGENTE, CONTRA, CORREO)
