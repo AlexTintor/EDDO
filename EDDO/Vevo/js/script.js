@@ -25,9 +25,9 @@ function login(){
   const input = document.getElementById('password');
   const btn = document.getElementById('btnVerContrasea');
   const btniniciar = document.getElementById('btnIniciarSesion');
-
   if (btniniciar) {
     btniniciar.addEventListener('click', (event) => {
+      validarLogin();
       event.preventDefault();
       const correo = document.getElementById('email').value;
       const contra = document.getElementById('password').value;
@@ -56,12 +56,21 @@ function login(){
     });
   }
 
-
   if (btn && input) {
-    btn.addEventListener('click', () => {
-      const visible = input.type === 'text';
-      input.type = visible ? 'password' : 'text';
-    });
+    ver("password", "btnVerContrasea");
+  }
+
+  function  validarLogin(){
+    const correo = document.getElementById('email').value;
+    const contra = document.getElementById('password').value;
+    const lblError = document.getElementById("lblError");
+    if(correo === "" || contra === ""){
+      lblError.hidden = false;
+      lblError.textContent = "Ambos campos son obligatorios.";
+      return false;
+    }
+    lblError.hidden = true;
+    return true;
   }
 }
 
@@ -361,8 +370,11 @@ function loadPage(page) {
       actualizarDatosCuenta();
         const btncambiarContra = document.getElementById("btnCambiarContra");
         btncambiarContra.addEventListener("click", () => {
-          loadPage("cambiarContra.html");
+          loadPage("chat.html");
         });
+    }
+    if (page === "chat.html"){
+      mandarMsj();
     }
     if (page === "cambiarContra.html") {
       cambiarContraActual();
@@ -373,6 +385,35 @@ function loadPage(page) {
   });
 }
 
+function mandarMsj() {
+  const btnEnviarMsj = document.getElementById('btnEnviarMsj');
+  const inputMsj = document.getElementById('inputMensaje');
+    const ventanaMensajes = document.getElementById('ventanaMensajes');
+
+  btnEnviarMsj.addEventListener('click', () => {
+    const msj = inputMsj.value.trim(); // obtenemos el texto actual
+
+    if (msj === "") return; // evita mensajes vacíos
+
+    const tr = document.createElement("div");
+    tr.innerHTML = `
+        <div class="divMsj uno">
+            <div class="msj uno">
+                <p>${msj}</p>
+            </div>
+        </div>
+    `;
+
+    ventanaMensajes.appendChild(tr);
+    inputMsj.value = ""; // limpia el input
+  });
+    inputMsj.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+        e.preventDefault();
+        btnEnviarMsj.click();
+    }
+    });
+}
 
 
 function cambiarContraActual(){
@@ -409,10 +450,10 @@ function cambiarContraActual(){
       }
       
     });
-    const btnCancelar = document.getElementById("btnRegresarContra");
-    btnCancelar.addEventListener("click", () => {
-      loadPage("cuenta.html");
-    });
+    const btnRegresar = document.getElementById('btnRegresarContra');
+    btnRegresar.addEventListener('click', () => {
+      loadPage('cuenta.html');
+    } );
 }
 
 
@@ -459,10 +500,7 @@ function enviarCodigo() {
           console.error("Error:", error);
         });
       });
-    const btnRegresar = document.getElementById("btnRegresar");
-    btnRegresar.addEventListener("click", () => {
-      window.location.href = "inicioSesion.html";
-    });
+    regresar('btnRegresar', 'inicioSesion.html');
   
   function validarCorreo(email){
       const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

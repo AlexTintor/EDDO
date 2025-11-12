@@ -76,9 +76,12 @@ CREATE TABLE RECLAMO (
 CREATE TABLE COMENTARIOS (
     ID_COMENTARIO INT NOT NULL,
 	ID_RECLAMO INT NOT NULL,
+    REMITENTE VARCHAR(10),
     DESCRIPCION VARCHAR(255)
 );
-
+alter table comentarios
+add remitente varchar(50)
+select * from COMENTARIOS
 -- =====================================
 -- SECCIÓN DE CONSTRAINTS
 -- =====================================

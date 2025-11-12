@@ -1,0 +1,61 @@
+.ventanaMensajes{
+    display: flex;
+    flex-direction: column;
+    height: 85vh;
+    background: #ededed;
+    overflow-y: auto;           /* activa el scroll vertical */
+    overflow-x: hidden;  
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    scroll-behavior: smooth;       
+}
+
+.divMsj.uno{
+    display: flex;
+    justify-content: end;  
+}
+
+.divMsj{
+    margin: 5px 40px;
+}
+.msj{
+    max-width: 500px;
+    font-family: sans-serif;
+    border-radius: 8px;
+    padding: 1px 10px;
+}
+
+.msj.dos{
+    background: #ffffff;
+}
+.msj.uno{
+    background: #65c259;
+}
+
+.formEnviarMensaje{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+}
+.divCheckbox{
+    display: flex;
+    align-items: center;
+    width: 15%;
+}
+.inputMensaje{
+    width: 70%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+.btnEnviarMsj{
+    padding: 10px 20px;
+    border-radius: 6px;
+    background-color: #273b67;
+    margin:0 15px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 15%;
+}
