@@ -15,6 +15,7 @@ body{
   height: 100vh;
   background: #ffffff;
 }
+
 h2{
   margin:0;
 }
@@ -99,27 +100,32 @@ h2{
   height: 1px;
   width: 430px;
   background-color: #000;
-  margin: 40px 0;
+  margin: 20px 0;
 }
 
 .divBtnIniciarSesion{
   display: flex;
+  flex-direction: column;
   justify-content: center;
   margin-top: 20px;
+  align-items: center;
 }
 p{
   color: #d50b0b;
 }
 
-.btnIniciarSesion {
+.btn {
   background: #1c2b4e;
   border: none;
   color: white;
   padding: 10px;
   border-radius: 6px;
-  width: 250px;
+  width: 200px;
   cursor: pointer;
-  margin-top: 50px;
+  margin-top: 10px;
+}
+.btn{
+  margin: 10px 0;
 }
 .btnIniciarSesion:hover {
   background: #4a6acb;
@@ -145,4 +151,8 @@ p{
   padding:0;
   line-height:54px;
   caret-color:#2f4676;
+}
+
+#btnIniciarSesion{
+  margin-top: 40px;
 }

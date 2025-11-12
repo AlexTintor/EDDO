@@ -374,6 +374,7 @@ function loadPage(page) {
 }
 
 
+
 function cambiarContraActual(){
   ver('passwordActual', 'btnVerContraseña1');
   ver('passwordNueva', 'btnVerContraseña2');
@@ -384,16 +385,6 @@ function cambiarContraActual(){
       const passwordActual = document.getElementById("passwordActual").value;
       const passwordNueva = document.getElementById("passwordNueva").value;
       const lblError = document.getElementById("lblError");
-      if(passwordActual === ""){
-          lblError.hidden = false;
-          lblError.textContent = "Ingresa tu contraseña actual.";
-          return;
-      }
-      if(passwordNueva === passwordActual){
-          lblError.hidden = false;
-          lblError.textContent = "La nueva contraseña no puede ser igual a la actual.";
-          return;
-      }
       if(validadarContra('passwordNueva', 'passwordConfirmar')){
           fetch("http://localhost:5000/cambiarContraActual", {
           method: "POST",
@@ -468,6 +459,10 @@ function enviarCodigo() {
           console.error("Error:", error);
         });
       });
+    const btnRegresar = document.getElementById("btnRegresar");
+    btnRegresar.addEventListener("click", () => {
+      window.location.href = "inicioSesion.html";
+    });
   
   function validarCorreo(email){
       const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -513,6 +508,8 @@ function validarCodigo(){
             alert("Código inválido.");
         }
     });
+    regresar('btnRegresar', 'recuperarContra.html');
+
 
     cells.forEach((cell, index) => {
         cell.addEventListener('input', () => {
@@ -529,6 +526,13 @@ function validarCodigo(){
 });
 }
 
+function regresar(btnId, page){
+  const btnRegresar = document.getElementById(btnId);
+  btnRegresar.addEventListener("click", () => {
+    window.location.href = page;
+  });
+
+}
 function ver(inputId, btnId) {
   const input = document.getElementById(inputId);
   const btn = document.getElementById(btnId);
@@ -591,4 +595,8 @@ function restablecerContra(){
           });
         }
     });
+    const btnRegresar = document.getElementById("btnRegresar");
+    btnRegresar.addEventListener("click", () => {
+      window.location.href = "inicioSesion.html";
+    }); 
 }
