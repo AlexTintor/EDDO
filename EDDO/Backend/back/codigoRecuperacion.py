@@ -2,10 +2,12 @@ from flask import Flask, request, jsonify
 import smtplib, random
 from email.message import EmailMessage
 from flask_cors import CORS
-from traerDatos import validarLogin, traerExpediente, traerReclamos
+from traerDatos import validarLogin, traerExpediente, traerReclamos, cambiarContra
 from bdTec import  traerEmpleados
 
 import pyodbc
+app = Flask(__name__)
+CORS(app)
 
 def conectar_bd(bd):
     try:
@@ -20,9 +22,6 @@ def conectar_bd(bd):
     except Exception as e:
         print("❌ Error al conectar a la base de datos:", e)
         return None
-app = Flask(__name__)
-
-CORS(app)
 @app.route("/enviar-codigo", methods=["POST"])
 def enviar_codigo():
     data = request.get_json()
@@ -155,6 +154,32 @@ def cuenta():
     else:
         return jsonify({"estatus": False, "error": "No se encontraron datos de la cuenta"}), 404 
     
+
+@app.route("/cambiar-contrasena", methods=["POST"])
+def cambiarContrasena():
+    data = request.get_json()
+    docente_id = data.get("correo")
+    contraNueva = data.get("contraNueva")
+
+    if not docente_id or not contraNueva:
+        return jsonify({"estatus": False, "error": "Faltan datos"}), 400
+
+    conexion = conectar_bd("EDDO")
+    if not conexion:
+        return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
+
+    cuenta = cambiarContra(conexion, docente_id, contraNueva)
+    conexion.close()
+
+    if cuenta:
+        return jsonify(True)
+    else:
+        return jsonify(False), 404 
+    
+    pass
 if __name__ == "__main__":
     app.run(debug=True)
+
+
+
 

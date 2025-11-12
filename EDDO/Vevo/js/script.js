@@ -366,3 +366,152 @@ function loadPage(page) {
     });
   }
 
+function enviarCodigo() {
+    const btnEnviarCodigo = document.getElementById("btnEnviarCodigo");
+    const lblError = document.getElementById("lblError");
+    inputEmail = document.getElementById("email");
+
+    inputEmail.addEventListener("click", () => {
+        lblError.hidden = true;
+    });
+    btnEnviarCodigo.addEventListener("click", () => {
+        const correo = inputEmail.value;
+        
+        if(!validarCorreo(correo)){
+            lblError.hidden = false;
+            return;
+        }
+        fetch("http://localhost:5000/enviar-codigo", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ correo: correo })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.estatus) {
+                localStorage.setItem("correo", correo);
+                localStorage.setItem("codigo", data.codigo);
+                window.location.href = "ingresarCodigo.html";
+            } else {
+                alert("Error: " + data.error);
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+
+
+    });
+}
+
+function validarCorreo(email){
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if(email !== "" && re.test(email)){
+        return true;
+    }
+    return false;
+}
+
+function validarCodigo(){
+    const cells = [...document.querySelectorAll('.inputCelda')];
+    const btnEnviarCodigo = document.getElementById('btnEnviarCodigo');
+    let codigo = localStorage.getItem('codigo');
+    
+    btnEnviarCodigo.addEventListener('click', (e) => {
+        e.preventDefault();
+        const codigoIngresado = cells.map(c => c.value).join('');
+        if(codigoIngresado === codigo){
+            alert("Código verificado.");
+            window.location.href = "restablecerContra.html";
+        } else {
+            alert("Código inválido.");
+        }
+    });
+
+    cells.forEach((cell, index) => {
+        cell.addEventListener('input', () => {
+            if (cell.value.length === 1 && index < cells.length - 1) {
+                cells[index + 1].focus();
+            }
+        });
+
+    cell.addEventListener('keydown', (e) => {
+    if (e.key === 'Backspace' && cell.value === '' && index > 0) {
+        cells[index - 1].focus();
+    }
+    });
+});
+}
+function restablecerContra(){
+    /*const input = document.getElementById('password');
+    const btn = document.getElementById('btnVerContrasea');
+        if (btn && input) {
+        btn.addEventListener('click', () => {
+          const visible = input.type === 'text';
+          input.type = visible ? 'password' : 'text';
+        });
+    }
+
+    const input1 = document.getElementById('password1');
+    const btn1 = document.getElementById('btnVerContrasea1');
+        if (btn1 && input1) {
+        btn1.addEventListener('click', () => {
+          const visible = input1.type === 'text';
+          input1.type = visible ? 'password' : 'text';
+        });
+    }*/
+    function ver(inputId, btnId) {
+      const input = document.getElementById(inputId);
+      const btn = document.getElementById(btnId);
+      if (btn && input) {
+        btn.addEventListener('click', () => {
+          input.type = input.type === 'text' ? 'password' : 'text';
+        });
+      }
+    }
+    ver('password2', 'btnVerContrasea');
+    ver('password1', 'btnVerContrasea1');
+
+    const btnRestablecer = document.getElementById("btnRestablecer");
+    btnRestablecer.addEventListener("click", () => {
+        const password = document.getElementById("password2").value;
+        const password1 = document.getElementById("password1").value;
+        const lblError = document.getElementById("lblError");
+        if(password === "" || password1 === ""){
+            lblError.hidden = false;
+            lblError.textContent = "Ambos campos son obligatorios.";
+            return;
+        }
+        if(password != password1){
+            lblError.hidden = false;
+            lblError.textContent = "Ingresa la misma contraseña"
+            return;
+        }
+        if(password === password1){
+            lblError.hidden = true;
+
+            fetch("http://localhost:5000/cambiar-contrasena", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ correo: localStorage.getItem("correo"), contraNueva: password})
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data) {
+                    alert("Contraseña cambiada con éxito.");
+                    window.location.href = "inicioSesion.html";
+                } else {
+                    alert("Error: " + data);
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+          }
+      });
+}

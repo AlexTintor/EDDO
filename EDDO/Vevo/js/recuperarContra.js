@@ -5,27 +5,12 @@ document.addEventListener("DOMContentLoaded", ()=>{
     } else if (pagina === "recuperarContra.html"){
         enviarCodigo();
     }else if(pagina === "restablecerContra.html"){
-        const input = document.getElementById('password');
-        const btn = document.getElementById('btnVerContrasea');
-          if (btn && input) {
-            btn.addEventListener('click', () => {
-            const visible = input.type === 'text';
-            input.type = visible ? 'password' : 'text';
-            });
-        }
-        const input1 = document.getElementById('password1');
-        const btn1 = document.getElementById('btnVerContrasea1');
-          if (btn1 && input1) {
-            btn1.addEventListener('click', () => {
-            const visible = input1.type === 'text';
-            input1.type = visible ? 'password' : 'text';
-            });
-        }
+        restablecerContra();
     }
 });
 function enviarCodigo() {
-    btnEnviarCodigo = document.getElementById("btnEnviarCodigo");
-    lblError = document.getElementById("lblError");
+    const btnEnviarCodigo = document.getElementById("btnEnviarCodigo");
+    const lblError = document.getElementById("lblError");
     inputEmail = document.getElementById("email");
 
     inputEmail.addEventListener("click", () => {
@@ -48,8 +33,8 @@ function enviarCodigo() {
         .then(response => response.json())
         .then(data => {
             if (data.estatus) {
-                window.location.href = "ingresarCodigo.html";
                 localStorage.setItem("codigo", data.codigo);
+                window.location.href = "ingresarCodigo.html";
             } else {
                 alert("Error: " + data.error);
             }
@@ -99,4 +84,62 @@ function validarCodigo(){
     }
     });
 });
+}
+function restablecerContra(){
+    const input = document.getElementById('password');
+    const btn = document.getElementById('btnVerContrasea');
+        if (btn && input) {
+        btn.addEventListener('click', () => {
+        const visible = input.type === 'text';
+        input.type = visible ? 'password' : 'text';
+        });
+    }
+    const input1 = document.getElementById('password1');
+    const btn1 = document.getElementById('btnVerContrasea1');
+        if (btn1 && input1) {
+        btn1.addEventListener('click', () => {
+        const visible = input1.type === 'text';
+        input1.type = visible ? 'password' : 'text';
+        });
+    }
+
+    const btnRestablecer = document.getElementById("btnRestablecer");
+    btnRestablecer.addEventListener("click", () => {
+        const password = document.getElementById("password").value;
+        const password1 = document.getElementById("password1").value;
+        const lblError = document.getElementById("lblError");
+        lblError.hidden = true;
+
+        if(password === "" || password1 === ""){
+            lblError.hidden = false;
+            lblError.textContent = "Ambos campos son obligatorios.";
+            return;
+        }
+        if(password != password1){
+            lblError.hidden = false;
+            lblError.textContent = "Ingresa la misma contraseña"
+            return;
+        }
+        lblError.hidden = false;
+
+        fetch("http://localhost:5000/cambiarContrasena", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ idDocente: correo })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.estatus) {
+                window.location.href = "ingresarCodigo.html";
+                localStorage.setItem("codigo", data.codigo);
+            } else {
+                alert("Error: " + data.error);
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+    });
 }

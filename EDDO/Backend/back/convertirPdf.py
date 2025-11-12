@@ -12,7 +12,7 @@ def generar_constancia(
     fecha_esc_2
 ):
     ruta_docx = r"C:\\VisualStudio\\Python\\EDDO\\EDDO\\EDDO\\Backend\\back\\doc1.docx"
-    salida_docx = r"C:\\VisualStudio\\Python\\EDDO\\EDDO\\EDDO\\Backend\\back\\constancia_generada.docx"
+    salida_docx = r"C:\\VisualStudio\\Python\\EDDO\\EDDO\\EDDO\\Backend\\back\\constancia_generada1.docx"
     salida_pdf = r"C:\\VisualStudio\\Python\\EDDO\\EDDO\\EDDO\\Backend\\back\\constancia_generada.pdf"
     # Leer plantilla Word
     doc = Document(ruta_docx)

@@ -70,4 +70,14 @@ def traerReclamos(conexion, docenteID):
     except Exception as e:
         print("❌ Error al consultar reclamos:", e)
         return None
-    
+def cambiarContra(conexion, correo, nuevaContra):
+    try:
+        cursor = conexion.cursor()
+        cursor.execute("""
+            EXEC sp_CambiarContrasenaDocente @Correo = ?, @NuevaContrasena = ?
+        """, (correo, nuevaContra))
+        conexion.commit()
+        return True
+    except Exception as e:
+        print("❌ Error al cambiar la contraseña:", e)
+        return False
