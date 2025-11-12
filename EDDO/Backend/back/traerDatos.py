@@ -70,6 +70,7 @@ def traerReclamos(conexion, docenteID):
     except Exception as e:
         print("❌ Error al consultar reclamos:", e)
         return None
+    
 def cambiarContra(conexion, correo, nuevaContra):
     try:
         cursor = conexion.cursor()
@@ -81,3 +82,36 @@ def cambiarContra(conexion, correo, nuevaContra):
     except Exception as e:
         print("❌ Error al cambiar la contraseña:", e)
         return False
+    
+def cambiarContraActual(conexion, idDocente, contraNueva, contraActual):
+    try:
+        cursor = conexion.cursor()
+        cursor.execute("SELECT CONTRA FROM DOCENTE WHERE ID_DOCENTE = ?", (idDocente,))
+        resultado = cursor.fetchone()
+
+        if not resultado:
+            return {"estatus": False, "error": "No se encontró el docente."}
+
+        contraGuardada = resultado[0]
+
+        if contraGuardada != contraActual:
+            return {"estatus": False, "error": "La contraseña actual no coincide."}
+
+        cursor.execute("""
+            EXEC sp_ActualizarContrasenaDocente 
+                @IdDocente = ?, 
+                @NuevaContrasena = ?
+        """, (idDocente, contraNueva))
+        conexion.commit()
+
+        return {"estatus": True, "error": None}
+
+    except Exception as e:
+        print("❌ Error al cambiar la contraseña actual:", e)
+        return {"estatus": False, "error": str(e)}
+
+    finally:
+        try:
+            cursor.close()
+        except:
+            pass

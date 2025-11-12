@@ -313,54 +313,105 @@ function loadPage(page) {
   .then(async html => {
       content.innerHTML = html;
 
-      if (page === "expediente.html") {
-        if(localStorage.getItem("expediente")){
-          const datos = JSON.parse(localStorage.getItem("expediente"));
+    if (page === "expediente.html") {
+      if(localStorage.getItem("expediente")){
+        const datos = JSON.parse(localStorage.getItem("expediente"));
+        agregarRegistroDocumento(datos);
+        guardarNombreDoc();
+      } else {
+        const datos = await traerDatosExpediente();
+        if (datos) {
+          localStorage.setItem("expediente", JSON.stringify(datos));
           agregarRegistroDocumento(datos);
           guardarNombreDoc();
-        } else {
-          const datos = await traerDatosExpediente();
-          if (datos) {
-            localStorage.setItem("expediente", JSON.stringify(datos));
-            agregarRegistroDocumento(datos);
-            guardarNombreDoc();
-          }
         }
-      }
-
-      if(page === "verDocumento.html"){
-        regresarPaginaExpediente();
-      }
-
-      if (page === "reclamo.html") {
-        if(localStorage.getItem("reclamos")){
-          const datos = JSON.parse(localStorage.getItem("reclamos"));
-          agregarReclamo(datos);
-        }
-
-
-        else {
-          const datos = await traerDatosReclamo();
-          if (datos) {
-            localStorage.setItem("reclamos", JSON.stringify(datos));
-            agregarReclamo(datos);
-          }
       }
     }
 
-      if (page === "cuenta.html") {
-        const datosCuenta = await traerDatosCuenta();
-        if (datosCuenta) {
-          actualizarDatosCuenta(datosCuenta);
+    if(page === "verDocumento.html"){
+      regresarPaginaExpediente();
+    }
+
+    if (page === "reclamo.html") {
+      if(localStorage.getItem("reclamos")){
+        const datos = JSON.parse(localStorage.getItem("reclamos"));
+        agregarReclamo(datos);
+      }else {
+        const datos = await traerDatosReclamo();
+        if (datos) {
+          localStorage.setItem("reclamos", JSON.stringify(datos));
+          agregarReclamo(datos);
         }
       }
-    })
+    }
 
-    .catch((error) => {
-      console.error("Error al cargar la página:", page, error);
-      content.innerHTML = "<h2>Error al cargar la página</h2>";
-    });
-  }
+    if (page === "cuenta.html") {
+      const datosCuenta = await traerDatosCuenta();
+      if (datosCuenta) {
+        actualizarDatosCuenta(datosCuenta);
+        const btncambiarContra = document.getElementById("btnCambiarContra");
+        btncambiarContra.addEventListener("click", () => {
+          loadPage("cambiarContra.html");
+        });
+      }
+    }
+    if (page === "cambiarContra.html") {
+      cambiarContraActual();
+    }
+  }).catch((error) => {
+    console.error("Error al cargar la página:", page, error);
+    content.innerHTML = "<h2>Error al cargar la página</h2>";
+  });
+}
+
+
+function cambiarContraActual(){
+  ver('passwordActual', 'btnVerContraseña1');
+  ver('passwordNueva', 'btnVerContraseña2');
+  ver('passwordConfirmar', 'btnVerContraseña3');
+
+  const btnCambiar = document.getElementById("btnCambiarContra");
+  btnCambiar.addEventListener("click", () => {
+      const passwordActual = document.getElementById("passwordActual").value;
+      const passwordNueva = document.getElementById("passwordNueva").value;
+      const lblError = document.getElementById("lblError");
+      if(passwordActual === ""){
+          lblError.hidden = false;
+          lblError.textContent = "Ingresa tu contraseña actual.";
+          return;
+      }
+      if(passwordNueva === passwordActual){
+          lblError.hidden = false;
+          lblError.textContent = "La nueva contraseña no puede ser igual a la actual.";
+          return;
+      }
+      if(validadarContra('passwordNueva', 'passwordConfirmar')){
+          fetch("http://localhost:5000/cambiarContraActual", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ idDocente: localStorage.getItem("idDocente"), contraActual: passwordActual, contraNueva: passwordNueva})
+          })
+          .then(response => response.json())
+          .then(data => {
+              if (data.estatus) {
+                  alert("Contraseña cambiada con éxito.");
+                  loadPage("cuenta.html");
+              } else {
+                  lblError.hidden = false;
+                  lblError.textContent = data.error;
+              }
+          })
+          .catch(error => {
+              console.error("Error:", error);
+          });
+      }
+
+});
+}
+
+
 
 function enviarCodigo() {
     const btnEnviarCodigo = document.getElementById("btnEnviarCodigo");
@@ -465,58 +516,66 @@ function validarCodigo(){
 });
 }
 
+function ver(inputId, btnId) {
+  const input = document.getElementById(inputId);
+  const btn = document.getElementById(btnId);
+  if (btn && input) {
+    btn.addEventListener('click', () => {
+      input.type = input.type === 'text' ? 'password' : 'text';
+    });
+  }
+}
 
+function validadarContra(password01, password02){
+  const lblError = document.getElementById("lblError");
+  const password1 = document.getElementById(password01).value;
+  const password2 = document.getElementById(password02).value;
+  if(password1 === "" || password2 === ""){
+    lblError.hidden = false;
+    lblError.textContent = "Ambos campos son obligatorios.";
+    return false; 
+  }
+  if(password1 != password2){
+    lblError.hidden = false;
+    lblError.textContent = "Ingresa la misma contraseña"
+    return false;
+  }
+  if(password1 === password2){
+    lblError.hidden = true;
+    return true;
+  }
+  return false;
+}
 
 function restablecerContra(){
-    function ver(inputId, btnId) {
-      const input = document.getElementById(inputId);
-      const btn = document.getElementById(btnId);
-      if (btn && input) {
-        btn.addEventListener('click', () => {
-          input.type = input.type === 'text' ? 'password' : 'text';
-        });
-      }
-    }
-    ver('password2', 'btnVerContrasea');
-    ver('password1', 'btnVerContrasea1');
+  ver('password2', 'btnVerContrasea');
+  ver('password1', 'btnVerContrasea1');
 
-    const btnRestablecer = document.getElementById("btnRestablecer");
-    btnRestablecer.addEventListener("click", () => {
-        const password = document.getElementById("password2").value;
-        const password1 = document.getElementById("password1").value;
-        const lblError = document.getElementById("lblError");
-        if(password === "" || password1 === ""){
-            lblError.hidden = false;
-            lblError.textContent = "Ambos campos son obligatorios.";
-            return;
-        }
-        if(password != password1){
-            lblError.hidden = false;
-            lblError.textContent = "Ingresa la misma contraseña"
-            return;
-        }
-        if(password === password1){
-            lblError.hidden = true;
+  const btnRestablecer = document.getElementById("btnRestablecer");
+  btnRestablecer.addEventListener("click", () => {
 
-            fetch("http://localhost:5000/cambiar-contrasena", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ correo: localStorage.getItem("correo"), contraNueva: password})
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data) {
-                    alert("Contraseña cambiada con éxito.");
-                    window.location.href = "inicioSesion.html";
-                } else {
-                    alert("Error: " + data);
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
-          }
-      });
+      if(validadarContra('password1', 'password2')){
+          lblError.hidden = true;
+
+          fetch("http://localhost:5000/cambiar-contrasena", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ correo: localStorage.getItem("correo"), contraNueva: password})
+          })
+          .then(response => response.json())
+          .then(data => {
+              if (data) {
+                  alert("Contraseña cambiada con éxito.");
+                  window.location.href = "inicioSesion.html";
+              } else {
+                  alert("Error: " + data);
+              }
+          })
+          .catch(error => {
+              console.error("Error:", error);
+          });
+        }
+    });
 }

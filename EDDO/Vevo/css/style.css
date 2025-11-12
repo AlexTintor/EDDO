@@ -347,3 +347,113 @@ th, td {
   border-radius: 6px;
   cursor: pointer;
 }
+
+.sectionCambiarContra{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+  width: 500px
+}
+
+
+
+
+.bodyLogin{
+  background: linear-gradient(to bottom, #2f4676 60%, #f0f0f0 60%);
+}
+
+.mainLogin{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-self: center;
+  font-family: "Segoe UI", sans-serif;
+  font-weight: 600;
+  border-radius: 15px;
+  box-shadow:0 10px 28px rgba(15,23,42,.12);
+  width: 650px;
+  height: 100vh;
+  background: #ffffff;
+}
+h2{
+  margin:0;
+}
+
+.figureLogoEddo{
+  margin:0;
+}
+
+.logoEddo{
+  width:200px;
+  height:200px;
+}
+
+.headerLogin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loginForm{
+  display: flex;
+  flex-direction: column;
+  width: 450px;
+}
+
+.lblSesion{
+  margin: 15px;
+  color: #334155;
+}
+
+.divInputPassword{
+  position: relative;
+  display: inline-block;
+  width: 100%; 
+}
+
+.inputSesion{
+  width: 95%;
+  height: 40px;
+  background: #f6f8fc;
+  border: 1px solid #CBD5E1;
+  border-radius: 8px;
+  padding:0 15px;
+  font-size: 16px;
+  margin: 20px 0;
+  padding-right:  30px; /* espacio para el botón */
+}
+
+.icon-eye{
+  width: 30px;
+  height: 30px;
+}
+
+.btnVerContraseña{
+  position: absolute;
+  right: 0px;  
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0px;
+}
+.btnVerContraseña:hover{
+  background: none;
+}
+
+#lblError{
+  color: #d50b0b;
+}
+
+.sectionCambiarContra{
+  width: 500px;
+  margin-top: 80px;
+  margin-left: 300px;
+}
+
+.lblSesion{
+  margin: 15px;
+  color: #334155;
+}

@@ -41,3 +41,33 @@ BEGIN
         END
 END
 GO
+
+CREATE OR ALTER PROCEDURE sp_ActualizarContrasenaDocente
+        @IdDocente INT,
+        @NuevaContrasena VARCHAR(100)
+AS
+BEGIN
+        SET NOCOUNT ON;
+
+        IF @IdDocente IS NULL
+        BEGIN
+                RAISERROR('El Id del docente no puede ser nulo.',16,1)
+                RETURN
+        END
+
+        IF @NuevaContrasena IS NULL OR LTRIM(RTRIM(@NuevaContrasena)) = ''
+        BEGIN
+                RAISERROR('La nueva contraseña no puede ser nula o vacía.',16,1)
+                RETURN
+        END
+
+        UPDATE DOCENTE
+        SET CONTRA = @NuevaContrasena
+        WHERE ID_DOCENTE = @IdDocente
+
+        IF @@ROWCOUNT = 0
+        BEGIN
+                RAISERROR('IdDocente no encontrado.',16,1)
+        END
+END
+GO

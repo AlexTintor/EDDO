@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 import smtplib, random
 from email.message import EmailMessage
 from flask_cors import CORS
-from traerDatos import validarLogin, traerExpediente, traerReclamos, cambiarContra
+from traerDatos import validarLogin, traerExpediente, traerReclamos, cambiarContra,cambiarContraActual
 from bdTec import  traerEmpleados
 
 import pyodbc
@@ -197,7 +197,28 @@ def cambiarContrasena():
     else:
         return jsonify(False), 404 
     
-    pass
+@app.route("/cambiarContraActual", methods=["POST"])
+def cambiarContraseñaActual():
+    data = request.get_json()
+    idDocente = data.get("idDocente")
+    contraActual = data.get("contraActual")
+    contraNueva = data.get("contraNueva")
+
+    if not contraNueva or not contraActual:
+        return jsonify({"estatus": False, "error": "Faltan datos"}), 400
+
+    conexion = conectar_bd("EDDO")
+    if not conexion:
+        return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
+
+    respuesta = cambiarContraActual(conexion, idDocente, contraActual,contraNueva)
+    conexion.close()
+
+    if respuesta["estatus"]:
+        return jsonify({"estatus": True})
+    else:
+        return jsonify({"estatus": False, "error": respuesta["error"]}), 401
+    
 if __name__ == "__main__":
     app.run(debug=True)
 
