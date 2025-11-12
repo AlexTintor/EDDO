@@ -81,6 +81,10 @@ button:hover {
   background: #4a6acb;
 }
 
+button.cuenta.active{
+  background: #4a6acb;   
+}
+
 /* Main content */
 .main {
     flex: 1;
@@ -416,7 +420,6 @@ h2{
   display: inline-block;
   width: 100%; 
 }
-
 .inputSesion{
   width: 95%;
   height: 40px;
@@ -535,7 +538,7 @@ h2{
     padding: 10px;
     border-radius: 6px;
     border: 1px solid #ccc;
-    
+
 }
 .btnEnviarMsj{
     padding: 10px 20px;

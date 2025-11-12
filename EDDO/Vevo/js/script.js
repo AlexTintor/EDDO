@@ -77,6 +77,7 @@ function login(){
 async function pagina(){
   const links = document.querySelectorAll(".sidebar a");
   const resultado = await traerDatosCuenta();
+  const botonCuenta = document.getElementById("btnCuenta");
   if (resultado && resultado.estatus) {
     localStorage.setItem("nombreDocente", resultado.cuenta[0].NOMBRE);
     localStorage.setItem("datosCuenta", JSON.stringify(resultado.cuenta));
@@ -90,7 +91,7 @@ async function pagina(){
       e.preventDefault();
 
       liPadre.classList.add("active");
-
+      botonCuenta.classList.remove("active");
       links.forEach(otherLink => {
         if (otherLink !== link) {
           otherLink.parentElement.classList.remove("active");
@@ -107,16 +108,14 @@ async function pagina(){
   const btnSalir = document.getElementById("btnCerrarSesion");
   btnSalir.addEventListener("click", desplegarInterfazSalir);
 
-  const botonCuenta = document.querySelector(".cuenta");
 
   loadPage("inicio.html");
 
   botonCuenta.addEventListener("click", () => {
-
+    botonCuenta.classList.add("active");
     links.forEach(link => {
       link.parentElement.classList.remove("active"); 
     });
-
     const page = botonCuenta.getAttribute("data-page");
     loadPage(page);
   });
