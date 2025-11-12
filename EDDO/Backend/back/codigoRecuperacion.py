@@ -154,7 +154,28 @@ def cuenta():
     else:
         return jsonify({"estatus": False, "error": "No se encontraron datos de la cuenta"}), 404 
     
+@app.route("/verificarCorreo", methods=["GET"])
+def verificarCorreo():
+    correo = request.args.get("correo")
 
+    if not correo:
+        return jsonify({"estatus": False, "error": "Faltan datos"}), 400
+
+    conexion = conectar_bd("EDDO")
+    if not conexion:
+        return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
+    
+    cursor = conexion.cursor()
+    cursor.execute("SELECT COUNT(*) FROM Docente WHERE correo = ?", (correo,))
+    resultado = cursor.fetchone()
+    conexion.close()
+
+    if resultado and resultado[0] > 0:
+        return jsonify({"estatus": True})
+    else:
+        return jsonify({"estatus": False})
+
+    
 @app.route("/cambiar-contrasena", methods=["POST"])
 def cambiarContrasena():
     data = request.get_json()

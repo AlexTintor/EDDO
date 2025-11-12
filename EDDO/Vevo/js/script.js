@@ -354,10 +354,6 @@ function loadPage(page) {
           actualizarDatosCuenta(datosCuenta);
         }
       }
-
-
-
-
     })
 
     .catch((error) => {
@@ -374,11 +370,17 @@ function enviarCodigo() {
     inputEmail.addEventListener("click", () => {
         lblError.hidden = true;
     });
-    btnEnviarCodigo.addEventListener("click", () => {
+    btnEnviarCodigo.addEventListener("click", async () => {
         const correo = inputEmail.value;
         
         if(!validarCorreo(correo)){
             lblError.hidden = false;
+            lblError.textContent = "Correo inválido.";
+            return;
+        }
+        if(!await verificarCorreo(correo)){
+            lblError.hidden = false;
+            lblError.textContent = "El correo no está registrado.";
             return;
         }
         fetch("http://localhost:5000/enviar-codigo", {
@@ -399,20 +401,37 @@ function enviarCodigo() {
             }
         })
         .catch(error => {
-            console.error("Error:", error);
+          console.error("Error:", error);
         });
+      });
+  
+  function validarCorreo(email){
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+      if(email !== "" && re.test(email)){
+          return true;
+      }
+      return false;
+  }
 
+  async function verificarCorreo(correo){
+    const url = `http://localhost:5000/verificarCorreo?correo=${encodeURIComponent(correo)}`;
+
+    return fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        return data.estatus; // True o False según el backend
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        return false;
     });
-}
-
-function validarCorreo(email){
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if(email !== "" && re.test(email)){
-        return true;
-    }
-    return false;
+  }
 }
 
 function validarCodigo(){
@@ -445,24 +464,10 @@ function validarCodigo(){
     });
 });
 }
-function restablecerContra(){
-    /*const input = document.getElementById('password');
-    const btn = document.getElementById('btnVerContrasea');
-        if (btn && input) {
-        btn.addEventListener('click', () => {
-          const visible = input.type === 'text';
-          input.type = visible ? 'password' : 'text';
-        });
-    }
 
-    const input1 = document.getElementById('password1');
-    const btn1 = document.getElementById('btnVerContrasea1');
-        if (btn1 && input1) {
-        btn1.addEventListener('click', () => {
-          const visible = input1.type === 'text';
-          input1.type = visible ? 'password' : 'text';
-        });
-    }*/
+
+
+function restablecerContra(){
     function ver(inputId, btnId) {
       const input = document.getElementById(inputId);
       const btn = document.getElementById(btnId);
