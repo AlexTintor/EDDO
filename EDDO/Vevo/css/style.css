@@ -462,3 +462,19 @@ h2{
   margin: 15px;
   color: #334155;
 }
+.btnIniciarSesion{
+  background: #273b67;
+  color: white;
+  border: none;
+  height: 40px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 0 30px;
+}
+
+.divBtnsCambiarContra{
+  display: flex;
+  justify-content: row;
+  margin-top: 20px;
+}

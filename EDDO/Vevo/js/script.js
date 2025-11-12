@@ -336,7 +336,7 @@ function loadPage(page) {
       const nombreDocente = localStorage.getItem("nombreDocente");
       const saludoElemento = document.getElementById("saludoDocente");
       if (saludoElemento && nombreDocente) {
-        saludoElemento.textContent = ` ${nombreDocente}`;
+        saludoElemento.textContent = `${nombreDocente}`;
       }
     }
 
@@ -416,8 +416,12 @@ function cambiarContraActual(){
               console.error("Error:", error);
           });
       }
-
-});
+      
+    });
+    const btnCancelar = document.getElementById("btnRegresarContra");
+    btnCancelar.addEventListener("click", () => {
+      loadPage("cuenta.html");
+    });
 }
 
 
