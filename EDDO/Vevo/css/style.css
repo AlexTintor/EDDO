@@ -92,6 +92,10 @@ h1, h2 {
   color: #273b67;
 }
 
+.section{
+  margin-top: 15px;
+}
+
 /* Tables */
 table {
   width: 100%;
@@ -219,6 +223,7 @@ th, td {
     flex-direction: row;
     justify-content: space-between;
     margin: 0 70px;
+    margin-top: 30px;
 }
 
 .textInicio{
@@ -242,8 +247,8 @@ th, td {
     background: #ccc;
     margin: 20px 10px;
     padding: 8px 15px;
-    border:1px solid ;
-    border-radius: 6px;
+    border:2px solid ;
+    border-radius: 10px;
     border-color: black;
     width: 300px;
     cursor: pointer;

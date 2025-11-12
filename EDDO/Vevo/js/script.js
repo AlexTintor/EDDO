@@ -65,11 +65,16 @@ function login(){
   }
 }
 
-function pagina(){
+async function pagina(){
   const links = document.querySelectorAll(".sidebar a");
+  const resultado = await traerDatosCuenta();
+  if (resultado && resultado.estatus) {
+    localStorage.setItem("nombreDocente", resultado.cuenta[0].NOMBRE);
+    localStorage.setItem("datosCuenta", JSON.stringify(resultado.cuenta));
+  }
+  
   loadPage("inicio.html");
 
-  let opcionActual = null;
   links.forEach(link => {
     const liPadre = link.parentElement;
     link.addEventListener("click", e => {
@@ -111,12 +116,12 @@ function pagina(){
 
     /*Funciones para rellenar los datos de la interfaz Cuenta*/
 async function actualizarDatosCuenta(){
-    const datos1 = await traerDatosCuenta();
-    const datos = datos1.cuenta[0];
-    console.log(datos);
+    const datos1 = localStorage.getItem("datosCuenta");
+    const datos2 = JSON.parse(datos1);
+    const datos = datos2[0];
     const textNombre = document.getElementById("textNombre");
     if (textNombre) {
-      textNombre.textContent = datos.NOMBRE;
+      textNombre.textContent = datos["NOMBRE"];
     }
 
     const textCorreo = document.getElementById("textCorreo");
@@ -247,7 +252,7 @@ async function traerDatosCuenta(){
       return null;
     }
   } catch (error) {
-    console.error("Error en traerDatosExpediente:", error);
+    console.error("Error en traerDatosCuenta:", error);
     return null;
   }
 }
@@ -327,6 +332,13 @@ function loadPage(page) {
         }
       }
     }
+    if(page === "inicio.html"){
+      const nombreDocente = localStorage.getItem("nombreDocente");
+      const saludoElemento = document.getElementById("saludoDocente");
+      if (saludoElemento && nombreDocente) {
+        saludoElemento.textContent = ` ${nombreDocente}`;
+      }
+    }
 
     if(page === "verDocumento.html"){
       regresarPaginaExpediente();
@@ -346,14 +358,11 @@ function loadPage(page) {
     }
 
     if (page === "cuenta.html") {
-      const datosCuenta = await traerDatosCuenta();
-      if (datosCuenta) {
-        actualizarDatosCuenta(datosCuenta);
+      actualizarDatosCuenta();
         const btncambiarContra = document.getElementById("btnCambiarContra");
         btncambiarContra.addEventListener("click", () => {
           loadPage("cambiarContra.html");
         });
-      }
     }
     if (page === "cambiarContra.html") {
       cambiarContraActual();
