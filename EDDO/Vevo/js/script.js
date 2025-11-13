@@ -41,7 +41,7 @@ function login(){
         .then(response => response.json())
         .then(data => {
             if (data.estatus) {
-                localStorage.setItem("idDocente", data.id_docente);
+                localStorage.setItem("idUsuario", data.id_docente);
                 if(data.id_docente < 1000)
                   window.location.href = "principal.html";
                 else
@@ -248,7 +248,7 @@ async function traerDatosCuenta(){
     const response = await fetch("http://localhost:5000/cuenta", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ idDocente: localStorage.getItem("idDocente") })
+      body: JSON.stringify({ idUsuario: localStorage.getItem("idUsuario") })
     });
     const data = await response.json();
 
@@ -271,7 +271,7 @@ async function traerDatosExpediente() {
     const response = await fetch("http://localhost:5000/expediente", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ idDocente: localStorage.getItem("idDocente") })
+      body: JSON.stringify({ idUsuario: localStorage.getItem("idUsuario") })
     });
 
     const data = await response.json();
@@ -294,7 +294,7 @@ async function traerDatosReclamo() {
     const response = await fetch("http://localhost:5000/reclamos", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ idDocente: localStorage.getItem("idDocente") })
+      body: JSON.stringify({ idUsuario: localStorage.getItem("idUsuario") })
     });
 
     const data = await response.json();
@@ -373,6 +373,7 @@ function loadPage(page) {
         });
     }
     if (page === "chat.html"){
+      actualizarChat();
       mandarMsj();
     }
     if (page === "cambiarContra.html") {
@@ -384,27 +385,80 @@ function loadPage(page) {
   });
 }
 
-function mandarMsj() {
-  const btnEnviarMsj = document.getElementById('btnEnviarMsj');
-  const inputMsj = document.getElementById('inputMensaje');
+async function traerMensajes(idReclamo) {
+  try {
+    const response = await fetch("http://localhost:5000/traer-mensajes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        idUsuario: localStorage.getItem("idUsuario"),
+        idReclamo: idReclamo
+      })
+    });
+
+    const data = await response.json();
+    console.log("📨 Mensajes recibidos:", data);
+
+    // Si el backend devuelve directamente un array
+    if (Array.isArray(data)) {
+      return data;
+    }
+
+    // Si el backend devuelve un objeto con estatus/mensajes
+    if (data.estatus) {
+      return data;
+    }
+
+    return [];
+
+  } catch (error) {
+    console.error("❌ Error al traer mensajes:", error);
+    return [];
+  }
+}
+
+async function actualizarChat(){
+  const mensajes = await traerMensajes(16);
+  console.log("Mensajes para actualizar el chat:", mensajes);
+  const tipo = localStorage.getItem("idUsuario") < 1000 ? "Docente" : "Jefe";
+  mensajes.msjs.forEach(msj => {
+    actualizarMsjVentana(msj["descripcion"],msj["remitente"] === tipo ? "uno" : "dos");
+  });
+}
+
+function actualizarMsjVentana(msj,tipo) {
     const ventanaMensajes = document.getElementById('ventanaMensajes');
-
-  btnEnviarMsj.addEventListener('click', () => {
-    const msj = inputMsj.value.trim(); // obtenemos el texto actual
-
-    if (msj === "") return; // evita mensajes vacíos
-
+    const inputMsj = document.getElementById('inputMensaje');
     const tr = document.createElement("div");
+
     tr.innerHTML = `
-        <div class="divMsj uno">
-            <div class="msj uno">
+    <div class="divMsj ${tipo}">
+    <div class="msj ${tipo}">
                 <p>${msj}</p>
             </div>
         </div>
     `;
 
     ventanaMensajes.appendChild(tr);
-    inputMsj.value = ""; // limpia el input
+    inputMsj.value = "";
+}
+
+function mandarMsj() {
+  const btnEnviarMsj = document.getElementById('btnEnviarMsj');
+  const inputMsj = document.getElementById('inputMensaje');
+
+  btnEnviarMsj.addEventListener('click', () => {
+    const msj = inputMsj.value.trim(); 
+
+    if (msj === "") return; 
+    
+    
+    if(mandarMsjAlBackend(localStorage.getItem("idUsuario"), 16, msj)){
+      alert("Error al enviar el mensaje.");
+    }
+    actualizarMsjVentana(msj, "uno");
   });
     inputMsj.addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
@@ -413,6 +467,30 @@ function mandarMsj() {
     }
     });
 }
+
+function mandarMsjAlBackend(idUsuario, idReclamo, mensaje) {
+  fetch("http://localhost:5000/guardar-mensaje", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ idUsuario: idUsuario, idReclamo: idReclamo, mensaje: mensaje })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.estatus) {
+      console.log("Mensaje enviado con éxito.");
+      return true;
+    } else {  
+      console.error("Error al enviar el mensaje:", data.error);
+      return false;
+    }
+  }).catch(error => {
+    console.error("Error:", error);
+    return false;
+  });
+}
+
 
 
 function cambiarContraActual(){
@@ -431,7 +509,7 @@ function cambiarContraActual(){
           headers: {
               "Content-Type": "application/json"
           },
-          body: JSON.stringify({ idDocente: localStorage.getItem("idDocente"), contraActual: passwordActual, contraNueva: passwordNueva})
+          body: JSON.stringify({ idUsuario: localStorage.getItem("idUsuario"), contraActual: passwordActual, contraNueva: passwordNueva})
           })
           .then(response => response.json())
           .then(data => {
@@ -630,6 +708,7 @@ function restablecerContra(){
           .catch(error => {
               console.error("Error:", error);
           });
+
         }
     });
     const btnRegresar = document.getElementById("btnRegresar");

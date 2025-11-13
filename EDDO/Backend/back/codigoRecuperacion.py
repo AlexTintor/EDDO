@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 import smtplib, random
 from email.message import EmailMessage
 from flask_cors import CORS
-from traerDatos import validarLogin, traerExpediente, traerReclamos, cambiarContra,cambiarContraActual
+from traerDatos import validarLogin, traerExpediente, traerReclamos, cambiarContra,cambiarContraActual,guardarMensaje,traerMsjs
 from bdTec import  traerEmpleados
 
 import pyodbc
@@ -22,6 +22,7 @@ def conectar_bd(bd):
     except Exception as e:
         print("❌ Error al conectar a la base de datos:", e)
         return None
+    
 @app.route("/enviar-codigo", methods=["POST"])
 def enviar_codigo():
     data = request.get_json()
@@ -75,16 +76,16 @@ def login():
 @app.route("/datos-cuenta", methods=["POST"])
 def datos_cuenta():
     data = request.get_json()
-    docente_id = data.get("docenteId")
+    idUsuario = data.get("idUsuario")
 
-    if not docente_id:
+    if not idUsuario:
         return jsonify({"ok": False, "error": "Faltan datos"}), 400
 
     conexion = conectar_bd("EDDO")
     if not conexion:
         return jsonify({"ok": False, "error": "No se pudo conectar a la base de datos"}), 500
 
-    cuenta = traerExpediente(conexion, docente_id)
+    cuenta = traerExpediente(conexion, idUsuario)
     conexion.close()
 
     if cuenta:
@@ -96,16 +97,16 @@ def datos_cuenta():
 @app.route("/expediente", methods=["POST"])
 def expediente():
     data = request.get_json()
-    docente_id = data.get("idDocente")
+    idUsuario = data.get("idUsuario")
 
-    if not docente_id:
+    if not idUsuario:
         return jsonify({"estatus": False, "error": "Faltan datos"}), 400
 
     conexion = conectar_bd("EDDO")
     if not conexion:
         return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
 
-    expediente = traerExpediente(conexion, docente_id)
+    expediente = traerExpediente(conexion, idUsuario)
     conexion.close()
 
     if expediente:
@@ -116,16 +117,16 @@ def expediente():
 @app.route("/reclamos", methods=["POST"])
 def reclamos():
     data = request.get_json()
-    docente_id = data.get("idDocente")
+    idUsuario = data.get("idUsuario")
 
-    if not docente_id:
+    if not idUsuario:
         return jsonify({"estatus": False, "error": "Faltan datos"}), 400
     
     conexion = conectar_bd("EDDO")
     if not conexion:
         return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
     
-    reclamos = traerReclamos(conexion, docente_id)
+    reclamos = traerReclamos(conexion, idUsuario)
     conexion.close()
     
     if reclamos:
@@ -137,16 +138,16 @@ def reclamos():
 @app.route("/cuenta", methods=["POST"])
 def cuenta():
     data = request.get_json()
-    docente_id = data.get("idDocente")
+    idUsuario = data.get("idUsuario")
 
-    if not docente_id:
+    if not idUsuario:
         return jsonify({"estatus": False, "error": "Faltan datos"}), 400
 
     conexion = conectar_bd("BDTEC")
     if not conexion:
         return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
 
-    cuenta = traerEmpleados(conexion, docente_id)
+    cuenta = traerEmpleados(conexion, idUsuario)
     conexion.close()
 
     if cuenta:
@@ -200,7 +201,7 @@ def cambiarContrasena():
 @app.route("/cambiarContraActual", methods=["POST"])
 def cambiarContraseñaActual():
     data = request.get_json()
-    idDocente = data.get("idDocente")
+    idUsuario = data.get("idUsuario")
     contraActual = data.get("contraActual")
     contraNueva = data.get("contraNueva")
 
@@ -211,7 +212,7 @@ def cambiarContraseñaActual():
     if not conexion:
         return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
 
-    respuesta = cambiarContraActual(conexion, idDocente, contraActual,contraNueva)
+    respuesta = cambiarContraActual(conexion, idUsuario, contraActual,contraNueva)
     conexion.close()
 
     if respuesta["estatus"]:
@@ -219,6 +220,60 @@ def cambiarContraseñaActual():
     else:
         return jsonify({"estatus": False, "error": respuesta["error"]}), 401
     
+@app.route("/guardar-mensaje", methods=["POST"])
+def guardarMsj():
+    data = request.get_json()
+    idUsuario = data.get("idUsuario")
+    mensaje = data.get("mensaje")
+    idReclamo= data.get("idReclamo")
+
+    if not idUsuario or not mensaje:
+        return jsonify({"estatus": False, "error": "Faltan datos"}), 400
+
+    conexion = conectar_bd("EDDO")
+    if not conexion:
+        return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
+
+    respusta = guardarMensaje(conexion, idUsuario, idReclamo , mensaje);
+    conexion.close()
+    if respusta:
+        return jsonify({"estatus": True})
+    else:
+        return jsonify({"estatus": False, "error": "No se pudo guardar el mensaje"}), 500
+    
+from flask import jsonify, request
+
+@app.route("/traer-mensajes", methods=["POST"])
+def traerMensajes():
+    data = request.get_json()
+    idUsuario = data.get("idUsuario")
+    idReclamo = data.get("idReclamo")
+
+    try:
+        conexion = conectar_bd("EDDO")
+        if not conexion:
+            return jsonify({"error": "No se pudo conectar a la base de datos"}), 500
+
+        filas = traerMsjs(conexion, idReclamo, idUsuario)
+
+        if filas:
+            mensajes = []
+            for fila in filas:
+                remitente, fecha, descripcion = fila
+                mensajes.append({
+                    "remitente": remitente,
+                    "fecha": fecha.strftime("%Y-%m-%d %H:%M:%S"),
+                    "descripcion": descripcion
+                })
+            return jsonify({"estatus":True,"msjs":mensajes})
+        else:
+            return jsonify([])
+
+    except Exception as e:
+        print("❌ Error al consultar mensajes:", e)
+        return jsonify({"error": str(e)}), 500
+
+
 if __name__ == "__main__":
     app.run(debug=True)
 

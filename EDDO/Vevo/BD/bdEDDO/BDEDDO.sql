@@ -74,14 +74,29 @@ CREATE TABLE RECLAMO (
 );
 
 CREATE TABLE COMENTARIOS (
-    ID_COMENTARIO INT NOT NULL,
+    ID_COMENTARIO INT IDENTITY(1,1) NOT NULL,
 	ID_RECLAMO INT NOT NULL,
     REMITENTE VARCHAR(10),
+    FECHA DATETIME,
     DESCRIPCION VARCHAR(255)
 );
-alter table comentarios
-add remitente varchar(50)
-select * from COMENTARIOS
+SELECT 
+                C.REMITENTE,
+                C.FECHA AS FECHA_COMENTARIO,
+                C.DESCRIPCION,
+                J.JEFE_ID,
+                DOC.ID_DOCENTE
+            FROM COMENTARIOS C
+            JOIN RECLAMO R ON C.ID_RECLAMO = R.ID_RECLAMO
+            JOIN DOCUMENTO D ON R.ID_DOCUMENTO = D.FOLIO
+            JOIN EXPEDIENTE E ON D.ID_EXPED = E.ID_EXPEDIENTE
+            JOIN DOCENTE DOC ON E.ID_DOCENTE = DOC.ID_DOCENTE
+            JOIN DEPARTAMENTO DEP ON D.ID_DEPARTAMENTO = DEP.ID_DEPARTAMENTO
+            JOIN JEFE J ON DEP.JEFE_ID = J.JEFE_ID
+            WHERE (DOC.ID_DOCENTE = 1 AND R.ID_RECLAMO = 15) OR (J.JEFE_ID = 1 and  R.ID_RECLAMO = 15)
+
+select * from vw_Documento
+select * from RECLAMO
 -- =====================================
 -- SECCIÓN DE CONSTRAINTS
 -- =====================================

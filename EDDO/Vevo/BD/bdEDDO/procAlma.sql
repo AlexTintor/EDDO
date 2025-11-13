@@ -10,6 +10,14 @@ BEGIN
         FROM DOCENTE
         WHERE CORREO = @Correo
             AND CONTRA = @Contrasena;
+        
+        IF @IdDocente IS NULL
+        BEGIN
+                SELECT @IdDocente = JEFE_ID
+                FROM JEFE
+                WHERE CORREO = @Correo AND CONTRA = @Contrasena;
+        END
+
 
         IF @IdDocente IS NULL
         BEGIN

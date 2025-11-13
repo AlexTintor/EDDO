@@ -92,7 +92,8 @@ INSERT INTO EMPLEADO (ID_EMPLEADO, ID_PLAZA, ID_DEPARTAMENTO, ID_TIPO, NOMBRE, C
 (7, 1, 7, 4, 'Laura Díaz', 'Culiacán', '6677890123', 'laura.diaz@tecnm.mx', 'ld123'),
 (8, 2, 8, 2, 'Miguel Herrera', 'Culiacán', '6678901234', 'miguel.herrera@tecnm.mx', 'mh123'),
 (9, 3, 9, 3, 'Elena Vargas', 'Culiacán', '6679012345', 'elena.vargas@tecnm.mx', 'ev123'),
-(10, 1, 10, 1, 'Luis Torres', 'Culiacán', '6670123456', 'luis.torres@tecnm.mx', 'lt123');
+(10, 1, 10, 1, 'Luis Torres', 'Culiacán', '6670123456', 'luis.torres@tecnm.mx', 'lt123'),
+(1000,1,3,1, 'Carlos Gómez','Culiacán','6675558954', 'carlos@eddo.mx','abcd');
 
 -- =====================================
 -- TIPO_ACTIVIDAD

@@ -14,14 +14,14 @@ def validarLogin(conexion,correo,contra):
         print("❌ Error al consultar nombre de usuario:", e)
         return None
     
-def traerExpediente(conexion, docenteID):
+def traerExpediente(conexion, idUsuario):
     try:
         cursor = conexion.cursor()
         cursor.execute("""
             SELECT Nombre_documento, Aprobacion, id_reclamo
             FROM vw_Documento
             WHERE ID_DOCENTE = ?
-        """, (docenteID,))  # 👈 importante: coma final
+        """, (idUsuario,))  # 👈 importante: coma final
 
         filas = cursor.fetchall()
 
@@ -41,14 +41,14 @@ def traerExpediente(conexion, docenteID):
         print("❌ Error al consultar expediente:", e)
         return None
 
-def traerReclamos(conexion, docenteID):
+def traerReclamos(conexion, idUsuario):
     try:
         cursor = conexion.cursor()
         cursor.execute("""
             SELECT id_reclamo,NOMBRE_DOCUMENTO, FOLIO_DOCUMENTO, FECHA_RECLAMO
             FROM vw_Documento
             WHERE ID_DOCENTE = ?
-        """, (docenteID,))  # 👈 importante: coma final
+        """, (idUsuario,))  # 👈 importante: coma final
 
         filas = cursor.fetchall()
 
@@ -83,10 +83,10 @@ def cambiarContra(conexion, correo, nuevaContra):
         print("❌ Error al cambiar la contraseña:", e)
         return False
     
-def cambiarContraActual(conexion, idDocente, contraNueva, contraActual):
+def cambiarContraActual(conexion, idUsuario, contraNueva, contraActual):
     try:
         cursor = conexion.cursor()
-        cursor.execute("SELECT CONTRA FROM DOCENTE WHERE ID_DOCENTE = ?", (idDocente,))
+        cursor.execute("SELECT CONTRA FROM DOCENTE WHERE ID_DOCENTE = ?", (idUsuario,))
         resultado = cursor.fetchone()
 
         if not resultado:
@@ -101,7 +101,7 @@ def cambiarContraActual(conexion, idDocente, contraNueva, contraActual):
             EXEC sp_ActualizarContrasenaDocente 
                 @IdDocente = ?, 
                 @NuevaContrasena = ?
-        """, (idDocente, contraNueva))
+        """, (idUsuario, contraNueva))
         conexion.commit()
 
         return {"estatus": True, "error": None}
@@ -115,3 +115,47 @@ def cambiarContraActual(conexion, idDocente, contraNueva, contraActual):
             cursor.close()
         except:
             pass
+
+def guardarMensaje(conexion, idUsuario, idReclamo,mensaje):
+    try:
+        cursor = conexion.cursor()
+        if idUsuario:
+            if int(idUsuario) >= 1000:
+                remitente = "Jefe"
+            else:
+                remitente = "Docente"
+        cursor.execute("""
+            INSERT INTO COMENTARIOS (ID_RECLAMO, DESCRIPCION, FECHA, REMITENTE)
+            VALUES (?, ?, GETDATE(),?)
+        """, (idReclamo, mensaje, remitente))
+        conexion.commit()
+        return True
+    except Exception as e:
+        print("❌ Error al guardar el mensaje:", e)
+        return False
+    
+def traerMsjs(conexion, idReclamo, idUsuario):
+    try:
+        cursor = conexion.cursor()
+        cursor.execute("""
+            SELECT 
+                C.REMITENTE,
+                C.FECHA AS FECHA_COMENTARIO,
+                C.DESCRIPCION
+            FROM COMENTARIOS C
+            JOIN RECLAMO R ON C.ID_RECLAMO = R.ID_RECLAMO
+            JOIN DOCUMENTO D ON R.ID_DOCUMENTO = D.FOLIO
+            JOIN EXPEDIENTE E ON D.ID_EXPED = E.ID_EXPEDIENTE
+            JOIN DOCENTE DOC ON E.ID_DOCENTE = DOC.ID_DOCENTE
+            JOIN DEPARTAMENTO DEP ON D.ID_DEPARTAMENTO = DEP.ID_DEPARTAMENTO
+            JOIN JEFE J ON DEP.JEFE_ID = J.JEFE_ID
+            WHERE (DOC.ID_DOCENTE = ? AND R.ID_RECLAMO = ?) OR (J.JEFE_ID = ? and  R.ID_RECLAMO = ?)
+        """, (idUsuario, idReclamo, idUsuario,idReclamo))
+        
+        filas = cursor.fetchall()
+        return filas if filas else None
+
+    except Exception as e:
+        print("❌ Error al traer los mensajes:", e)
+        return False
+

@@ -121,12 +121,12 @@ SELECT * FROM DOCENTE where ID_DOCENTE = 1;
 
 INSERT INTO JEFE (JEFE_ID, NOMBRE, VIGENTE, CONTRA, CORREO)
 VALUES 
-(11, 'Carlos Gómez', 1, 'abcd', 'carlos@eddo.mx'),
+(1000, 'Carlos Gómez', 1, 'abcd', 'carlos@eddo.mx'),
 (12, 'María Torres', 1, 'qwerty', 'maria@eddo.mx');
 
 INSERT INTO DEPARTAMENTO (ID_DEPARTAMENTO, JEFE_ID, NOMBRE)
 VALUES 
-(11, 11, 'Ingeniería en Sistemas'),
+(15, 1000, 'Ingeniería en Sistemas'),
 (12, 12, 'Gestión Administrativa');
 
 INSERT INTO TIPO_DOCUMENTO (ID_TIPO_DOCUMENTO, NOMBRE_DOCUMENTO)
@@ -150,7 +150,7 @@ VALUES
 
 INSERT INTO DOCUMENTO (FOLIO, ID_TIPO_DOCUMENTO, ID_EXPED, ID_DEPARTAMENTO, ID_ACTIVIDAD, APROBACION, FECHA)
 VALUES 
-(11, 11, 1, 11, 11, 1, '2025-02-10'),
+(16, 11, 1, 15, 11, 1, '2025-02-10'),
 (12, 12, 1, 11, 12, 0, '2025-03-05'),
 (13, 13, 1, 11, 13, 1, '2025-04-15'),
 (14, 14, 1, 12, 12, 0, '2025-05-20'),
@@ -158,9 +158,11 @@ VALUES
 
 INSERT INTO RECLAMO (ID_RECLAMO, ID_DOCUMENTO, FECHA)
 VALUES 
-(11, 12, '2025-03-10'),
+(16, 16, '2025-03-10'),
 (12, 14, '2025-05-25');
 
+select * from RECLAMO;
+select * from DOCUMENTO;
 INSERT INTO COMENTARIOS (ID_COMENTARIO, ID_RECLAMO, DESCRIPCION)
 VALUES
 (11, 11, 'El documento tiene errores en la portada.'),
