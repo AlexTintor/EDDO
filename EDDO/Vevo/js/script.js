@@ -374,6 +374,7 @@ function loadPage(page) {
     }
     if (page === "chat.html"){
       actualizarChat();
+      setInterval(actualizarChat, 5000);
       mandarMsj();
     }
     if (page === "cambiarContra.html") {
@@ -422,6 +423,8 @@ async function traerMensajes(idReclamo) {
 async function actualizarChat(){
   const mensajes = await traerMensajes(16);
   console.log("Mensajes para actualizar el chat:", mensajes);
+    const ventanaMensajes = document.getElementById('ventanaMensajes');
+  ventanaMensajes.innerHTML = '';
   const tipo = localStorage.getItem("idUsuario") < 1000 ? "Docente" : "Jefe";
   mensajes.msjs.forEach(msj => {
     actualizarMsjVentana(msj["descripcion"],msj["remitente"] === tipo ? "uno" : "dos");
