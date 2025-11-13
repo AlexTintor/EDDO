@@ -387,7 +387,7 @@ function loadPage(page) {
       actualizarDatosCuenta();
         const btncambiarContra = document.getElementById("btnCambiarContra");
         btncambiarContra.addEventListener("click", () => {
-          loadPage("chat.html");
+          loadPage("cambiarContra.html");
         });
     }
     if (page === "chat.html"){
@@ -446,16 +446,19 @@ async function actualizarChat(){
     console.error("No se pudieron obtener los mensajes.");
     return;
   }
+
   console.log("Mensajes para actualizar el chat:", mensajes);
   const tipo = localStorage.getItem("idUsuario") < 1000 ? "DOCENTE" : "JEFE";
 
   mensajes.msjs.forEach(msj => {
-    actualizarMsjVentana(msj["descripcion"],msj["remitente"] === tipo ? "uno" : "dos");
+    const fecha = msj["fecha"];
+    const horaMin = fecha.split(" ")[1].slice(0, 5);
+    actualizarMsjVentana(msj["descripcion"],msj["remitente"] === tipo ? "uno" : "dos", horaMin);
   });
 
 }
 
-function actualizarMsjVentana(msj,tipo) {
+function actualizarMsjVentana(msj,tipo,horaMin="00:00"){ 
     const ventanaMensajes = document.getElementById('ventanaMensajes');
     const inputMsj = document.getElementById('inputMensaje');
     const tr = document.createElement("div");
@@ -464,6 +467,7 @@ function actualizarMsjVentana(msj,tipo) {
     <div class="divMsj ${tipo}">
     <div class="msj ${tipo}">
                 <p>${msj}</p>
+                <p class = "horaMsj">${horaMin}</p>
             </div>
         </div>
     `;
