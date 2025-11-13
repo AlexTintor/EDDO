@@ -18,10 +18,23 @@ def traerExpediente(conexion, idUsuario):
     try:
         cursor = conexion.cursor()
         cursor.execute("""
+            SELECT 
+            D.NOMBRE_DOCUMENTO,
+            D.APROBACION,
+            D.FECHA AS FechaDocumento,
+            E.ID_EXPEDIENTE,
+            E.ID_DOCENTE,
+            E.ID_CONVOC AS IdConvocatoria
+        FROM DOCUMENTO D
+        INNER JOIN DOCUMENTO_EXPEDIENTE DE ON D.FOLIO = DE.ID_DOCUMENTO
+        INNER JOIN EXPEDIENTE E ON DE.ID_EXPEDIENTE = E.ID_EXPEDIENTE
+        """, (idUsuario,))
+
+        cursor.execute("""
             SELECT Nombre_documento, Aprobacion, id_reclamo
             FROM vw_Documento
             WHERE ID_DOCENTE = ?
-        """, (idUsuario,))  # 👈 importante: coma final
+        """, (idUsuario,)) 
 
         filas = cursor.fetchall()
 

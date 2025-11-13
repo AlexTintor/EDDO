@@ -209,7 +209,6 @@ function agregarReclamo(reclamos) {
 }
 
 
-/* Al presionar el btnVer de expediente guardara el nombre del archivo para cargarlo*/ 
 function guardarNombreDoc(){
   const botonesVer = document.querySelectorAll(".btn.ver");
 
