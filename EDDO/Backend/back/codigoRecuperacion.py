@@ -73,28 +73,7 @@ def login():
         return jsonify({"estatus": False, "error": "Credenciales inválidas"}), 401
     
 
-@app.route("/datos-cuenta", methods=["POST"])
-def datos_cuenta():
-    data = request.get_json()
-    idUsuario = data.get("idUsuario")
-
-    if not idUsuario:
-        return jsonify({"ok": False, "error": "Faltan datos"}), 400
-
-    conexion = conectar_bd("EDDO")
-    if not conexion:
-        return jsonify({"ok": False, "error": "No se pudo conectar a la base de datos"}), 500
-
-    cuenta = traerExpediente(conexion, idUsuario)
-    conexion.close()
-
-    if cuenta:
-        return jsonify({"ok": True, "cuenta": cuenta})
-    else:
-        return jsonify({"ok": False, "error": "No se encontraron datos de la cuenta"}), 404
-
-
-@app.route("/expediente", methods=["POST"])
+@app.route("/expedient", methods=["POST"])
 def expediente():
     data = request.get_json()
     idUsuario = data.get("idUsuario")
@@ -224,8 +203,8 @@ def cambiarContraseñaActual():
 def guardarMsj():
     data = request.get_json()
     idUsuario = data.get("idUsuario")
-    mensaje = data.get("mensaje")
     idReclamo= data.get("idReclamo")
+    mensaje = data.get("mensaje")
 
     if not idUsuario or not mensaje:
         return jsonify({"estatus": False, "error": "Faltan datos"}), 400
@@ -247,14 +226,14 @@ from flask import jsonify, request
 def traerMensajes():
     data = request.get_json()
     idUsuario = data.get("idUsuario")
-    idReclamo = data.get("idReclamo")
+    nombreDoc = data.get("nombreDoc")
 
     try:
         conexion = conectar_bd("EDDO")
         if not conexion:
             return jsonify({"error": "No se pudo conectar a la base de datos"}), 500
 
-        filas = traerMsjs(conexion, idReclamo, idUsuario)
+        filas = traerMsjs(conexion, nombreDoc, idUsuario)
 
         if filas:
             mensajes = []
@@ -275,7 +254,8 @@ def traerMensajes():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000)
+
 
 
 

@@ -17,34 +17,29 @@ def validarLogin(conexion,correo,contra):
 def traerExpediente(conexion, idUsuario):
     try:
         cursor = conexion.cursor()
-        cursor.execute("""
-            SELECT 
-            D.NOMBRE_DOCUMENTO,
-            D.APROBACION,
-            D.FECHA AS FechaDocumento,
-            E.ID_EXPEDIENTE,
-            E.ID_DOCENTE,
-            E.ID_CONVOC AS IdConvocatoria
-        FROM DOCUMENTO D
-        INNER JOIN DOCUMENTO_EXPEDIENTE DE ON D.FOLIO = DE.ID_DOCUMENTO
-        INNER JOIN EXPEDIENTE E ON DE.ID_EXPEDIENTE = E.ID_EXPEDIENTE
-        """, (idUsuario,))
 
         cursor.execute("""
-            SELECT Nombre_documento, Aprobacion, id_reclamo
-            FROM vw_Documento
-            WHERE ID_DOCENTE = ?
+            SELECT 
+                DOC.NOMBRE AS NOMBRE_DOCUMENTO,
+                DOC.APROBACION
+            FROM DOCUMENTO DOC
+            JOIN DOCUMENTO_EXPEDIENTE DE ON DOC.FOLIO = DE.ID_DOCUMENTO
+            JOIN EXPEDIENTE E ON DE.ID_EXPEDIENTE = E.ID_EXPEDIENTE
+            JOIN DOCENTE D ON E.ID_DOCENTE = D.ID_DOCENTE
+            JOIN CONVOCATORIA C ON E.ID_CONVOC = C.ID_CONVOCATORIA
+            JOIN DEPARTAMENTO DEP ON DOC.ID_DEPARTAMENTO = DEP.ID_DEPARTAMENTO
+            JOIN JEFE J ON DEP.JEFE_ID = J.JEFE_ID
+            JOIN TIPO_DOCUMENTO TD ON DOC.ID_TIPO_DOCUMENTO = TD.ID_TIPO_DOCUMENTO
+            WHERE D.ID_DOCENTE = ?
         """, (idUsuario,)) 
 
         filas = cursor.fetchall()
-
         if filas:
             expediente = []
             for fila in filas:
                 expediente.append({
                     "Nombre_documento": fila[0],
-                    "Aprovacion": fila[1],
-                    "id_reclamo": fila[2]
+                    "APROBACION": fila[1]
                 })
             return expediente
         else:
@@ -58,10 +53,22 @@ def traerReclamos(conexion, idUsuario):
     try:
         cursor = conexion.cursor()
         cursor.execute("""
-            SELECT id_reclamo,NOMBRE_DOCUMENTO, FOLIO_DOCUMENTO, FECHA_RECLAMO
-            FROM vw_Documento
-            WHERE ID_DOCENTE = ?
-        """, (idUsuario,))  # 👈 importante: coma final
+            SELECT 
+                R.id_reclamo,
+                DOC.NOMBRE AS nombre_documento,
+                DOC.folio,
+                R.fecha
+            FROM DOCUMENTO DOC
+            JOIN DOCUMENTO_EXPEDIENTE DE ON DOC.FOLIO = DE.ID_DOCUMENTO
+            JOIN EXPEDIENTE E ON DE.ID_EXPEDIENTE = E.ID_EXPEDIENTE
+            JOIN DOCENTE D ON E.ID_DOCENTE = D.ID_DOCENTE
+            JOIN CONVOCATORIA C ON E.ID_CONVOC = C.ID_CONVOCATORIA
+            JOIN DEPARTAMENTO DEP ON DOC.ID_DEPARTAMENTO = DEP.ID_DEPARTAMENTO
+            JOIN JEFE J ON DEP.JEFE_ID = J.JEFE_ID
+            JOIN TIPO_DOCUMENTO TD ON DOC.ID_TIPO_DOCUMENTO = TD.ID_TIPO_DOCUMENTO
+            JOIN RECLAMO R ON DOC.FOLIO = R.ID_DOCUMENTO
+            where D.ID_DOCENTE = ?
+        """, (idUsuario,)) 
 
         filas = cursor.fetchall()
 
@@ -147,23 +154,28 @@ def guardarMensaje(conexion, idUsuario, idReclamo,mensaje):
         print("❌ Error al guardar el mensaje:", e)
         return False
     
-def traerMsjs(conexion, idReclamo, idUsuario):
+def traerMsjs(conexion, nombreDoc, idUsuario):
     try:
         cursor = conexion.cursor()
         cursor.execute("""
             SELECT 
-                C.REMITENTE,
-                C.FECHA AS FECHA_COMENTARIO,
-                C.DESCRIPCION
-            FROM COMENTARIOS C
-            JOIN RECLAMO R ON C.ID_RECLAMO = R.ID_RECLAMO
-            JOIN DOCUMENTO D ON R.ID_DOCUMENTO = D.FOLIO
-            JOIN EXPEDIENTE E ON D.ID_EXPED = E.ID_EXPEDIENTE
-            JOIN DOCENTE DOC ON E.ID_DOCENTE = DOC.ID_DOCENTE
-            JOIN DEPARTAMENTO DEP ON D.ID_DEPARTAMENTO = DEP.ID_DEPARTAMENTO
+                CO.remitente,
+                CO.fecha,
+                CO.descripcion
+            FROM DOCUMENTO DOC
+            JOIN DOCUMENTO_EXPEDIENTE DE ON DOC.FOLIO = DE.ID_DOCUMENTO
+            JOIN EXPEDIENTE E ON DE.ID_EXPEDIENTE = E.ID_EXPEDIENTE
+            JOIN DOCENTE D ON E.ID_DOCENTE = D.ID_DOCENTE
+            JOIN CONVOCATORIA C ON E.ID_CONVOC = C.ID_CONVOCATORIA
+            JOIN DEPARTAMENTO DEP ON DOC.ID_DEPARTAMENTO = DEP.ID_DEPARTAMENTO
             JOIN JEFE J ON DEP.JEFE_ID = J.JEFE_ID
-            WHERE (DOC.ID_DOCENTE = ? AND R.ID_RECLAMO = ?) OR (J.JEFE_ID = ? and  R.ID_RECLAMO = ?)
-        """, (idUsuario, idReclamo, idUsuario,idReclamo))
+            JOIN TIPO_DOCUMENTO TD ON DOC.ID_TIPO_DOCUMENTO = TD.ID_TIPO_DOCUMENTO
+            JOIN RECLAMO R ON DOC.FOLIO = R.ID_DOCUMENTO
+            JOIN COMENTARIOS CO ON CO.ID_RECLAMO = R.ID_RECLAMO
+            WHERE (D.ID_DOCENTE = ? AND DOC.NOMBRE LIKE ?) 
+            OR (J.JEFE_ID   = ? AND DOC.NOMBRE LIKE ?)
+        """, (idUsuario, f"%{nombreDoc}%", idUsuario, f"%{nombreDoc}%"))
+
         
         filas = cursor.fetchall()
         return filas if filas else None

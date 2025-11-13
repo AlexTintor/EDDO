@@ -164,10 +164,11 @@ async function agregarRegistroDocumento(expediente) {
     console.error("No se pudieron obtener los datos del expediente.");
     return;
   }
+    console.log("Expediente recibido para agregar:", expediente);
 
     expediente.expediente.forEach(doc => {
     const tr = document.createElement("tr");
-    const estado = doc.Aprovacion ? "Generada" : "Pendiente";
+    const estado = doc.APROBACION ? "Generada" : "Pendiente";
 
     tr.innerHTML = `
       <td><i></i> ${doc.Nombre_documento}</td>
@@ -190,28 +191,68 @@ function agregarReclamo(reclamos) {
     }
     reclamos.reclamos.forEach(rec => {
       const nombreDoc = rec.nombre_documento;
-      const folioRec = rec.id_reclamo;
+      const idReclamo = rec.id_reclamo;
       const folioDoc = rec.folio;
       const fecha = new Date(rec.fecha).toLocaleDateString();
       const estado = "sale";
       if (rec.id_reclamo) {
       const tr = document.createElement("tr");
         tr.innerHTML = `
-                <td><i></i>${folioRec}</td>
+                <td><i></i>${idReclamo}</td>
                 <td class=""><i></i> ${nombreDoc}</td>
                 <td class=""><i></i> ${folioDoc}</td>
                 <td class=""><i></i> ${fecha}</td>
                 <td class="status ${estado}"><i></i> ${estado}</td>
-                <td><button class="btn abrir">Abrir</button></td>`;
+                <td><button class="btn abrir" id = "btn abrir">Abrir</button></td>`;
         tbody.appendChild(tr);
       }
+  });
+}
+
+async function traerDatosReclamo() {
+  try {
+    const response = await fetch("http://localhost:5000/reclamos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ idUsuario: localStorage.getItem("idUsuario") })
+    });
+
+    const data = await response.json();
+
+    if (data.estatus) {
+      console.log("Datos de la cuenta:", data);
+      return data;
+    } else {
+      console.error("Error:", data.error);
+      return null;
+    }
+  } catch (error) {
+    console.error("Error en :", error);
+    return null;
+  }
+}
+
+function btnsAbrirReclamo(){
+  const botonesVer = document.querySelectorAll(".btn.abrir");
+  
+  botonesVer.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const fila = btn.closest("tr");
+      const idReclamo = fila.querySelector("td").innerText.trim();
+
+      localStorage.setItem("idReclamo", idReclamo);
+
+      console.log("📄 Documento guardado:", idReclamo);
+      loadPage("chat.html");
+    });
+    
   });
 }
 
 
 function guardarNombreDoc(){
   const botonesVer = document.querySelectorAll(".btn.ver");
-
+  
   botonesVer.forEach(btn => {
     btn.addEventListener("click", () => {
       const fila = btn.closest("tr");
@@ -223,8 +264,22 @@ function guardarNombreDoc(){
       console.log("📄 Documento guardado:", nombreDoc);
       loadPage("verDocumento.html");
     });
+
+  });
+    const botonesAbir= document.querySelectorAll(".btn.abrir");
+    botonesAbir.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const fila = btn.closest("tr");
+      
+      const nombreDoc = fila.querySelector("td").innerText.trim();
+
+      localStorage.setItem("documentoSeleccionado", nombreDoc);
+      console.log("📄 Documento guardado:", nombreDoc);
+      loadPage("chat.html");
+    });
   });
 }
+
 
 
 /*cambia de ver el documento a el apartado de expediente */
@@ -267,7 +322,7 @@ async function traerDatosCuenta(){
 
 async function traerDatosExpediente() {
   try {
-    const response = await fetch("http://localhost:5000/expediente", {
+    const response = await fetch("http://localhost:5000/expedient", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ idUsuario: localStorage.getItem("idUsuario") })
@@ -288,34 +343,6 @@ async function traerDatosExpediente() {
   }
 }
 
-async function traerDatosReclamo() {
-  try {
-    const response = await fetch("http://localhost:5000/reclamos", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ idUsuario: localStorage.getItem("idUsuario") })
-    });
-
-    const data = await response.json();
-
-    if (data.estatus) {
-      console.log("Datos de la cuenta:", data);
-      return data;
-    } else {
-      console.error("Error:", data.error);
-      return null;
-    }
-  } catch (error) {
-    console.error("Error en :", error);
-    return null;
-  }
-}
-
-
-
-
-
-
 
 
 /* Funcion que cambia de html dependiendo la page*/ 
@@ -326,18 +353,9 @@ function loadPage(page) {
       content.innerHTML = html;
 
     if (page === "expediente.html") {
-      if(localStorage.getItem("expediente")){
-        const datos = JSON.parse(localStorage.getItem("expediente"));
-        agregarRegistroDocumento(datos);
-        guardarNombreDoc();
-      } else {
-        const datos = await traerDatosExpediente();
-        if (datos) {
-          localStorage.setItem("expediente", JSON.stringify(datos));
-          agregarRegistroDocumento(datos);
-          guardarNombreDoc();
-        }
-      }
+      agregarRegistroDocumento(await traerDatosExpediente());
+      guardarNombreDoc();
+
     }
     if(page === "inicio.html"){
       const nombreDocente = localStorage.getItem("nombreDocente");
@@ -353,15 +371,16 @@ function loadPage(page) {
 
     if (page === "reclamo.html") {
       if(localStorage.getItem("reclamos")){
-        const datos = JSON.parse(localStorage.getItem("reclamos"));
-        agregarReclamo(datos);
+        const expediente = JSON.parse(localStorage.getItem("reclamos"));
+        agregarReclamo(expediente);
       }else {
-        const datos = await traerDatosReclamo();
-        if (datos) {
-          localStorage.setItem("reclamos", JSON.stringify(datos));
-          agregarReclamo(datos);
+        const expediente = await traerDatosReclamo();
+        if (expediente) {
+          localStorage.setItem("reclamos", JSON.stringify(expediente));
+          agregarReclamo(expediente);
         }
       }
+      btnsAbrirReclamo();
     }
 
     if (page === "cuenta.html") {
@@ -373,7 +392,6 @@ function loadPage(page) {
     }
     if (page === "chat.html"){
       actualizarChat();
-      setInterval(actualizarChat, 5000);
       mandarMsj();
     }
     if (page === "cambiarContra.html") {
@@ -385,7 +403,7 @@ function loadPage(page) {
   });
 }
 
-async function traerMensajes(idReclamo) {
+async function traerMensajes() {
   try {
     const response = await fetch("http://localhost:5000/traer-mensajes", {
       method: "POST",
@@ -394,7 +412,7 @@ async function traerMensajes(idReclamo) {
       },
       body: JSON.stringify({
         idUsuario: localStorage.getItem("idUsuario"),
-        idReclamo: idReclamo
+        nombreDoc: localStorage.getItem("documentoSeleccionado")
       })
     });
 
@@ -420,14 +438,21 @@ async function traerMensajes(idReclamo) {
 }
 
 async function actualizarChat(){
-  const mensajes = await traerMensajes(16);
-  console.log("Mensajes para actualizar el chat:", mensajes);
-    const ventanaMensajes = document.getElementById('ventanaMensajes');
+  const mensajes = await traerMensajes();
+  const ventanaMensajes = document.getElementById('ventanaMensajes');
+
   ventanaMensajes.innerHTML = '';
-  const tipo = localStorage.getItem("idUsuario") < 1000 ? "Docente" : "Jefe";
+  if (!mensajes || !mensajes.estatus) {
+    console.error("No se pudieron obtener los mensajes.");
+    return;
+  }
+  console.log("Mensajes para actualizar el chat:", mensajes);
+  const tipo = localStorage.getItem("idUsuario") < 1000 ? "DOCENTE" : "JEFE";
+
   mensajes.msjs.forEach(msj => {
     actualizarMsjVentana(msj["descripcion"],msj["remitente"] === tipo ? "uno" : "dos");
   });
+
 }
 
 function actualizarMsjVentana(msj,tipo) {
@@ -457,7 +482,7 @@ function mandarMsj() {
     if (msj === "") return; 
     
     
-    if(mandarMsjAlBackend(localStorage.getItem("idUsuario"), 16, msj)){
+    if(mandarMsjAlBackend(msj)){
       alert("Error al enviar el mensaje.");
     }
     actualizarMsjVentana(msj, "uno");
@@ -470,13 +495,13 @@ function mandarMsj() {
     });
 }
 
-function mandarMsjAlBackend(idUsuario, idReclamo, mensaje) {
+function mandarMsjAlBackend(mensaje) {
   fetch("http://localhost:5000/guardar-mensaje", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ idUsuario: idUsuario, idReclamo: idReclamo, mensaje: mensaje })
+    body: JSON.stringify({ idUsuario: localStorage.getItem("idUsuario"), idReclamo: localStorage.getItem("idReclamo"), mensaje: mensaje })
   })
   .then(response => response.json())
   .then(data => {
