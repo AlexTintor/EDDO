@@ -453,7 +453,7 @@ async function actualizarChat(){
   mensajes.msjs.forEach(msj => {
     const fecha = msj["fecha"];
     const horaMin = fecha.split(" ")[1].slice(0, 5);
-    actualizarMsjVentana(msj["descripcion"],msj["remitente"] === tipo ? "uno" : "dos", horaMin);
+    actualizarMsjVentana(msj["descripcion"],msj["remitente"] === tipo ? "dos" : "uno", horaMin);
   });
 
 }
