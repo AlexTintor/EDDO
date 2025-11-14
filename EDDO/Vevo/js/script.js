@@ -25,9 +25,13 @@ function login(){
   const input = document.getElementById('password');
   const btn = document.getElementById('btnVerContrasea');
   const btniniciar = document.getElementById('btnIniciarSesion');
+  const lblError = document.getElementById("lblError");
   if (btniniciar) {
+    enterEnviar();
     btniniciar.addEventListener('click', (event) => {
-      validarLogin();
+
+      if (!validarLogin()) return;
+      btniniciar.innerHTML = "Cargando...";
       event.preventDefault();
       const correo = document.getElementById('email').value;
       const contra = document.getElementById('password').value;
@@ -46,12 +50,17 @@ function login(){
                   window.location.href = "principal.html";
                 else
                   window.location.href = "EddoJefe.html";
-            } else {
+                btniniciar.innerHTML = "Iniciar Sesión";
+              } else {
+                lblError.hidden = false;
+                lblError.textContent = data.error;
                 alert("Error: " + data.error);
-            }
-        })
-        .catch(error => {
-            console.error("Error:", error);
+                btniniciar.innerHTML = "Iniciar Sesión";
+              }
+            }).catch(error => {
+              lblError.hidden = false;
+              lblError.textContent = "Error de conexión.";
+              btniniciar.innerHTML = "Iniciar Sesión";
         });
     });
   }
@@ -63,7 +72,6 @@ function login(){
   function  validarLogin(){
     const correo = document.getElementById('email').value;
     const contra = document.getElementById('password').value;
-    const lblError = document.getElementById("lblError");
     if(correo === "" || contra === ""){
       lblError.hidden = false;
       lblError.textContent = "Ambos campos son obligatorios.";
@@ -71,6 +79,16 @@ function login(){
     }
     lblError.hidden = true;
     return true;
+  }
+
+  function enterEnviar(){
+    const inputContra = document.getElementById("password");
+    inputContra.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+          e.preventDefault();
+          btniniciar.click();
+      }
+    });
   }
 }
 
@@ -582,9 +600,11 @@ function enviarCodigo() {
             lblError.textContent = "Correo inválido.";
             return;
         }
+        btnEnviarCodigo.innerHTML = "ENVIANDO...";
         if(!await verificarCorreo(correo)){
             lblError.hidden = false;
             lblError.textContent = "El correo no está registrado.";
+            btnEnviarCodigo.innerHTML = "ENVIAR CODIGO";
             return;
         }
         fetch("http://localhost:5000/enviar-codigo", {
@@ -600,12 +620,15 @@ function enviarCodigo() {
                 localStorage.setItem("correo", correo);
                 localStorage.setItem("codigo", data.codigo);
                 window.location.href = "ingresarCodigo.html";
+                btnEnviarCodigo.innerHTML = "Enviar Código";
             } else {
                 alert("Error: " + data.error);
+                btnEnviarCodigo.innerHTML = "ENVIAR CODIGO";
             }
         })
         .catch(error => {
           console.error("Error:", error);
+          btnEnviarCodigo.innerHTML = "ENVIAR CODIGO";
         });
       });
     regresar('btnRegresar', 'inicioSesion.html');
@@ -642,23 +665,28 @@ function enviarCodigo() {
 function validarCodigo(){
     const cells = [...document.querySelectorAll('.inputCelda')];
     const btnEnviarCodigo = document.getElementById('btnEnviarCodigo');
+    const lblError = document.getElementById("lblError");
     let codigo = localStorage.getItem('codigo');
     
     btnEnviarCodigo.addEventListener('click', (e) => {
         e.preventDefault();
         const codigoIngresado = cells.map(c => c.value).join('');
         if(codigoIngresado === codigo){
-            alert("Código verificado.");
             window.location.href = "restablecerContra.html";
         } else {
-            alert("Código inválido.");
+            lblError.hidden = false;
+            lblError.textContent = "Código incorrecto. Inténtalo de nuevo.";
         }
     });
     regresar('btnRegresar', 'recuperarContra.html');
 
+    if (cells.length > 0) {
+      setTimeout(() => cells[0].focus(), 0);
+    }
 
     cells.forEach((cell, index) => {
         cell.addEventListener('input', () => {
+            lblError.hidden = true;
             if (cell.value.length === 1 && index < cells.length - 1) {
                 cells[index + 1].focus();
             }
