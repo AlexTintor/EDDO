@@ -229,6 +229,7 @@ function agregarReclamo(reclamos) {
 
 async function traerDatosReclamo() {
   try {
+    console.log("📄 Solicitando reclamos para:", localStorage.getItem("idUsuario"));
     const response = await fetch("http://localhost:5000/reclamos", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -253,14 +254,16 @@ async function traerDatosReclamo() {
 function btnsAbrirReclamo(){
   const botonesVer = document.querySelectorAll(".btn.abrir");
   
+  
   botonesVer.forEach(btn => {
     btn.addEventListener("click", () => {
       const fila = btn.closest("tr");
+
       const idReclamo = fila.querySelector("td").innerText.trim();
 
       localStorage.setItem("idReclamo", idReclamo);
 
-      console.log("📄 Documento guardado:", idReclamo);
+      console.log("Reclamo:", idReclamo);
       loadPage("chat.html");
     });
     
@@ -430,7 +433,7 @@ async function traerMensajes() {
       },
       body: JSON.stringify({
         idUsuario: localStorage.getItem("idUsuario"),
-        nombreDoc: localStorage.getItem("documentoSeleccionado")
+        nombreDoc: localStorage.getItem("idReclamo")
       })
     });
 
@@ -466,12 +469,14 @@ async function actualizarChat(){
   }
 
   console.log("Mensajes para actualizar el chat:", mensajes);
-  const tipo = localStorage.getItem("idUsuario") < 1000 ? "DOCENTE" : "JEFE";
+  const tipo = localStorage.getItem("idUsuario") <= 999 ? "DOCENTE" : "JEFE";
+  console.log("Tipo de usuario:", tipo);
+  console.log("Mensajes recibidos:", localStorage.getItem("idUsuario"));
 
   mensajes.msjs.forEach(msj => {
     const fecha = msj["fecha"];
     const horaMin = fecha.split(" ")[1].slice(0, 5);
-    actualizarMsjVentana(msj["descripcion"],msj["remitente"] === tipo ? "dos" : "uno", horaMin);
+    actualizarMsjVentana(msj["descripcion"],msj["remitente"] === tipo ? "uno" : "dos", horaMin);
   });
 
 }
