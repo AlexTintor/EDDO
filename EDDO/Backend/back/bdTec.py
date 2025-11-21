@@ -3,7 +3,8 @@ import pyodbc
 def traerEmpleados(conexion, idDocente):
     try:
         cursor = conexion.cursor()
-        cursor.execute("SELECT NOMBRE_EMPLEADO,CORREO_EMPLEADO,TELEFONO,CAMPUS, NOMBRE_DEPARTAMENTO FROM VISTA_EMPLEADOS_COMPLETA where ID_EMPLEADO = ?", (idDocente,))
+        cursor.execute("""SELECT NOMBRE_EMPLEADO,CORREO_EMPLEADO,TELEFONO,CAMPUS, NOMBRE_DEPARTAMENTO 
+                       FROM VISTA_EMPLEADOS_COMPLETA where ID_EMPLEADO = ?""", (idDocente,))
         filas = cursor.fetchall()
 
         empleados = []

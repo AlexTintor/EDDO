@@ -136,6 +136,29 @@ def cambiarContraActual(conexion, idUsuario, contraNueva, contraActual):
         except:
             pass
 
+def registrarDoc(conexion,nombre, correo, telefono, contra):
+    try:
+        cursor = conexion.cursor()
+        cursor.execute("""
+            EXEC SP_REGISTRAR_DOCENTE 
+                @NOMBRE = ?, 
+                @CORREO = ?,
+                @TELEFONO = ?,
+                @CONTRA = ?
+        """, (nombre, correo,telefono,contra))
+        conexion.commit()
+
+        return {"estatus": True}
+
+    except Exception as e:
+        print("❌ Error al registrar al docente:", e)
+        return {"estatus": False, "error": str(e)}
+    finally:
+        try:
+            cursor.close()
+        except:
+            pass
+
 def guardarMensaje(conexion, idUsuario, idReclamo,mensaje):
     try:
         cursor = conexion.cursor()

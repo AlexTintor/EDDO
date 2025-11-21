@@ -5,35 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/prueba.css">
     <script src="js/script.js" defer></script>
+        <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            registro(); 
+        }); 
+    </script>
     <title>Document</title>
 </head>
 <body class = "bodyLogin">
-    <main class = "mainLogin">
+    <main class = "mainLogin registro">
         <article>
             <header class = "headerLogin ">
                 <figure class = "figureLogoEddo">
                     <img src="../img/EDDO.png" alt="Logo EDDO" class = "logoEddo">
                 </figure>
-                <h2>ACCESO AL PORTAL EDDO</h2>
+                <h2>REGISTRO</h2>
             </header>
             <hr class="divisor" />
             <form class="loginForm">
+                <label for="name" class ="lblSesion">Nombre Completo</label>
+                <input id="nombre" class = "inputSesion" type="email" placeholder="Ingrese su nombre" inputmode="email">  
+                <label for="telefono" class ="lblSesion">Telefono</label>
+                <input id="telefono" class = "inputSesion" type="email" placeholder="Ingrese su telefono" inputmode="email">  
                 <label for="email" class ="lblSesion">Correo electrónico</label>
                 <input id="email" class = "inputSesion" type="email" placeholder="Ingrese su correo" inputmode="email">  
                 <label for="password" class ="lblSesion">Contraseña</label>
                 <div class =" divInputPassword">
-                    <input id="password"  class = "inputSesion" name="password" type="password" placeholder="Ingrese su contraseña"></input>
+                    <input id="password1"  class = "inputSesion" name="password" type="password" placeholder="Ingrese su contraseña"></input>
                     <button type="button" class = "btnVerContraseña" id = "btnVerContrasea">
                         <img class="icon-eye" src="../img/Ver_Ocultar_Contraseña.png" alt="">
                     </button>
                 </div>
-                <nav class="form-actions" aria-label="Opciones de acceso">
-                    <a class="linkRecuperar" href="recuperarContra.html">¿Recuperar Contraseña?</a>
-                    <a class="linkRecuperar" href="registro.html">Crear cuenta</a>
-                </nav>
+                <div class =" divInputPassword">
+                    <input id="password2"  class = "inputSesion" name="password" type="password" placeholder="Repita su contraseña"></input>
+                    <button type="button" class = "btnVerContraseña" id = "btnVerContrasea2">
+                        <img class="icon-eye" src="../img/Ver_Ocultar_Contraseña.png" alt="">
+                    </button>
+                </div>
                 <p id = "lblError" hidden></p>
                 <div class = "divBtnIniciarSesion"> 
-                    <button type="button" class="btn" id = "btnIniciarSesion">INICIAR SESIÓN</button>        
+                    <button type="button" class="btn" id = "btnRegistro">REGISTRARME</button>        
                 </div>
             </form>
         </article>

@@ -90,6 +90,8 @@ function login(){
       }
     });
   }
+
+
 }
 
 async function pagina(){
@@ -364,7 +366,69 @@ async function traerDatosExpediente() {
   }
 }
 
+function registro(){
+  const btnRegistro = document.getElementById("btnRegistro");
+  const lblError = document.getElementById("lblError");
+  ver("password1","btnVerContrasea")
+  ver("password2","btnVerContrasea2")
 
+  btnRegistro.addEventListener("click",()=>{
+    const nombre = document.getElementById("nombre").value;
+    const correo = document.getElementById("email").value;
+    const telefono = document.getElementById("telefono").value;
+    const contra1 = document.getElementById("password1").value;
+    const contra2 = document.getElementById("password2").value;
+
+    if (contra1 != contra2){
+      lblError.textContent = "La contraseña no es la misma, pon la misma en los dos campos";
+    } 
+    registrarDocente(nombre,correo,telefono,contra1);
+
+  })
+  
+}
+
+async function registrarDocente(nombre,correo,telefono,contra){
+    try {
+    const response = await fetch("http://localhost:5000/registrarDocente", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ NOMBRE:nombre,CORREO:correo, TELEFONO:telefono, CONTRA: contra })
+    });
+
+    const data = await response.json();
+
+    if (data.estatus) {
+      alert('Registro exitoso');
+      window.location.href = "inicioSesion.html";
+      return data;
+    } else {
+      console.error("Error:", data.error);
+      return null;
+    }
+  } catch (error) {
+    console.error("Error al registrar:", error);
+    return null;
+  }
+}
+
+function validarRequi(){
+  fetch("http://localhost:5000/validarRequisitos", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ idUsuario: localStorage.getItem("idUsuario")})
+      })
+      .then(response => response.json())
+      .then(data => {
+          return data.estatus;
+          }).catch(error => {
+            lblError.hidden = false;
+            lblError.textContent = "Error de conexión.";
+            btniniciar.innerHTML = "Iniciar Sesión";
+      });
+}
 
 /* Funcion que cambia de html dependiendo la page*/ 
 function loadPage(page) {
@@ -379,10 +443,14 @@ function loadPage(page) {
 
     }
     if(page === "inicio.html"){
-      const nombreDocente = localStorage.getItem("nombreDocente");
-      const saludoElemento = document.getElementById("saludoDocente");
-      if (saludoElemento && nombreDocente) {
-        saludoElemento.textContent = `${nombreDocente}`;
+      if (validarRequi){
+        const nombreDocente = localStorage.getItem("nombreDocente");
+        const saludoElemento = document.getElementById("saludoDocente");
+        if (saludoElemento && nombreDocente) {
+          saludoElemento.textContent = `${nombreDocente}`;
+        }
+      }else {
+
       }
     }
 
@@ -586,6 +654,7 @@ function cambiarContraActual(){
       loadPage('cuenta.html');
     } );
 }
+
 
 
 

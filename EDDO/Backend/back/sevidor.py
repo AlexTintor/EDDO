@@ -2,8 +2,9 @@ from flask import Flask, request, jsonify
 import smtplib, random
 from email.message import EmailMessage
 from flask_cors import CORS
-from bdEDDO import validarLogin, traerExpediente, traerReclamos, cambiarContra,cambiarContraActual,guardarMensaje,traerMsjs
+from bdEDDO import validarLogin, traerExpediente, traerReclamos, cambiarContra,cambiarContraActual,guardarMensaje,traerMsjs,registrarDoc
 from bdTec import  traerEmpleados
+from bdEDD import validarRequisitos
 
 import pyodbc
 app = Flask(__name__)
@@ -112,6 +113,29 @@ def reclamos():
         return jsonify({"estatus": True, "reclamos": reclamos})
     else:
         return jsonify({"estatus": False, "error": "No se encontraron reclamos"}), 404
+    
+@app.route("/registrarDocente", methods =["POST"])
+def registrarDocente():
+    data = request.get_json()
+    nombre = data.get("NOMBRE")
+    correo = data.get("CORREO")
+    telefono = data.get("TELEFONO")
+    contra = data.get("CONTRA")
+
+    if not nombre or not correo or not telefono or not contra:
+        return jsonify({"estatus": False, "error": "Faltan datos"}), 400
+    
+    conexion = conectar_bd("BDEDDO")
+    if not conexion:
+        return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
+    
+    respuesta = registrarDoc(nombre,correo,telefono,contra)
+    conexion.close()
+
+    if respuesta:
+        return jsonify({"estatus": True, "cuenta": respuesta})
+    else:
+        return jsonify({"estatus": False, "error": "No se encontraron datos de la cuenta"}), 404 
     
 
 @app.route("/cuenta", methods=["POST"])
@@ -252,6 +276,22 @@ def traerMensajes():
         print("❌ Error al consultar mensajes:", e)
         return jsonify({"error": str(e)}), 500
 
+@app.route("/validarRequisitos", methods=["POST"])
+def validarRequisitos():
+    data = request.get_json()
+    idUsuario = data.get("idUsuario")
+
+    if not idUsuario:
+        return jsonify({"estatus": False, "error": "Faltan datos"}), 400
+
+    conexion = conectar_bd("BDEDD")
+    if not conexion:
+        return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
+
+    cumple_requisitos = validarRequisitos(conexion, idUsuario)
+    conexion.close()
+
+    return jsonify({"estatus": True, "cumpleRequisito": cumple_requisitos})
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
