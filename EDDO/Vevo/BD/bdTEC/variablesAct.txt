@@ -1,0 +1,233 @@
+1.1.5.1
+CONSTANCIA DE TUTORÍA
+{
+  "VARIABLE_DOCENTE": "",
+  "VARIABLE_DEPARTAMENTO": "",
+  "TUTORIAS": [
+    {
+      "VARIABLE_PERIODO": "",
+      "V_CANTIDAD_ALUMNOS": "",
+      "VARIABLE_CARRERA": ""
+    },
+    {
+      "VARIABLE_PERIODO": "",
+      "V_CANTIDAD_ALUMNOS": "",
+      "VARIABLE_CARRERA": ""
+    }
+  ],
+  "V_TOTAL_ALUMNOS": ""
+}
+------
+1.1.6b
+Consejo Nacional de Acreditación 
+{
+  "V_FECHA_INICIO": "",
+  "V_FECHA_FINAL": "",
+  "V_ESTADO": "",
+  "V_FECHA": ""
+}
+-------
+1.1.7
+CONSTANCIA
+{
+  "NOMBRE_COMPLETO": "",
+  "MES_INICIO_MES_FINAL": "",
+  "AÑO": "",
+  "NUMERO_DICTAMEN": "",
+  "ALUMNOS": ""
+}
+
+----
+1.2.1.1a
+COMISIÓN DE EVALUACIÓN DEL
+PROGRAMA DE ESTÍMULOS AL DESEMPEÑO DEL PERSONAL DOCENTE
+PARA LOS INSTITUTOS TECNÓLOGICOS FEDERALES Y CENTROS.
+PRESENTE.
+{
+  "NOMBRE_COMPLETO": "",
+  "ASIGNATURA": "",
+  "PROGRAMA": ""
+}
+-----
+1.2.1.3
+COMISIÓN DE EVALUACIÓN DEL
+PROGRAMA DE ESTÍMULOS AL DESEMPEÑO DEL PERSONAL DOCENTE
+PARA LOS INSTITUTOS TECNÓLOGICOS FEDERALES Y CENTROS.
+PRESENTE.
+{
+  "NOMBRE_COMPLETO": "",
+  "HABILIDADES": "",
+  "ASIGNATURA": "",
+  "ESTRATEGIA": "",
+  "PROGRAMA_EDUCATIVO": ""
+}
+-----
+1.3.1.1
+CONSTANCIA DE EXTENCION DE EXAMEN PROFECIONAL
+----
+1.4.8.1.1
+CONSTANCIA DE PARTICIPACIÓN
+{
+  "SUBDIRECTOR_O_DIRECTOR": "",
+  "CARGO_TITULAR": "",
+  "NOMBRE_INSTITUTO": "",
+  "NOMBRE_PROFESOR": "",
+  "NOMBRE_DEPARTAMENTO": "",
+  "DIA": "",
+  "MES": "",
+  "ANIO": "",
+  "CIUDAD_ESTADO": "",
+  "PARTICIPACIONES": [
+    {
+      "DESCRIPCION": ""
+    },
+    {
+      "DESCRIPCION": ""
+    },
+    {
+      "DESCRIPCION": ""
+    }
+  ]
+}
+-----
+1.4.9
+CERTIFICACIÓN DE EXAMEN DE GRADO
+{
+  "NOMBRE_EGRESADO": "",
+  "NOMBRE_MAESTRIA": "",
+  "NOMBRE_INSTITUTO": "",
+  "CIUDAD_ESTADO": "",
+  "DIA": "",
+  "MES": "",
+  "ANIO": "",
+  "TITULO_TESIS": ""
+}
+-----
+04
+CARTA DE EXCLUSIVIDAD LABORAL
+DOCENTES CON PLAZA DE TIEMPO COMPLETO
+{
+  "VAR_FECHA_ESCRITA": "",
+  "VAR_DOCENTE": "",
+  "VAR_FILIACION": "",
+  "VAR_CLAVE_PRESUPUESTAL": ""
+}
+------
+06
+H. COMISION DICTAMINADORA DEL EDD
+PRESENTE
+
+{
+  "VAR_DOCENTE": "",
+  "VAR_REGISTRO": "",
+  "VAR_ANIO": "",
+  "VAR_FECHA": ""
+}
+-----
+1.4.8.3
+Constancia de Participación y Trabajo Terminado
+{
+  "NOMBRE_INSTITUTO": "",
+  "LUGAR_FECHA_EMISION": "",
+  "NOMBRE_JEFE_DEPARTAMENTO": "",
+  "NOMBRE_DEPARTAMENTO": "",
+  "NIVEL": "",
+  "NOMBRE_PROGRAMA_ESTUDIO": "",
+  "FECHA_INICIO": "",
+  "FECHA_TERMINO": "",
+  "PARTICIPANTES": [
+    {
+      "NOMBRE": "",
+      "NUMERO": "",
+      "DEPARTAMENTO": ""
+    },
+    {
+      "NOMBRE": "",
+      "NUMERO": "",
+      "DEPARTAMENTO": ""
+    },
+    {
+      "NOMBRE": "",
+      "NUMERO": "",
+      "DEPARTAMENTO": ""
+    }
+  ]
+}
+------
+1.4.8.3
+Autorización de Apertura de Programa de Estudio.
+{
+  "NUMERO_OFICIO_AUTORIZACION": "",
+  "LUGAR_FECHA_EMISION": "",
+  "PERSONA_TITULAR_INSTITUTO": "",
+  "NOMBRE_INSTITUTO": "",
+  "NIVEL": "",
+  "NOMBRE_PROGRAMA_ESTUDIO": "",
+  "CLAVE_TECNM": "",
+  "PERIODO": ""
+}
+------
+
+1.4.8.2
+Constancia de Participación.
+{
+  "NOMBRE_INSTITUTO": "",
+  "NOMBRE_DEPARTAMENTO": "",
+  "LUGAR_FECHA_EMISION": "",
+  "NOMBRE_PROFESOR": "",
+  "NOMBRE_JEFE_DEPARTAMENTO": "",
+  "NOMBRE_DEPARTAMENTO_REP": "",
+  "NOMBRE_PROFESOR_REP": "",
+  "NOMBRE_LICENCIATURA": "",
+  "FECHA_INICIO": "",
+  "FECHA_TERMINO": "",
+  "MODULOS_ESPECIALIDAD": [
+    { "NOMBRE": "" },
+    { "NOMBRE": "" },
+    { "NOMBRE": "" }
+  ]
+}
+------
+1.4.8.2
+Comisión para Diseño de Módulos de Especialidad.
+{
+  "NOMBRE_INSTITUTO": "",
+  "NUMERO_OFICIO": "",
+  "LUGAR_FECHA_EMISION": "",
+  "NOMBRE_PROFESOR_COMISIONADO": "",
+  "NOMBRE_DEPARTAMENTO": "",
+  "NOMBRE_PROGRAMA_LICENCIATURA": "",
+  "OBJETIVO": "",
+  "FECHA_INICIO": "",
+  "FECHA_TERMINO": "",
+  "NOMBRE_TITULAR": "",
+  "CARGO_TITULAR": ""
+}
+--------
+1.4.8.2
+Registro de Módulos de Especialidad.
+{
+  "NUMERO_OFICIO_REGISTRO": "",
+  "LUGAR_FECHA_EMISION": "",
+  "NOMBRE_TITULAR_INSTITUTO": "",
+  "NOMBRE_INSTITUTO": "",
+  "NOMBRE_LICENCIATURA": "",
+  "MODULOS": [
+    {
+      "CLAVE": "",
+      "NOMBRE_MODULO": "",
+      "HORAS": "",
+      "FECHA_INICIO": "",
+      "FECHA_TERMINO": ""
+    },
+    {
+      "CLAVE": "",
+      "NOMBRE_MODULO": "",
+      "HORAS": "",
+      "FECHA_INICIO": "",
+      "FECHA_TERMINO": ""
+    }
+  ]
+}
+
+

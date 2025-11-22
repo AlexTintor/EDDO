@@ -130,7 +130,25 @@ th, td {
   cursor: pointer;
   color: white;
 }
+.btnBuscar{
+  width: 35px;
+  height: 35px;
+  border-radius: 6px;
+  border: none;
+  background: #273b67;
+  cursor: pointer;
+  margin-top: 15px;
+  padding:0px;
+}
 
+.inputBuscar{
+  width: 80%;
+  height: 35px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  padding: 0 10px;
+  font-size: 16px;
+}
 .btn.descargar { background: #4a6acb; }
 .btn.ver { background: #3c538c; }
 .btn.abrir { background: #273b67; }
@@ -437,6 +455,11 @@ h2{
 .icon-eye{
   width: 30px;
   height: 30px;
+}
+.icon-lupa{
+  width: 20px;
+  height: 20px;
+  margin:0px;
 }
 
 .btnVerContraseña{

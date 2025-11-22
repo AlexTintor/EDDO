@@ -1,11 +1,12 @@
-from flask import Flask, request, jsonify
+import os
+from flask import Flask, after_this_request, request, jsonify, send_file
 import smtplib, random
 from email.message import EmailMessage
 from flask_cors import CORS
 from bdEDDO import validarLogin, traerExpediente, traerReclamos, cambiarContra,cambiarContraActual,guardarMensaje,traerMsjs,registrarDoc
 from bdTec import  traerEmpleados
-from bdEDD import validarRequisitos
-
+from bdEDD import validarRequisito # type: ignore
+from convertirPdf import generar_constancia
 import pyodbc
 app = Flask(__name__)
 CORS(app)
@@ -250,23 +251,26 @@ from flask import jsonify, request
 def traerMensajes():
     data = request.get_json()
     idUsuario = data.get("idUsuario")
-    nombreDoc = data.get("nombreDoc")
+    idReclamo = data.get("nombreDoc")
+    nombreDoc = data.get("documentoSeleccionado")
+
 
     try:
         conexion = conectar_bd("EDDO")
         if not conexion:
             return jsonify({"error": "No se pudo conectar a la base de datos"}), 500
 
-        filas = traerMsjs(conexion, nombreDoc, idUsuario)
+        filas = traerMsjs(conexion, idReclamo, idUsuario,nombreDoc)
 
         if filas:
             mensajes = []
             for fila in filas:
-                remitente, fecha, descripcion = fila
+                remitente, fecha, descripcion,NOMBRE = fila
                 mensajes.append({
                     "remitente": remitente,
                     "fecha": fecha.strftime("%Y-%m-%d %H:%M:%S"),
-                    "descripcion": descripcion
+                    "descripcion": descripcion,
+                    "nombreDoc": NOMBRE 
                 })
             return jsonify({"estatus":True,"msjs":mensajes})
         else:
@@ -276,7 +280,7 @@ def traerMensajes():
         print("❌ Error al consultar mensajes:", e)
         return jsonify({"error": str(e)}), 500
 
-@app.route("/validarRequisitos", methods=["POST"])
+@app.route("/validarRequisito", methods=["POST"])
 def validarRequisitos():
     data = request.get_json()
     idUsuario = data.get("idUsuario")
@@ -288,10 +292,36 @@ def validarRequisitos():
     if not conexion:
         return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
 
-    cumple_requisitos = validarRequisitos(conexion, idUsuario)
+    cumple_requisitos = validarRequisito(conexion, idUsuario)
     conexion.close()
 
     return jsonify({"estatus": True, "cumpleRequisito": cumple_requisitos})
+
+
+
+
+@app.route('/generar-constancia', methods=['POST'])
+def generar():
+    data = request.get_json()
+    nombreDoc = data.get("nombreDoc")
+    datos = data.get("datos")
+
+    # Aquí llamas tu función que genera el PDF
+    path_pdf = generar_constancia(datos,nombreDoc)
+
+    @after_this_request
+    def eliminar_archivo(response):
+        try:
+            if os.path.exists(path_pdf):
+                os.remove(path_pdf)
+                print("🗑️ PDF eliminado automáticamente.")
+        except Exception as e:
+            print("Error eliminando PDF:", e)
+        return response
+
+    # Enviar PDF al frontend
+    return send_file(path_pdf, mimetype="application/pdf")
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)

@@ -177,27 +177,46 @@ def guardarMensaje(conexion, idUsuario, idReclamo,mensaje):
         print("❌ Error al guardar el mensaje:", e)
         return False
     
-def traerMsjs(conexion, nombreDoc, idUsuario):
+def traerMsjs(conexion, idReclamo, idUsuario,nombreDoc):
     try:
         cursor = conexion.cursor()
-        cursor.execute("""
-            SELECT 
-                CO.remitente,
-                CO.fecha,
-                CO.descripcion
-            FROM DOCUMENTO DOC
-            JOIN DOCUMENTO_EXPEDIENTE DE ON DOC.FOLIO = DE.ID_DOCUMENTO
-            JOIN EXPEDIENTE E ON DE.ID_EXPEDIENTE = E.ID_EXPEDIENTE
-            JOIN DOCENTE D ON E.ID_DOCENTE = D.ID_DOCENTE
-            JOIN CONVOCATORIA C ON E.ID_CONVOC = C.ID_CONVOCATORIA
-            JOIN DEPARTAMENTO DEP ON DOC.ID_DEPARTAMENTO = DEP.ID_DEPARTAMENTO
-            JOIN JEFE J ON DEP.JEFE_ID = J.JEFE_ID
-            JOIN TIPO_DOCUMENTO TD ON DOC.ID_TIPO_DOCUMENTO = TD.ID_TIPO_DOCUMENTO
-            JOIN RECLAMO R ON DOC.FOLIO = R.ID_DOCUMENTO
-            JOIN COMENTARIOS CO ON CO.ID_RECLAMO = R.ID_RECLAMO
-            WHERE (D.ID_DOCENTE = ? AND R.id_Reclamo = ?) 
-            OR (J.JEFE_ID   = ? AND R.id_Reclamo = ?)
-        """, (idUsuario, nombreDoc, idUsuario, nombreDoc))
+        query = """
+        SELECT 
+            CO.remitente,
+            CO.fecha,
+            CO.descripcion,
+            DOC.NOMBRE 
+        FROM DOCUMENTO DOC
+        JOIN DOCUMENTO_EXPEDIENTE DE ON DOC.FOLIO = DE.ID_DOCUMENTO
+        JOIN EXPEDIENTE E ON DE.ID_EXPEDIENTE = E.ID_EXPEDIENTE
+        JOIN DOCENTE D ON E.ID_DOCENTE = D.ID_DOCENTE
+        JOIN CONVOCATORIA C ON E.ID_CONVOC = C.ID_CONVOCATORIA
+        JOIN DEPARTAMENTO DEP ON DOC.ID_DEPARTAMENTO = DEP.ID_DEPARTAMENTO
+        JOIN JEFE J ON DEP.JEFE_ID = J.JEFE_ID
+        JOIN TIPO_DOCUMENTO TD ON DOC.ID_TIPO_DOCUMENTO = TD.ID_TIPO_DOCUMENTO
+        JOIN RECLAMO R ON DOC.FOLIO = R.ID_DOCUMENTO
+        JOIN COMENTARIOS CO ON CO.ID_RECLAMO = R.ID_RECLAMO
+        WHERE 
+        (
+            D.ID_DOCENTE = ?
+            AND (R.ID_RECLAMO = ? OR DOC.NOMBRE LIKE ?)
+        )
+        OR
+        (
+            J.JEFE_ID = ?
+            AND (R.ID_RECLAMO = ? OR DOC.NOMBRE LIKE ?)
+        )
+
+        """
+        cursor.execute(query, (
+            idUsuario,
+            idReclamo,
+            f"%{nombreDoc}%",
+            idUsuario,
+            idReclamo,
+            f"%{nombreDoc}%"
+        ))
+
 
         
         filas = cursor.fetchall()

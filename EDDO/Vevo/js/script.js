@@ -185,7 +185,7 @@ async function agregarRegistroDocumento(expediente) {
     return;
   }
     console.log("Expediente recibido para agregar:", expediente);
-
+    tbody.innerHTML = "";
     expediente.expediente.forEach(doc => {
     const tr = document.createElement("tr");
     const estado = doc.APROBACION ? "Generada" : "Pendiente";
@@ -295,6 +295,7 @@ function guardarNombreDoc(){
       const fila = btn.closest("tr");
       
       const nombreDoc = fila.querySelector("td").innerText.trim();
+      localStorage.removeItem("idReclamo", 0);
 
       localStorage.setItem("documentoSeleccionado", nombreDoc);
       console.log("📄 Documento guardado:", nombreDoc);
@@ -412,8 +413,8 @@ async function registrarDocente(nombre,correo,telefono,contra){
   }
 }
 
-function validarRequi(){
-  fetch("http://localhost:5000/validarRequisitos", {
+async function validarRequi(){
+  fetch("http://localhost:5000/validarRequisito", {
           method: "POST",
           headers: {
               "Content-Type": "application/json"
@@ -438,19 +439,52 @@ function loadPage(page) {
       content.innerHTML = html;
 
     if (page === "expediente.html") {
-      agregarRegistroDocumento(await traerDatosExpediente());
+      const expediente = await traerDatosExpediente();
+      const btnBuscar = document.getElementById("btnBuscar");
+      const inputFiltro = document.getElementById("inputBuscar");
+      btnBuscar.addEventListener("click", () => {
+        const expediente2 = {};
+        const listaFiltrada = [];
+        const filtro = inputFiltro.value.toLowerCase();
+        if(filtro !== ""){
+            expediente.expediente.forEach(doc => {
+              if(doc.Nombre_documento.toLowerCase().includes(filtro)){
+                listaFiltrada.push(doc);
+              }
+            });
+          expediente2.expediente = listaFiltrada;
+          agregarRegistroDocumento(expediente2);
+        }else{
+          agregarRegistroDocumento(expediente);
+        }
+      });
+      inputFiltro.addEventListener("input", () => {
+        if(inputFiltro.value === ""){
+          agregarRegistroDocumento(expediente);
+        }else{
+          btnBuscar.click();
+        }
+      });
+      agregarRegistroDocumento(expediente);
+
       guardarNombreDoc();
 
     }
     if(page === "inicio.html"){
-      if (validarRequi){
+      //const validarRequitos = await validarRequi();
+      const validarRequitos = true;
+      if (validarRequitos){
         const nombreDocente = localStorage.getItem("nombreDocente");
         const saludoElemento = document.getElementById("saludoDocente");
         if (saludoElemento && nombreDocente) {
           saludoElemento.textContent = `${nombreDocente}`;
         }
       }else {
-
+        const btnExpediente = document.getElementById("btnExpediente");
+        const btnReclamo = document.getElementById("btnReclamo");
+        btnExpediente.style.display = "none";
+        btnReclamo.style.display = "none";
+        loadPage("noCumple.html");
       }
     }
 
@@ -494,6 +528,7 @@ function loadPage(page) {
 
 async function traerMensajes() {
   try {
+    console.log("📨 Solicitando mensajes para:", localStorage.getItem("idUsuario"), localStorage.getItem("idReclamo"), localStorage.getItem("documentoSeleccionado"));
     const response = await fetch("http://localhost:5000/traer-mensajes", {
       method: "POST",
       headers: {
@@ -501,7 +536,8 @@ async function traerMensajes() {
       },
       body: JSON.stringify({
         idUsuario: localStorage.getItem("idUsuario"),
-        nombreDoc: localStorage.getItem("idReclamo")
+        nombreDoc: localStorage.getItem("idReclamo"),
+        documentoSeleccionado: localStorage.getItem("documentoSeleccionado")
       })
     });
 

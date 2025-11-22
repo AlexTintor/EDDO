@@ -2,18 +2,10 @@ from docx import Document
 from docx2pdf import convert
 import os
 
-def generar_constancia(
-    docente,
-    filiacion,
-    fecha_contratacion,
-    clave_presupuestal,
-    fecha_escrita,
-    dia_mes,
-    fecha_esc_2
-):
-    ruta_docx = r"C:\\VisualStudio\\Python\\EDDO\\EDDO\\EDDO\\Backend\\documentos\\doc1.docx"
-    salida_docx = r"C:\\VisualStudio\\Python\\EDDO\\EDDO\\EDDO\\Backend\\documentos\\constancia_generada1.docx"
-    salida_pdf = r"C:\\VisualStudio\\Python\\EDDO\\EDDO\\EDDO\\Backend\\documentos\\constancia_generada.pdf"
+def generar_constancia(datos,nombreDoc):
+    ruta_docx = r"C:\\VisualStudio\\Python\\EDDO\\EDDO\\EDDO\\Backend\\documentos\\{nombreDoc}.docx".format(nombreDoc=nombreDoc)
+    salida_docx = r"C:\\VisualStudio\\Python\\EDDO\\EDDO\\EDDO\\Backend\\documentos\\temp_{nombreDoc}.docx".format(nombreDoc=nombreDoc)
+    salida_pdf = r"C:\\VisualStudio\\Python\\EDDO\\EDDO\\EDDO\\Backend\\documentos\\{nombreDoc}.pdf".format(nombreDoc=nombreDoc)
     # Leer plantilla Word
     doc = Document(ruta_docx)
 
@@ -30,13 +22,8 @@ def generar_constancia(
                     reemplazar_texto(celda, buscar, reemplazar)
 
     # Reemplazar todas las variables
-    reemplazar_texto(doc, "VARIABLE_DOCENTE", docente)
-    reemplazar_texto(doc, "VARIABLE_FILACION", filiacion)
-    reemplazar_texto(doc, "VAR_FECHA_CONTRATACION", fecha_contratacion)
-    reemplazar_texto(doc, "VAR_CLAVE_PRESUNTUAL", clave_presupuestal)
-    reemplazar_texto(doc, "VAR_FECHA_ESCRITA", fecha_escrita)
-    reemplazar_texto(doc, "VAR_DIA_MES", dia_mes)
-    reemplazar_texto(doc, "VAR_FECHA_ESC_2", fecha_esc_2)
+    for clave, valor in datos.items():
+        reemplazar_texto(doc, clave, valor)
 
     # Guardar el nuevo documento
     doc.save(salida_docx)
@@ -51,13 +38,17 @@ def generar_constancia(
 
     print(f"✅ PDF generado correctamente en:\n{salida_pdf}")
 
-# Ejemplo de uso:
-generar_constancia(
-    docente="Juan Pérez López",
-    filiacion="123456",
-    fecha_contratacion="15 de marzo de 2018",
-    clave_presupuestal="C12345",
-    fecha_escrita="9 de junio de 2025",
-    dia_mes="1 de enero de 2024",
-    fecha_esc_2="9 de junio de 2025"
-)
+    return salida_pdf
+
+
+datos = {
+    "VARIABLE_DOCENTE": "Juan Pérez López",
+    "VARIABLE_FILACION": "123456",
+    "VAR_FECHA_CONTRATACION": "15 de marzo de 2018",
+    "VAR_CLAVE_PRESUNTUAL": "C12345",
+    "VAR_FECHA_ESCRITA": "9 de junio de 2025",
+    "VAR_DIA_MES": "1 de enero de 2024",
+    "VAR_FECHA_ESC_2": "9 de junio de 2025"
+}
+
+generar_constancia(datos, "doc1")
