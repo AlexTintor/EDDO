@@ -1,0 +1,8 @@
+1.2.1.2 Constancia de Trabajo
+"VAR_FECHA":""
+"VAR_NOMB_DOCENTE":""
+"VAR_NOMB_ASIGNATURA":""
+"VAR_NOMB_CARRERA":""
+"VAR_DIA":""
+"VAR_MES":""
+"VAR_AÑO":""
