@@ -1,0 +1,11 @@
+1.2.1.4 Constancia de Productos Obtenidos y su Impacto
+"VAR_FECHA":""
+"VAR_NOMB_DOCENTE":""
+"VAR_NOMB_MATERIA":""
+"VAR_NOMB_ESTRATEGIA":""
+"VAR_NOMB_CARRERA":""
+"VAR_DESC_PRODUCTO":""
+"VAR_DESC_IMPACTO":""
+"VAR_DIA":""
+"VAR_MES":""
+"VAR_AÑO":""
