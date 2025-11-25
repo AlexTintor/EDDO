@@ -111,7 +111,18 @@ table {
   border-radius: 6px;
   overflow: hidden;
 }
-
+tbody{
+  max-height: 75vh;   /* Ajusta la altura como quieras */
+  overflow-y: auto;    /* Habilita el scroll vertical */
+  display: flex;
+  flex-direction: column;
+}
+tr{
+  border-bottom: 1px solid #ddd;
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
 thead {
   background: #273b67;
   color: white;

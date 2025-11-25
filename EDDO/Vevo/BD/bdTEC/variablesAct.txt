@@ -1,25 +1,125 @@
-1.1.5.1
-CONSTANCIA DE TUTORÍA
+------
+1.1.1a
+Formato-para-el-Horario-de-Actividades
 {
-  "VARIABLE_DOCENTE": "",
-  "VARIABLE_DEPARTAMENTO": "",
-  "TUTORIAS": [
-    {
-      "VARIABLE_PERIODO": "",
-      "V_CANTIDAD_ALUMNOS": "",
-      "VARIABLE_CARRERA": ""
-    },
-    {
-      "VARIABLE_PERIODO": "",
-      "V_CANTIDAD_ALUMNOS": "",
-      "VARIABLE_CARRERA": ""
-    }
-  ],
-  "V_TOTAL_ALUMNOS": ""
+  "VAR_NOM_DOCENTE": "",
+  "VAR_CARRERA": "",
+  "VAR_MAESTRIA": "",
+  "VAR_DEPARTAMENTO": "",
+  "V_CLAVE_PLAZA": "",
+  "V_PER_ESC": "",
+  "V_TIPO_NOMBRAMIENTO": "",
+  "V_NO_TARJETA_CONTROL": "",
+  "V_FECHA_INGRESO_SEP": "",
+  "V_FECHA_INGRESO_TEC": "",
+
+  "VARIABLE_ASIGNATURA1": "",
+  "V_GRUPO1": "",
+  "V_EST1": "",
+  "V_TIPO_AULA1": "",
+  "V_NIVEL1": "",
+  "V_MOD1": "",
+  "V_CARRERA1": "",
+  "V_HRSLUNES1": "",
+  "V_HRSMARTES1": "",
+  "V_HRSMIERCOLE1": "",
+  "V_HRSJUEVES1": "",
+  "V_HRSVIERNES1": "",
+  "V_TTL_HRS1": "",
+
+  "VARIABLE_ASIGNATURA2": "",
+  "V_GRUPO2": "",
+  "V_EST2": "",
+  "V_TIPO_AULA2": "",
+  "V_NIVEL2": "",
+  "V_MOD2": "",
+  "V_CARRERA2": "",
+  "V_HRSLUNES2": "",
+  "V_HRSMARTES2": "",
+  "V_HRSMIERCOLE2": "",
+  "V_HRSJUEVES2": "",
+  "V_HRSVIERNES2": "",
+  "V_TTL_HRS2": "",
+
+  "VARIABLE_ASIGNATURA3": "",
+  "V_GRUPO3": "",
+  "V_EST3": "",
+  "V_TIPO_AULA3": "",
+  "V_NIVEL3": "",
+  "V_MOD3": "",
+  "V_CARRERA3": "",
+  "V_HRSLUNES3": "",
+  "V_HRSMARTES3": "",
+  "V_HRSMIERCOLE3": "",
+  "V_HRSJUEVES3": "",
+  "V_HRSVIERNES3": "",
+  "V_TTL_HRS3": "",
+
+  "VARIABLE_ASIGNATURA4": "",
+  "V_GRUPO4": "",
+  "V_EST4": "",
+  "V_TIPO_AULA4": "",
+  "V_NIVEL4": "",
+  "V_MOD4": "",
+  "V_CARRERA4": "",
+  "V_HRSLUNES4": "",
+  "V_HRSMARTES4": "",
+  "V_HRSMIERCOLE4": "",
+  "V_HRSJUEVES4": "",
+  "V_HRSVIERNES4": "",
+  "V_TTL_HRS4": "",
+
+  "V_HRSL": "",
+  "V_HRSMA": "",
+  "V_HRSMI": "",
+  "V_HRSJ": "",
+  "V_HRSV": "",
+  "V_TTL_HRST1": "",
+  "V_SBTTL_HRST1": "",
+
+  "V_NOMB_ACT1": "",
+  "V_HRSLUNES5": "",
+  "V_HRSMARTES5": "",
+  "V_HRSMIERCOLE5": "",
+  "V_HRSJUEVES5": "",
+  "V_HRSVIERNES5": "",
+  "V_TTL_HRS5": "",
+
+  "V_NOMB_ACT2": "",
+  "V_HRSLUNES6": "",
+  "V_HRSMARTE6": "",
+  "V_TTL_HRS6": "",
+
+  "V_NOMB_ACT3": "",
+  "V_HRSMIERCOLE7": "",
+  "V_HRSJUEVES7": "",
+  "V_TTL_HRS7": "",
+  "V_SBTTL_HRST2": "",
+  "V_TTL_HRST2": "",
+
+  "V_SBTTL_HRST3": "",
+  "V_TTL_HRST3": "",
+  "V_TTL_HRST4": ""
 }
+
+------
+1.1.5.1
+Constancia-De-Tutoria
+{
+  "VAR_NOM_DOCENTE": "",
+  "VAR_DEPARTAMENTO": "",
+  "VAR_PERIODO1": "",
+  "VAR_CANTIDAD_ALUMNOS1": "",
+  "VAR_CARRERA1": "",
+  "VAR_PERIODO2": "",
+  "VAR_CANTIDAD_ALUMNOS2": "",
+  "VAR_CARRERA2": "",
+  "VAR_TOTAL_ALUMNOS": ""
+}
+
 ------
 1.1.6b
-Consejo Nacional de Acreditación 
+Consejo_Nacional_de_Acreditación
 {
   "V_FECHA_INICIO": "",
   "V_FECHA_FINAL": "",
@@ -49,6 +149,19 @@ PRESENTE.
   "PROGRAMA": ""
 }
 -----
+1.2.1.2 
+Constancia de Trabajo
+{
+  "VAR_FECHA": "",
+  "VAR_NOMB_DOCENTE": "",
+  "VAR_NOMB_ASIGNATURA": "",
+  "VAR_NOMB_CARRERA": "",
+  "VAR_DIA": "",
+  "VAR_MES": "",
+  "VAR_AÑO": ""
+}
+------
+
 1.2.1.3
 COMISIÓN DE EVALUACIÓN DEL
 PROGRAMA DE ESTÍMULOS AL DESEMPEÑO DEL PERSONAL DOCENTE
@@ -62,10 +175,379 @@ PRESENTE.
   "PROGRAMA_EDUCATIVO": ""
 }
 -----
+1.2.1.4
+Constancia de Productos Obtenidos y su Impacto
+{
+  "VAR_FECHA": "",
+  "VAR_NOMB_DOCENTE": "",
+  "VAR_NOMB_MATERIA": "",
+  "VAR_NOMB_ESTRATEGIA": "",
+  "VAR_NOMB_CARRERA": "",
+  "VAR_DESC_PRODUCTO": "",
+  "VAR_DESC_IMPACTO": "",
+  "VAR_DIA": "",
+  "VAR_MES": "",
+  "VAR_AÑO": ""
+}
+-----
+1.2.2.1
+OFICIO_COMISION:
+{
+  "VAR_OFICIO_COMISION": "",
+  "VAR_NOMBRE_DOCENTE": "",
+  "VAR_NOMBRE_CURSO": "",
+  "VAR_INSTITUCION_CURSO": "",
+  "VAR_FECHA_INICIO_COMISION": "",
+  "VAR_FECHA_FIN_COMISION": "",
+  "VAR_NOMBRE_JEFE_DDA": ""
+}
+--------
+1.2.2.2
+OFICIO_COMISION:
+{
+  "VAR_OFICIO_COMISION": "",
+  "VAR_NOMBRE_DOCENTE": "",
+  "VAR_NOMBRE_CURSO": "",
+  "VAR_FECHA_INICIO_COMISION": "",
+  "VAR_FECHA_FIN_COMISION": "",
+  "VAR_NOMBRE_JEFE_DDA": ""
+}
+---------
+1.2.2.3
+OFICIO_COMISION:
+{
+  "VAR_OFICIO_COMISION": "",
+  "VAR_NOMBRE_DOCENTE": "",
+  "VAR_NOMBRE_CURSO": "",
+  "VAR_FECHA_INICIO_COMISION": "",
+  "VAR_FECHA_FIN_COMISION": "",
+  "VAR_NOMBRE_DIRECTOR": ""
+}
+--------
+1.2.2.4
+CONSTANCIA_DDIE:
+{
+  "VAR_FOLIO_CONSTANCIA": "",
+  "VAR_NOMBRE_DOCENTE": "",
+  "VAR_DURACION_HRS": "",
+  "VAR_PERIODO": "",
+  "VAR_DIA": "",
+  "VAR_MES": "",
+  "VAR_ANIO": "",
+  "VAR_NOMBRE_DIRECTOR_DDIE": ""
+}
+------------
+1.2.2.5
+OFICIO_COMISION:
+{
+  "VAR_OFICIO_COMISION": "",
+  "VAR_NOMBRE_DOCENTE": "",
+  "VAR_NOMBRE_CURSO": "",
+  "VAR_FECHA_INICIO_COMISION": "",
+  "VAR_FECHA_FIN_COMISION": "",
+  "VAR_NOMBRE_JEFE_DDA": ""
+}
+-----------
+1.2.2.6
+OFICIO_COMISION:
+{
+  "VAR_OFICIO_COMISION": "",
+  "VAR_NOMBRE_DOCENTE": "",
+  "VAR_NOMBRE_CURSO": "",
+  "VAR_FECHA_INICIO_COMISION": "",
+  "VAR_FECHA_FIN_COMISION": "",
+  "VAR_NOMBRE_JEFE_DDA": ""
+}
+-------------
+1.2.2.7
+OFICIO_COMISION:
+{
+  "VAR_OFICIO_COMISION": "",
+  "VAR_NOMBRE_DOCENTE": "",
+  "VAR_NOMBRE_CURSO": "",
+  "VAR_FECHA_INICIO_COMISION": "",
+  "VAR_FECHA_FIN_COMISION": "",
+  "VAR_NOMBRE_JEFE_DDA": ""
+}
+---------
 1.3.1.1
-CONSTANCIA DE EXTENCION DE EXAMEN PROFECIONAL
+Constancia De Exencion De Examen Licenciatura:
+{
+  "VAR_FOLIO": "",
+  "VAR_NOMBRE_COMPLETO": "",
+  "VAR_NOCONTROL": "",
+  "VAR_INSTITUTO": "",
+  "VAR_CLAVE": "",
+  "VAR_CARRERA": "",
+  "VAR_OPCION_TITULACION": "",
+  "VAR_DIA": "",
+  "VAR_MES": "",
+  "VAR_AÑO": "",
+  "VAR_NOMBRE_PRESI": "",
+  "VAR_CEDULA_PRESI": "",
+  "VAR_NOMBRE_SECRE": "",
+  "VAR_CEDULA_SECRE": "",
+  "VAR_NOMBRE_VOCAL": "",
+  "VAR_CEDULA_VOCAL": ""
+}
+-------
+1.3.1.2
+Constancia De Exencion De Examen Especializacion:
+{
+  "VAR_FOLIO": "",
+  "VAR_NOMBRE_COMPLETO": "",
+  "VAR_NOCONTROL": "",
+  "VAR_INSTITUTO": "",
+  "VAR_CLAVE": "",
+  "VAR_CARRERA": "",
+  "VAR_OPCION_TITULACION": "",
+  "VAR_DIA": "",
+  "VAR_MES": "",
+  "VAR_AÑO": "",
+  "VAR_NOMBRE_PRESI": "",
+  "VAR_CEDULA_PRESI": "",
+  "VAR_NOMBRE_SECRE": "",
+  "VAR_CEDULA_SECRE": "",
+  "VAR_NOMBRE_VOCAL": "",
+  "VAR_CEDULA_VOCAL": ""
+}
+------
+1.3.1.3
+Constancia De Exencion De Examen Maestria:
+{
+  "VAR_FOLIO": "",
+  "VAR_NOMBRE_COMPLETO": "",
+  "VAR_NOCONTROL": "",
+  "VAR_INSTITUTO": "",
+  "VAR_CLAVE": "",
+  "VAR_CARRERA": "",
+  "VAR_OPCION_TITULACION": "",
+  "VAR_DIA": "",
+  "VAR_MES": "",
+  "VAR_AÑO": "",
+  "VAR_NOMBRE_PRESI": "",
+  "VAR_CEDULA_PRESI": "",
+  "VAR_NOMBRE_SECRE": "",
+  "VAR_CEDULA_SECRE": "",
+  "VAR_NOMBRE_VOCAL": "",
+  "VAR_CEDULA_VOCAL": ""
+}
+-------------
+1.3.1.4
+Constancia De Exencion De Examen Maestria.Codirector:
+{
+  "VAR_FOLIO": "",
+  "VAR_NOMBRE_COMPLETO": "",
+  "VAR_NOCONTROL": "",
+  "VAR_INSTITUTO": "",
+  "VAR_CLAVE": "",
+  "VAR_CARRERA": "",
+  "VAR_OPCION_TITULACION": "",
+  "VAR_DIA": "",
+  "VAR_MES": "",
+  "VAR_AÑO": "",
+  "VAR_NOMBRE_PRESI": "",
+  "VAR_CEDULA_PRESI": "",
+  "VAR_NOMBRE_SECRE": "",
+  "VAR_CEDULA_SECRE": "",
+  "VAR_NOMBRE_VOCAL": "",
+  "VAR_CEDULA_VOCAL": ""
+}
+----------
+1.3.1.5
+Constancia De Exencion De Examen Doctorado:
+{
+  "VAR_FOLIO": "",
+  "VAR_NOMBRE_COMPLETO": "",
+  "VAR_NOCONTROL": "",
+  "VAR_INSTITUTO": "",
+  "VAR_CLAVE": "",
+  "VAR_CARRERA": "",
+  "VAR_OPCION_TITULACION": "",
+  "VAR_DIA": "",
+  "VAR_MES": "",
+  "VAR_AÑO": "",
+  "VAR_NOMBRE_PRESI": "",
+  "VAR_CEDULA_PRESI": "",
+  "VAR_NOMBRE_SECRE": "",
+  "VAR_CEDULA_SECRE": "",
+  "VAR_NOMBRE_VOCAL": "",
+  "VAR_CEDULA_VOCAL": ""
+}
+----------
+1.3.1.6
+Constancia De Exencion De Examen Doctorado.Codirector:
+{
+  "VAR_FOLIO": "",
+  "VAR_NOMBRE_COMPLETO": "",
+  "VAR_NOCONTROL": "",
+  "VAR_INSTITUTO": "",
+  "VAR_CLAVE": "",
+  "VAR_CARRERA": "",
+  "VAR_OPCION_TITULACION": "",
+  "VAR_DIA": "",
+  "VAR_MES": "",
+  "VAR_AÑO": "",
+  "VAR_NOMBRE_PRESI": "",
+  "VAR_CEDULA_PRESI": "",
+  "VAR_NOMBRE_SECRE": "",
+  "VAR_CEDULA_SECRE": "",
+  "VAR_NOMBRE_VOCAL": "",
+  "VAR_CEDULA_VOCAL": ""
+}
+---------------
+1.3.2.1
+{
+  "VAR_NOMB_DOCENTE": "",
+  "VAR_FECHA_INICIO": "",
+  "VAR_FECHA_FIN": "",
+  "VAR_FOLIO1": "",
+  "VAR_FECHA1": "",
+  "VAR_NOM_ALUM1": "",
+  "VAR_CARRERA1": "",
+  "VAR_FUNCION1": "",
+  "VAR_FOLIO2": "",
+  "VAR_FECHA2": "",
+  "VAR_NOM_ALUM2": "",
+  "VAR_CARRERA2": "",
+  "VAR_FUNCION2": "",
+  "VAR_FOLIO3": "",
+  "VAR_FECHA3": "",
+  "VAR_NOM_ALUM3": "",
+  "VAR_CARRERA3": "",
+  "VAR_FUNCION3": "",
+  "VAR_LDIA": "",
+  "VAR_LMES": "",
+  "VAR_LAÑO": ""
+}
+
+-----------
+1.3.2.2
+Constancia SINODAL Licenciatura:
+{
+  "VAR_NOMB_DOCENTE": "",
+  "VAR_FECHA_INICIO": "",
+  "VAR_FECHA_FIN": "",
+  "VAR_FOLIO1": "",
+  "VAR_FECHA1": "",
+  "VAR_NOM_ALUM1": "",
+  "VAR_CARRERA1": "",
+  "VAR_FUNCION1": "",
+  "VAR_FOLIO2": "",
+  "VAR_FECHA2": "",
+  "VAR_NOM_ALUM2": "",
+  "VAR_CARRERA2": "",
+  "VAR_FUNCION2": "",
+  "VAR_FOLIO3": "",
+  "VAR_FECHA3": "",
+  "VAR_NOM_ALUM3": "",
+  "VAR_CARRERA3": "",
+  "VAR_FUNCION3": "",
+  "VAR_LDIA": "",
+  "VAR_LMES": "",
+  "VAR_LAÑO": ""
+}
+
+--------------
+1.3.2.3
+Constancia SINODAL Especializacion:
+{
+  "VAR_NOMB_DOCENTE": "",
+  "VAR_FECHA_INICIO": "",
+  "VAR_FECHA_FIN": "",
+  "VAR_FOLIO1": "",
+  "VAR_FECHA1": "",
+  "VAR_NOM_ALUM1": "",
+  "VAR_CARRERA1": "",
+  "VAR_FUNCION1": "",
+  "VAR_FOLIO2": "",
+  "VAR_FECHA2": "",
+  "VAR_NOM_ALUM2": "",
+  "VAR_CARRERA2": "",
+  "VAR_FUNCION2": "",
+  "VAR_FOLIO3": "",
+  "VAR_FECHA3": "",
+  "VAR_NOM_ALUM3": "",
+  "VAR_CARRERA3": "",
+  "VAR_FUNCION3": "",
+  "VAR_LDIA": "",
+  "VAR_LMES": "",
+  "VAR_LAÑO": ""
+}
+
+------------
+1.3.2.4
+Constancia SINODAL Maestria:
+{
+  "VAR_NOMB_DOCENTE": "",
+  "VAR_FECHA_INICIO": "",
+  "VAR_FECHA_FIN": "",
+  "VAR_FOLIO1": "",
+  "VAR_FECHA1": "",
+  "VAR_NOM_ALUM1": "",
+  "VAR_CARRERA1": "",
+  "VAR_FUNCION1": "",
+  "VAR_FOLIO2": "",
+  "VAR_FECHA2": "",
+  "VAR_NOM_ALUM2": "",
+  "VAR_CARRERA2": "",
+  "VAR_FUNCION2": "",
+  "VAR_FOLIO3": "",
+  "VAR_FECHA3": "",
+  "VAR_NOM_ALUM3": "",
+  "VAR_CARRERA3": "",
+  "VAR_FUNCION3": "",
+  "VAR_LDIA": "",
+  "VAR_LMES": "",
+  "VAR_LAÑO": ""
+}
+
+--------------
+1.3.2.5
+Constancia SINODAL Doctorado:
+{
+  "VAR_NOMB_DOCENTE": "",
+  "VAR_FECHA_INICIO": "",
+  "VAR_FECHA_FIN": "",
+  "VAR_FOLIO1": "",
+  "VAR_FECHA1": "",
+  "VAR_NOM_ALUM1": "",
+  "VAR_CARRERA1": "",
+  "VAR_FUNCION1": "",
+  "VAR_FOLIO2": "",
+  "VAR_FECHA2": "",
+  "VAR_NOM_ALUM2": "",
+  "VAR_CARRERA2": "",
+  "VAR_FUNCION2": "",
+  "VAR_FOLIO3": "",
+  "VAR_FECHA3": "",
+  "VAR_NOM_ALUM3": "",
+  "VAR_CARRERA3": "",
+  "VAR_FUNCION3": "",
+  "VAR_LDIA": "",
+  "VAR_LMES": "",
+  "VAR_LAÑO": ""
+}
+
+
 ----
-1.4.8.1.1
+1.4.1
+CONSTANCIA_CUMPLIMIENTO:
+{
+  "VAR_FOLIO_CONSTANCIA": "",
+  "VAR_NOMBRE_DOCENTE": "",
+  "VAR_ASIGNATURA_ASESORIA": "",
+  "VAR_PERIODO_CONSTANCIA": "",
+  "VAR_TOTAL_ESTUDIANTES": "",
+  "VAR_DIA_CONSTANCIA": "",
+  "VAR_MES_CONSTANCIA": "",
+  "VAR_ANIO_CONSTANCIA": "",
+  "VAR_NOMBRE_JEFE_CB": "",
+  "VAR_NOMBRE_SUBDIRECTOR_ACADEMICO": ""
+}
+
+-----
+1.4.8.1
 CONSTANCIA DE PARTICIPACIÓN
 {
   "SUBDIRECTOR_O_DIRECTOR": "",
@@ -103,6 +585,10 @@ CERTIFICACIÓN DE EXAMEN DE GRADO
   "TITULO_TESIS": ""
 }
 -----
+
+
+
+------
 04
 CARTA DE EXCLUSIVIDAD LABORAL
 DOCENTES CON PLAZA DE TIEMPO COMPLETO

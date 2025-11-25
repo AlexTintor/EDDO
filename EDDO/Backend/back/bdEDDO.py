@@ -20,16 +20,11 @@ def traerExpediente(conexion, idUsuario):
 
         cursor.execute("""
             SELECT 
-                DOC.NOMBRE AS NOMBRE_DOCUMENTO,
-                DOC.APROBACION
+                DOC.NOMBRE AS NOMBRE_DOCUMENTO
             FROM DOCUMENTO DOC
             JOIN DOCUMENTO_EXPEDIENTE DE ON DOC.FOLIO = DE.ID_DOCUMENTO
             JOIN EXPEDIENTE E ON DE.ID_EXPEDIENTE = E.ID_EXPEDIENTE
             JOIN DOCENTE D ON E.ID_DOCENTE = D.ID_DOCENTE
-            JOIN CONVOCATORIA C ON E.ID_CONVOC = C.ID_CONVOCATORIA
-            JOIN DEPARTAMENTO DEP ON DOC.ID_DEPARTAMENTO = DEP.ID_DEPARTAMENTO
-            JOIN JEFE J ON DEP.JEFE_ID = J.JEFE_ID
-            JOIN TIPO_DOCUMENTO TD ON DOC.ID_TIPO_DOCUMENTO = TD.ID_TIPO_DOCUMENTO
             WHERE D.ID_DOCENTE = ?
         """, (idUsuario,)) 
 
@@ -38,8 +33,7 @@ def traerExpediente(conexion, idUsuario):
             expediente = []
             for fila in filas:
                 expediente.append({
-                    "Nombre_documento": fila[0],
-                    "APROBACION": fila[1]
+                    "Nombre_documento": fila[0]
                 })
             return expediente
         else:
@@ -48,7 +42,24 @@ def traerExpediente(conexion, idUsuario):
     except Exception as e:
         print("❌ Error al consultar expediente:", e)
         return None
+    
+def todosDocumentos(conexion):
+    try:
+        cursor = conexion.cursor()
+        cursor.execute("""SELECT NOMBRE 
+                       FROM DOCUMENTO""")
+        filas = cursor.fetchall()
 
+        documentos = []
+        for fila in filas:
+            documentos.append({
+                "NOMBRE": fila.NOMBRE
+            })
+        return documentos
+
+    except Exception as e:
+        print("❌ Error al consultar documentos:", e)
+        return None
 def traerReclamos(conexion, idUsuario):
     try:
         cursor = conexion.cursor()
@@ -62,10 +73,8 @@ def traerReclamos(conexion, idUsuario):
             JOIN DOCUMENTO_EXPEDIENTE DE ON DOC.FOLIO = DE.ID_DOCUMENTO
             JOIN EXPEDIENTE E ON DE.ID_EXPEDIENTE = E.ID_EXPEDIENTE
             JOIN DOCENTE D ON E.ID_DOCENTE = D.ID_DOCENTE
-            JOIN CONVOCATORIA C ON E.ID_CONVOC = C.ID_CONVOCATORIA
             JOIN DEPARTAMENTO DEP ON DOC.ID_DEPARTAMENTO = DEP.ID_DEPARTAMENTO
             JOIN JEFE J ON DEP.JEFE_ID = J.JEFE_ID
-            JOIN TIPO_DOCUMENTO TD ON DOC.ID_TIPO_DOCUMENTO = TD.ID_TIPO_DOCUMENTO
             JOIN RECLAMO R ON DOC.FOLIO = R.ID_DOCUMENTO
             where D.ID_DOCENTE = ? or J.JEFE_ID = ?
         """, (idUsuario, idUsuario)) 
@@ -159,23 +168,67 @@ def registrarDoc(conexion,nombre, correo, telefono, contra):
         except:
             pass
 
-def guardarMensaje(conexion, idUsuario, idReclamo,mensaje):
+def guardarMensaje(conexion, idUsuario, idReclamo, mensaje, nombreDoc):
     try:
         cursor = conexion.cursor()
-        if idUsuario:
-            if int(idUsuario) >= 1000:
-                remitente = "JEFE"
+
+        # Determinar remitente
+        if idUsuario and int(idUsuario) >= 1000:
+            remitente = "JEFE"
+        else:
+            remitente = "DOCENTE"
+
+        # =========================================
+        # 1. SI EL ID_RECLAMO NO VIENE, SE BUSCA
+        # =========================================
+        if idReclamo is None:
+            cursor.execute("""
+                SELECT R.ID_RECLAMO
+                FROM RECLAMO R
+                JOIN DOCUMENTO DOC ON R.ID_DOCUMENTO = DOC.FOLIO
+                WHERE DOC.NOMBRE = ?
+            """, (nombreDoc,))
+            
+            resultado = cursor.fetchone()
+            print("Resultado SELECT reclamo:", resultado)
+
+            if resultado:  
+                idReclamo = resultado[0]   # ✔ resultado.ID_RECLAMO NO EXISTE, se usa índice
             else:
-                remitente = "DOCENTE"
+                # Crear reclamo nuevo
+                cursor.execute("""
+                    INSERT INTO RECLAMO (ID_DOCUMENTO, FECHA)
+                    VALUES ((SELECT FOLIO FROM DOCUMENTO WHERE NOMBRE = ?), GETDATE())
+                """, (nombreDoc,))
+                conexion.commit()
+
+                # Volvemos a consultar el ID recién creado
+                cursor.execute("""
+                    SELECT R.ID_RECLAMO
+                    FROM RECLAMO R
+                    JOIN DOCUMENTO DOC ON R.ID_DOCUMENTO = DOC.FOLIO
+                    WHERE DOC.NOMBRE = ?
+                    ORDER BY R.ID_RECLAMO DESC
+                """, (nombreDoc,))
+
+                resultado = cursor.fetchone()
+                idReclamo = resultado[0]
+
+        # =========================================
+        # 2. Insertar comentario
+        # =========================================
         cursor.execute("""
             INSERT INTO COMENTARIOS (ID_RECLAMO, DESCRIPCION, FECHA, REMITENTE)
-            VALUES (?, ?, GETDATE(),?)
+            VALUES (?, ?, GETDATE(), ?)
         """, (idReclamo, mensaje, remitente))
+
         conexion.commit()
         return True
+
     except Exception as e:
         print("❌ Error al guardar el mensaje:", e)
         return False
+
     
 def traerMsjs(conexion, idReclamo, idUsuario,nombreDoc):
     try:
@@ -193,7 +246,6 @@ def traerMsjs(conexion, idReclamo, idUsuario,nombreDoc):
         JOIN CONVOCATORIA C ON E.ID_CONVOC = C.ID_CONVOCATORIA
         JOIN DEPARTAMENTO DEP ON DOC.ID_DEPARTAMENTO = DEP.ID_DEPARTAMENTO
         JOIN JEFE J ON DEP.JEFE_ID = J.JEFE_ID
-        JOIN TIPO_DOCUMENTO TD ON DOC.ID_TIPO_DOCUMENTO = TD.ID_TIPO_DOCUMENTO
         JOIN RECLAMO R ON DOC.FOLIO = R.ID_DOCUMENTO
         JOIN COMENTARIOS CO ON CO.ID_RECLAMO = R.ID_RECLAMO
         WHERE 
@@ -225,4 +277,27 @@ def traerMsjs(conexion, idReclamo, idUsuario,nombreDoc):
     except Exception as e:
         print("❌ Error al traer los mensajes:", e)
         return False
+    
+
+def traerDocumentosEDDO(conexion,idUsuario):
+    try:
+        cursor = conexion.cursor()
+        cursor.execute("""SELECT  D.NOMBRE 
+                       FROM DOCUMENTO D
+                       INNER JOIN DOCUMENTO_EXPEDIENTE DE ON D.FOLIO = DE.ID_DOCUMENTO
+                       INNER JOIN EXPEDIENTE E ON DE.ID_EXPEDIENTE = E.ID_EXPEDIENTE
+                       INNER JOIN DOCENTE DO ON E.ID_DOCENTE = DO.ID_DOCENTE
+                       WHERE  DO.ID_DOCENTE = ?""", (idUsuario,))
+        filas = cursor.fetchall()
+
+        documentos = []
+        for fila in filas:
+            documentos.append({
+                "NOMBRE": fila.NOMBRE
+            })
+        return documentos
+
+    except Exception as e:
+        print("❌ Error al consultar documentos:", e)
+        return None
 

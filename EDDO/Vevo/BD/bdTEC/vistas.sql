@@ -67,34 +67,30 @@ INSERT INTO PLAZA (ID_PLAZA, HORARIO) VALUES
 -- =====================================
 -- DEPARTAMENTO
 -- =====================================
-INSERT INTO DEPARTAMENTO (ID_DEPARTAMENTO, NOMBRE, CONTRA, CORREO) VALUES
-(1, 'Ventas', 'ventas123', 'ventas@tecnm.mx'),
-(2, 'Recursos Humanos', 'rh123', 'rh@tecnm.mx'),
-(3, 'Técnico', 'tec123', 'tecnico@tecnm.mx'),
-(4, 'Administración', 'adm123', 'admin@tecnm.mx'),
-(5, 'Marketing', 'mkt123', 'marketing@tecnm.mx'),
-(6, 'Finanzas', 'fin123', 'finanzas@tecnm.mx'),
-(7, 'Compras', 'cmp123', 'compras@tecnm.mx'),
-(8, 'Logística', 'log123', 'logistica@tecnm.mx'),
-(9, 'Calidad', 'cal123', 'calidad@tecnm.mx'),
-(10, 'IT', 'it123', 'it@tecnm.mx');
-
+INSERT INTO DEPARTAMENTO (ID_DEPARTAMENTO, NOMBRE) VALUES
+(1, 'Ventas'),
+(2, 'Recursos Humano@t'),
+(3, 'Técnico'),
+(4, 'Administración'),
+(5, 'Marketing'),
+(6, 'Finanzas'),
+(7, 'Compras'),
+(8, 'Logística'),
+(9, 'Calidad'),
+(10, 'IT');
 -- =====================================
--- EMPLEADO
--- =====================================
-INSERT INTO EMPLEADO (ID_EMPLEADO, ID_PLAZA, ID_DEPARTAMENTO, ID_TIPO, NOMBRE, CAMPUS, TELEFONO, CORREO, CONTRASENA) VALUES
-(1, 1, 1, 1, 'Ana Torres', 'Culiacán', '6671234567', 'ana.torres@tecnm.mx', 'ana123'),
-(2, 2, 2, 2, 'Juan Pérez', 'Culiacán', '6672345678', 'juan.perez@tecnm.mx', 'jp123'),
-(3, 3, 3, 3, 'María López', 'Culiacán', '6673456789', 'maria.lopez@tecnm.mx', 'ml123'),
-(4, 1, 4, 2, 'Carlos Ruiz', 'Culiacán', '6674567890', 'carlos.ruiz@tecnm.mx', 'cr123'),
-(5, 2, 5, 1, 'Sofía Martínez', 'Culiacán', '6675678901', 'sofia.martinez@tecnm.mx', 'sm123'),
-(6, 3, 6, 3, 'Pedro Sánchez', 'Culiacán', '6676789012', 'pedro.sanchez@tecnm.mx', 'ps123'),
-(7, 1, 7, 4, 'Laura Díaz', 'Culiacán', '6677890123', 'laura.diaz@tecnm.mx', 'ld123'),
-(8, 2, 8, 2, 'Miguel Herrera', 'Culiacán', '6678901234', 'miguel.herrera@tecnm.mx', 'mh123'),
-(9, 3, 9, 3, 'Elena Vargas', 'Culiacán', '6679012345', 'elena.vargas@tecnm.mx', 'ev123'),
-(10, 1, 10, 1, 'Luis Torres', 'Culiacán', '6670123456', 'luis.torres@tecnm.mx', 'lt123'),
-(1000,1,3,1, 'Carlos Gómez','Culiacán','6675558954', 'carlos@eddo.mx','abcd');
-
+INSERT INTO EMPLEADO (ID_EMPLEADO, ID_PLAZA, ID_DEPARTAMENTO, NOMBRE, CAMPUS, TELEFONO, CORREO, CONTRA) VALUES
+(1, 1, 1, 'Ana Torres', 'Culiacán', '6671234567', 'ana.torres@tecnm.mx', 'ana123'),
+(2, 2, 2, 'Juan Pérez', 'Culiacán', '6672345678', 'juan.perez@tecnm.mx', 'jp123'),
+(3, 3, 3, 'María López', 'Culiacán', '6673456789', 'maria.lopez@tecnm.mx', 'ml123'),
+(4, 1, 4, 'Carlos Ruiz', 'Culiacán', '6674567890', 'carlos.ruiz@tecnm.mx', 'cr123'),
+(5, 2, 5, 'Sofía Martínez', 'Culiacán', '6675678901', 'sofia.martinez@tecnm.mx', 'sm123'),
+(6, 3, 6, 'Pedro Sánchez', 'Culiacán', '6676789012', 'pedro.sanchez@tecnm.mx', 'ps123'),
+(7, 1, 7, 'Laura Díaz', 'Culiacán', '6677890123', 'laura.diaz@tecnm.mx', 'ld123'),
+(8, 2, 8, 'Miguel Herrera', 'Culiacán', '6678901234', 'miguel.herrera@tecnm.mx', 'mh123'),
+(9, 3, 9, 'Elena Vargas', 'Culiacán', '6679012345', 'elena.vargas@tecnm.mx', 'ev123'),
+(10, 1, 10, 'Luis Torres', 'Culiacán', '6670123456', 'luis.torres@tecnm.mx', 'lt123'),
+(1000,1,3, 'Carlos Gómez','Culiacán','6675558954', 'carlos@eddo.mx','abcd');
 -- =====================================
 -- TIPO_ACTIVIDAD
 -- =====================================

@@ -176,7 +176,7 @@ async function actualizarDatosCuenta(){
 
 
   /* Funcion para agregar un nuevo documento a la tabla de expediente */
-async function agregarRegistroDocumento(expediente) {
+async function agregarRegistroDocumento(expediente,documentos) {
   const tbody = document.querySelector("#tablaDocumentos tbody");
 
 
@@ -184,14 +184,18 @@ async function agregarRegistroDocumento(expediente) {
     console.error("No se pudieron obtener los datos del expediente.");
     return;
   }
-    console.log("Expediente recibido para agregar:", expediente);
-    tbody.innerHTML = "";
-    expediente.expediente.forEach(doc => {
+
+  console.log("Expediente recibido para agregar:", expediente);
+  tbody.innerHTML = "";
+  //expediente.expediente.forEach(doc => {
+  documentos.Documentos.forEach(doc => {
+    //const existe = documentos.Documentos.some(item => item.Nombre === doc.Nombre_documento);
+    const existe = expediente.expediente.some(item => item.Nombre_documento === doc.NOMBRE);
     const tr = document.createElement("tr");
-    const estado = doc.APROBACION ? "Generada" : "Pendiente";
+    const estado = existe ? "Generada" : "Pendiente";
 
     tr.innerHTML = `
-      <td><i></i> ${doc.Nombre_documento}</td>
+      <td><i></i> ${doc.NOMBRE}</td>
       <td class="status ${estado}"><i></i> ${estado}</td>
       <td><button class="btn descargar">Descargar</button></td>
       <td><button class="btn ver" data-section="ver-documento">Ver</button></td>
@@ -367,6 +371,28 @@ async function traerDatosExpediente() {
   }
 }
 
+async function todosDocumentos() {
+  try {
+    const response = await fetch("http://localhost:5000/todosDocumentos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" }
+    });
+
+    const data = await response.json();
+
+    if (data.estatus) {
+      console.log("Datos de los documentos:", data);
+      return data;
+    } else {
+      console.error("Error:", data.error);
+      return null;
+    }
+  } catch (error) {
+    console.error("Error en todos los documentos:", error);
+    return null;
+  }
+}
+
 function registro(){
   const btnRegistro = document.getElementById("btnRegistro");
   const lblError = document.getElementById("lblError");
@@ -440,6 +466,7 @@ function loadPage(page) {
 
     if (page === "expediente.html") {
       const expediente = await traerDatosExpediente();
+      const documentos = await todosDocumentos();
       const btnBuscar = document.getElementById("btnBuscar");
       const inputFiltro = document.getElementById("inputBuscar");
       btnBuscar.addEventListener("click", () => {
@@ -453,19 +480,19 @@ function loadPage(page) {
               }
             });
           expediente2.expediente = listaFiltrada;
-          agregarRegistroDocumento(expediente2);
+          agregarRegistroDocumento(expediente2, documentos);
         }else{
-          agregarRegistroDocumento(expediente);
+          agregarRegistroDocumento(expediente,documentos);
         }
       });
       inputFiltro.addEventListener("input", () => {
         if(inputFiltro.value === ""){
-          agregarRegistroDocumento(expediente);
+          agregarRegistroDocumento(expediente,documentos);
         }else{
           btnBuscar.click();
         }
       });
-      agregarRegistroDocumento(expediente);
+      agregarRegistroDocumento(expediente,documentos);
 
       guardarNombreDoc();
 
@@ -632,7 +659,7 @@ function mandarMsjAlBackend(mensaje) {
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ idUsuario: localStorage.getItem("idUsuario"), idReclamo: localStorage.getItem("idReclamo"), mensaje: mensaje })
+    body: JSON.stringify({ idUsuario: localStorage.getItem("idUsuario"), idReclamo: localStorage.getItem("idReclamo"), mensaje: mensaje,  nombreDoc: localStorage.getItem("documentoSeleccionado") })
   })
   .then(response => response.json())
   .then(data => {

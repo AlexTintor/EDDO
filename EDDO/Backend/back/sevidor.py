@@ -3,7 +3,7 @@ from flask import Flask, after_this_request, request, jsonify, send_file
 import smtplib, random
 from email.message import EmailMessage
 from flask_cors import CORS
-from bdEDDO import validarLogin, traerExpediente, traerReclamos, cambiarContra,cambiarContraActual,guardarMensaje,traerMsjs,registrarDoc
+from bdEDDO import validarLogin, traerExpediente, traerReclamos, cambiarContra,cambiarContraActual,guardarMensaje,traerMsjs,registrarDoc, todosDocumentos
 from bdTec import  traerEmpleados
 from bdEDD import validarRequisito # type: ignore
 from convertirPdf import generar_constancia
@@ -92,6 +92,20 @@ def expediente():
 
     if expediente:
         return jsonify({"estatus": True, "expediente": expediente})
+    else:
+        return jsonify({"estatus": False, "error": "No se encontró expediente"}), 404
+    
+@app.route("/todosDocumentos", methods=["POST"])
+def todosDocu():
+    conexion = conectar_bd("EDDO")
+    if not conexion:
+        return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
+
+    documentos = todosDocumentos(conexion)
+    conexion.close()
+
+    if documentos:
+        return jsonify({"estatus": True, "Documentos": documentos})
     else:
         return jsonify({"estatus": False, "error": "No se encontró expediente"}), 404
 
@@ -230,6 +244,7 @@ def guardarMsj():
     idUsuario = data.get("idUsuario")
     idReclamo= data.get("idReclamo")
     mensaje = data.get("mensaje")
+    nombreDoc = data.get("nombreDoc")
 
     if not idUsuario or not mensaje:
         return jsonify({"estatus": False, "error": "Faltan datos"}), 400
@@ -238,7 +253,7 @@ def guardarMsj():
     if not conexion:
         return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
 
-    respusta = guardarMensaje(conexion, idUsuario, idReclamo , mensaje);
+    respusta = guardarMensaje(conexion, idUsuario, idReclamo , mensaje, nombreDoc);
     conexion.close()
     if respusta:
         return jsonify({"estatus": True})

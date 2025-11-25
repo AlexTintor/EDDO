@@ -21,3 +21,24 @@ def traerEmpleados(conexion, idDocente):
     except Exception as e:
         print("❌ Error al consultar empleados:", e)
         return None
+    
+def traerDocumentosTEC(conexion,idUsuario):
+    try:
+        cursor = conexion.cursor()
+        cursor.execute("""SELECT  NOMBRE 
+                       FROM DOCUMENTO D
+                       INNER JOIN EMPLEADOSXDOCUMENTO ED ON D.ID_DOCUMENTO = ED.ID_DOCUMENTO
+                       INNER JOIN EMPLEADO E ON ED.ID_EMPLEADO = E.ID_EMPLEADO
+                       WHERE E.ID_EMPLEADO = ?""", (idUsuario,))
+        filas = cursor.fetchall()
+
+        documentos = []
+        for fila in filas:
+            documentos.append({
+                "NOMBRE": fila.NOMBRE
+            })
+        return documentos
+
+    except Exception as e:
+        print("❌ Error al consultar documentos:", e)
+        return None
