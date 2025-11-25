@@ -185,7 +185,6 @@ async function agregarRegistroDocumento(expediente,documentos) {
     return;
   }
 
-  console.log("Expediente recibido para agregar:", expediente);
   tbody.innerHTML = "";
   //expediente.expediente.forEach(doc => {
   documentos.Documentos.forEach(doc => {
@@ -193,14 +192,24 @@ async function agregarRegistroDocumento(expediente,documentos) {
     const existe = expediente.expediente.some(item => item.Nombre_documento === doc.NOMBRE);
     const tr = document.createElement("tr");
     const estado = existe ? "Generada" : "Pendiente";
+    if (!existe) {
+      tr.innerHTML = `
+        <td><i></i> ${doc.NOMBRE}</td>
+        <td class="status ${estado}"><i></i> ${estado}</td>
+        <td><button type="button" class="btn descargar" hidden = false>Descargar</button></td>
+        <td><button type="button" class="btn ver" data-section="ver-documento" hidden = false>Ver</button></td>
+        <td><button type="button" class="btn abrir">Abrir</button></td>
+      `;
+    }else{
 
-    tr.innerHTML = `
-      <td><i></i> ${doc.NOMBRE}</td>
-      <td class="status ${estado}"><i></i> ${estado}</td>
-      <td><button class="btn descargar">Descargar</button></td>
-      <td><button class="btn ver" data-section="ver-documento">Ver</button></td>
-      <td><button class="btn abrir">Abrir</button></td>
-    `;
+      tr.innerHTML = `
+        <td><i></i> ${doc.NOMBRE}</td>
+        <td class="status ${estado}"><i></i> ${estado}</td>
+        <td><button type="button" class="btn descargar">Descargar</button></td>
+        <td><button type="button" class="btn ver" data-section="ver-documento">Ver</button></td>
+        <td><button type="button" class="btn abrir">Abrir</button></td>
+      `;
+    }
     tbody.appendChild(tr);
   });
 }
@@ -268,7 +277,9 @@ function btnsAbrirReclamo(){
       const idReclamo = fila.querySelector("td").innerText.trim();
 
       localStorage.setItem("idReclamo", idReclamo);
-
+      if(localStorage.getItem("documentoSeleccionado")){
+        localStorage.removeItem("documentoSeleccionado", 0);
+      }
       console.log("Reclamo:", idReclamo);
       loadPage("chat.html");
     });
@@ -276,6 +287,30 @@ function btnsAbrirReclamo(){
   });
 }
 
+async function mostrarDocumento(nombreDoc){
+  fetch("http://localhost:5000/generar-constancia", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      nombreDoc: nombreDoc,
+      idUsuario: localStorage.getItem("idUsuario")
+    })
+  })
+  .then(res => res.blob())  // <--- AQUÍ RECIBES EL PDF
+  .then(blob => {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    console.log("URL del documento generado:", url);
+      const framDoc = document.getElementById("framDoc");
+      framDoc.src = url;
+      //a.download = nombreDoc + ".pdf";
+      //a.click();
+      window.URL.revokeObjectURL(url);
+  }).catch(err => console.log(err));
+
+}
 
 function guardarNombreDoc(){
   const botonesVer = document.querySelectorAll(".btn.ver");
@@ -288,8 +323,11 @@ function guardarNombreDoc(){
 
       localStorage.setItem("documentoSeleccionado", nombreDoc);
 
-      console.log("📄 Documento guardado:", nombreDoc);
+
       loadPage("verDocumento.html");
+      mostrarDocumento(nombreDoc);
+
+
     });
 
   });
@@ -303,6 +341,10 @@ function guardarNombreDoc(){
 
       localStorage.setItem("documentoSeleccionado", nombreDoc);
       console.log("📄 Documento guardado:", nombreDoc);
+      if(localStorage.getItem("idReclamo")){
+        localStorage.removeItem("idReclamo", 0);
+      }
+      
       loadPage("chat.html");
     });
   });
@@ -399,19 +441,34 @@ function registro(){
   ver("password1","btnVerContrasea")
   ver("password2","btnVerContrasea2")
 
-  btnRegistro.addEventListener("click",()=>{
+  btnRegistro.addEventListener("click",async ()=>{
+    lblError.hidden = true;
     const nombre = document.getElementById("nombre").value;
     const correo = document.getElementById("email").value;
     const telefono = document.getElementById("telefono").value;
     const contra1 = document.getElementById("password1").value;
     const contra2 = document.getElementById("password2").value;
 
+
     if (contra1 != contra2){
       lblError.textContent = "La contraseña no es la misma, pon la misma en los dos campos";
+      lblError.hidden = false;
+    }else{
+      const data = await registrarDocente(nombre,correo,telefono,contra1);
+      console.log(data);
+      if(data.estatus){
+          window.location.href = "inicioSesion.html";
+      }else{
+        lblError.textContent = data.error;
+        lblError.hidden = false;
+      }
     } 
-    registrarDocente(nombre,correo,telefono,contra1);
 
-  })
+  });
+  const btnRegresar = document.getElementById("btnRegresar");
+  btnRegresar.addEventListener("click", () => {
+    window.location.href = "inicioSesion.html";
+  });
   
 }
 
@@ -426,12 +483,10 @@ async function registrarDocente(nombre,correo,telefono,contra){
     const data = await response.json();
 
     if (data.estatus) {
-      alert('Registro exitoso');
-      window.location.href = "inicioSesion.html";
       return data;
     } else {
       console.error("Error:", data.error);
-      return null;
+      return data;
     }
   } catch (error) {
     console.error("Error al registrar:", error);
@@ -474,13 +529,13 @@ function loadPage(page) {
         const listaFiltrada = [];
         const filtro = inputFiltro.value.toLowerCase();
         if(filtro !== ""){
-            expediente.expediente.forEach(doc => {
-              if(doc.Nombre_documento.toLowerCase().includes(filtro)){
+            documentos.Documentos.forEach(doc => {
+              if(doc.NOMBRE.toLowerCase().includes(filtro)){
                 listaFiltrada.push(doc);
               }
             });
-          expediente2.expediente = listaFiltrada;
-          agregarRegistroDocumento(expediente2, documentos);
+          expediente2.Documentos = listaFiltrada;
+          agregarRegistroDocumento(expediente, expediente2);
         }else{
           agregarRegistroDocumento(expediente,documentos);
         }
@@ -520,7 +575,7 @@ function loadPage(page) {
     }
 
     if (page === "reclamo.html") {
-      if(localStorage.getItem("reclamos")){
+      /*if(localStorage.getItem("reclamos")){
         const expediente = JSON.parse(localStorage.getItem("reclamos"));
         agregarReclamo(expediente);
       }else {
@@ -529,8 +584,12 @@ function loadPage(page) {
           localStorage.setItem("reclamos", JSON.stringify(expediente));
           agregarReclamo(expediente);
         }
+      }*/
+      const expediente = await traerDatosReclamo();
+      if (expediente) {
+        agregarReclamo(expediente);
+        btnsAbrirReclamo();
       }
-      btnsAbrirReclamo();
     }
 
     if (page === "cuenta.html") {
@@ -555,7 +614,6 @@ function loadPage(page) {
 
 async function traerMensajes() {
   try {
-    console.log("📨 Solicitando mensajes para:", localStorage.getItem("idUsuario"), localStorage.getItem("idReclamo"), localStorage.getItem("documentoSeleccionado"));
     const response = await fetch("http://localhost:5000/traer-mensajes", {
       method: "POST",
       headers: {

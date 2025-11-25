@@ -1,10 +1,12 @@
 import os
+import threading
+import time
 from flask import Flask, after_this_request, request, jsonify, send_file
 import smtplib, random
 from email.message import EmailMessage
 from flask_cors import CORS
 from bdEDDO import validarLogin, traerExpediente, traerReclamos, cambiarContra,cambiarContraActual,guardarMensaje,traerMsjs,registrarDoc, todosDocumentos
-from bdTec import  traerEmpleados
+from bdTec import  traerEmpleados, traerPlaza,validarDocenteTEC
 from bdEDD import validarRequisito # type: ignore
 from convertirPdf import generar_constancia
 import pyodbc
@@ -140,17 +142,27 @@ def registrarDocente():
     if not nombre or not correo or not telefono or not contra:
         return jsonify({"estatus": False, "error": "Faltan datos"}), 400
     
-    conexion = conectar_bd("BDEDDO")
-    if not conexion:
-        return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
+    conexion2 = conectar_bd("BDTEC")
+
+    if not conexion2:
+        return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos TEC"}), 500
     
-    respuesta = registrarDoc(nombre,correo,telefono,contra)
+    if not validarDocenteTEC(conexion2, correo):
+        return jsonify({"estatus": False, "error": "El correo no pertenece a un docente del TEC"}), 400
+    
+    conexion2.close()
+    
+    conexion = conectar_bd("EDDO")
+    if not conexion:
+        return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos1"}), 500
+    
+    respuesta = registrarDoc(conexion,nombre,correo,telefono,contra)
     conexion.close()
 
-    if respuesta:
+    if respuesta["estatus"]:
         return jsonify({"estatus": True, "cuenta": respuesta})
     else:
-        return jsonify({"estatus": False, "error": "No se encontraron datos de la cuenta"}), 404 
+        return jsonify({"estatus": False, "error": respuesta["error"]}), 404 
     
 
 @app.route("/cuenta", methods=["POST"])
@@ -308,38 +320,73 @@ def validarRequisitos():
         return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
 
     cumple_requisitos = validarRequisito(conexion, idUsuario)
+
+    conexion2 = conectar_bd("BDTEC")
+    if not conexion2:
+        return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
+    
+    cumple_requisito_plaza = traerPlaza(conexion2, idUsuario)
+
+    if cumple_requisito_plaza != "Tiempo Completo":
+        cumple_requisitos = False
+
+    conexion2.close()
     conexion.close()
 
     return jsonify({"estatus": True, "cumpleRequisito": cumple_requisitos})
-
-
-
 
 @app.route('/generar-constancia', methods=['POST'])
 def generar():
     data = request.get_json()
     nombreDoc = data.get("nombreDoc")
-    datos = data.get("datos")
+    idUsuario = data.get("idUsuario")
 
+    conexion = conectar_bd("BDTEC")
+    if not conexion:
+        return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
+
+    cursor = conexion.cursor()
+    cursor.execute("""select ed.DATOS_JSON
+                    from EMPLEADO e
+                    inner join EMPLEADOSXDOCUMENTO ed on e.ID_EMPLEADO = ed.ID_EMPLEADO
+                    inner join DOCUMENTO d on d.ID_DOCUMENTO = ed.ID_DOCUMENTO
+                    where d.NOMBRE = ? and e.ID_EMPLEADO = ?""", (nombreDoc, idUsuario))
+    print(nombreDoc)
+    row = cursor.fetchone()
+    print("Fila obtenida de la base de datos:", row)
+    conexion.close()
+    if row:
+        datos_json = row[0]
+        print("Datos JSON obtenidos:", datos_json)
+        try:
+            import json
+            datos = json.loads(datos_json)
+        except Exception as e:
+            print("❌ Error al convertir datos JSON:", e)
+            return jsonify({"estatus": False, "error": "Error al procesar los datos"}), 500
+    else:
+        return jsonify({"estatus": False, "error": "No se encontraron datos para el documento"}), 404
     # Aquí llamas tu función que genera el PDF
     path_pdf = generar_constancia(datos,nombreDoc)
 
-    @after_this_request
+    """@after_this_request
     def eliminar_archivo(response):
-        try:
-            if os.path.exists(path_pdf):
+        def remover():
+            try:
+                time.sleep(1)
                 os.remove(path_pdf)
-                print("🗑️ PDF eliminado automáticamente.")
-        except Exception as e:
-            print("Error eliminando PDF:", e)
-        return response
+            except:
+                pass
+
+        threading.Thread(target=remover).start()
+        return response"""
 
     # Enviar PDF al frontend
     return send_file(path_pdf, mimetype="application/pdf")
 
-
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=False, use_reloader=False)
+
 
 
 

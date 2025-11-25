@@ -94,6 +94,13 @@ BEGIN
                 RETURN
         END
 
+        IF EXISTS (SELECT 1 FROM DOCENTE WHERE CORREO = @CORREO)
+        BEGIN
+                RAISERROR('El correo ya está registrado',16,1)
+                RETURN
+        END
+        
+
         INSERT INTO DOCENTE (ID_DOCENTE,NOMBRE, VIGENCIA, CONTRA, CORREO, TELEFONO)
         VALUES (2,@NOMBRE, 1, @CONTRA, @CORREO, @TELEFONO);
 END

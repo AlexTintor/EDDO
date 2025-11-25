@@ -42,3 +42,43 @@ def traerDocumentosTEC(conexion,idUsuario):
     except Exception as e:
         print("❌ Error al consultar documentos:", e)
         return None
+    
+def traerPlaza(conexion, idUsuario):
+    try:
+        cursor = conexion.cursor()
+        cursor.execute("""SELECT P.NOMBRE_PLAZA
+                       FROM PLAZA P
+                       INNER JOIN EMPLEADO E ON P.ID_PLAZA = E.ID_PLAZA
+                       WHERE E.ID_EMPLEADO = ?""", (idUsuario,))
+        fila = cursor.fetchone()
+
+        if fila:
+            return fila.NOMBRE_PLAZA
+        else:
+            return None
+
+    except Exception as e:
+        print("❌ Error al consultar plaza:", e)
+        return None
+    
+def validarDocenteTEC(conexion, correo):
+    try:
+        cursor = conexion.cursor()
+
+        cursor.execute("""
+            SELECT COUNT(*)
+            FROM EMPLEADO
+            WHERE CORREO = ?
+        """, (correo,))
+        row = cursor.fetchone()
+        count_user = int(row[0]) if row is not None else 0
+        return count_user > 0
+
+    except Exception as e:
+        print("❌ Error al validar docente TEC:", e)
+        return False
+    finally:
+        try:
+            cursor.close()
+        except Exception:
+            pass

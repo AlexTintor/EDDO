@@ -160,8 +160,18 @@ def registrarDoc(conexion,nombre, correo, telefono, contra):
         return {"estatus": True}
 
     except Exception as e:
-        print("❌ Error al registrar al docente:", e)
-        return {"estatus": False, "error": str(e)}
+        print("❌ Error en registrarDoc:", e)
+
+        mensaje = str(e)
+
+        try:
+            # Extraer el mensaje del RAISERROR
+            mensaje_sql = e.args[1]
+            mensaje_sql = mensaje_sql.split("[SQL Server]")[1].split("(")[0].strip()
+        except:
+            mensaje_sql = mensaje  # fallback
+
+        return {"estatus": False, "error": mensaje_sql}
     finally:
         try:
             cursor.close()
