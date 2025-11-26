@@ -38,13 +38,13 @@ Departamento academico
 ------------------------------------------------------
             BR ->
 ////////////////////////////////////////////////////
-1.2.2.1	Oficio_Comision (curso/diplomado)                               -----	DEPARTAMENTO DE DESARROLLO ACADÉMICO (ITC)
-1.2.2.2	Oficio_Comision (curso/diplomado de la DDIE)                    -----	DEPARTAMENTO DE DESARROLLO ACADÉMICO (ITC)
-1.2.2.3	Oficio_Comision (Formación y Competencias Docentes)             -----	DEPARTAMENTO DE DESARROLLO ACADÉMICO
-1.2.2.4	Constancia_DDIE (Diplomado de Competencias de Tutores)          -----   DIRECCIÓN DE DOCENCIA E INNOVACIÓN EDUCATIVA (DDIE) del TecNM
-1.2.2.5	Oficio_Comision (Recursos Educativos en Ambientes Virtuales)    -----   DEPARTAMENTO DE DESARROLLO ACADÉMICO
-1.2.2.6	Oficio_Comision (en Diplomado en Educación Inclusiva)           -----	DEPARTAMENTO DE DESARROLLO ACADÉMICO
-1.2.2.7	Oficio_Comision (en Proyecto Estratégico)                       -----	DEPARTAMENTO DE DESARROLLO ACADÉMICO
+1.2.2.1_OFICIO_COMISION (curso/diplomado)                               -----	DEPARTAMENTO DE DESARROLLO ACADÉMICO (ITC)
+1.2.2.2_OFICIO_COMISION (curso/diplomado de la DDIE)                    -----	DEPARTAMENTO DE DESARROLLO ACADÉMICO (ITC)
+1.2.2.3_OFICIO_COMISION (Formación y Competencias Docentes)             -----	DEPARTAMENTO DE DESARROLLO ACADÉMICO
+1.2.2.4_CONSTANCIA_DDIE (Diplomado de Competencias de Tutores)          -----   DIRECCIÓN DE DOCENCIA E INNOVACIÓN EDUCATIVA (DDIE) del TecNM
+1.2.2.5_OFICIO_COMISION (Recursos Educativos en Ambientes Virtuales)    -----   DEPARTAMENTO DE DESARROLLO ACADÉMICO
+1.2.2.6_OFICIO_COMISION (en Diplomado en Educación Inclusiva)           -----	DEPARTAMENTO DE DESARROLLO ACADÉMICO
+1.2.2.7_OFICIO_COMISION (en Proyecto Estratégico)                       -----	DEPARTAMENTO DE DESARROLLO ACADÉMICO
 
 1.4.1	Constancia_Cumplimiento (Asesoría Académica [para SPD])         -----	DEPARTAMENTO DE CIENCIAS BÁSICAS (ITC)
 
