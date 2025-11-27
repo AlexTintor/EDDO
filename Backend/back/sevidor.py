@@ -216,9 +216,7 @@ def cuenta():
     if not conexion:
         return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
     correo = ""
-    print(idUsuario)
     cuenta = traerEmpleados(conexion, correo, idUsuario)
-    print(cuenta)
     conexion.close()
 
     if cuenta:
@@ -410,17 +408,6 @@ def generar():
     # Aquí llamas tu función que genera el PDF
     path_pdf = generar_constancia(datos,nombreDoc)
 
-    """@after_this_request
-    def eliminar_archivo(response):
-        def remover():
-            try:
-                time.sleep(1)
-                os.remove(path_pdf)
-            except:
-                pass
-
-        threading.Thread(target=remover).start()
-        return response"""
 
     # Enviar PDF al frontend
     return send_file(path_pdf, mimetype="application/pdf")

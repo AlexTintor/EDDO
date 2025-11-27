@@ -261,7 +261,8 @@ def traerMsjs(conexion, idReclamo, idUsuario,nombreDoc):
     try:
         cursor = conexion.cursor()
         query = """
-        SELECT 
+
+                SELECT 
             CO.remitente,
             CO.fecha,
             CO.descripcion,
@@ -270,30 +271,28 @@ def traerMsjs(conexion, idReclamo, idUsuario,nombreDoc):
         JOIN DOCUMENTO_EXPEDIENTE DE ON DOC.FOLIO = DE.ID_DOCUMENTO
         JOIN EXPEDIENTE E ON DE.ID_EXPEDIENTE = E.ID_EXPEDIENTE
         JOIN DOCENTE D ON E.ID_DOCENTE = D.ID_DOCENTE
-        JOIN CONVOCATORIA C ON E.ID_CONVOC = C.ID_CONVOCATORIA
         JOIN DEPARTAMENTO DEP ON DOC.ID_DEPARTAMENTO = DEP.ID_DEPARTAMENTO
         JOIN JEFE J ON DEP.JEFE_ID = J.JEFE_ID
         JOIN RECLAMO R ON DOC.FOLIO = R.ID_DOCUMENTO
         JOIN COMENTARIOS CO ON CO.ID_RECLAMO = R.ID_RECLAMO
         WHERE 
-        (
-            D.ID_DOCENTE = ?
-            AND (R.ID_RECLAMO = ? OR DOC.NOMBRE LIKE ?)
-        )
-        OR
-        (
-            J.JEFE_ID = ?
-            AND (R.ID_RECLAMO = ? OR DOC.NOMBRE LIKE ?)
-        )
+            (
+                D.ID_DOCENTE = ?
+                OR J.JEFE_ID = ?
+            )
+            AND 
+            (
+                R.ID_RECLAMO = ?
+                OR DOC.NOMBRE = ?
+            );
+
 
         """
         cursor.execute(query, (
             idUsuario,
-            idReclamo,
-            f"%{nombreDoc}%",
             idUsuario,
             idReclamo,
-            f"%{nombreDoc}%"
+            nombreDoc
         ))
 
 

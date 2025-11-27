@@ -1,3 +1,9 @@
+
+create database EDDO
+select * from DOCENTE
+select * from EXPEDIENTE
+select * from DOCUMENTO_EXPEDIENTE
+
 CREATE TABLE DOCENTE (
     ID_DOCENTE INT NOT NULL,
     NOMBRE VARCHAR(100),
@@ -48,7 +54,7 @@ CREATE TABLE EXPEDIENTE (
 CREATE TABLE DOCUMENTO (
     FOLIO INT NOT NULL IDENTITY(1,1),
     ID_DEPARTAMENTO INT,
-	NOMBRE VARCHAR(50),
+	NOMBRE VARCHAR(100),
     FECHA DATE,
     CONSTRAINT PK_DOCUMENTO PRIMARY KEY (FOLIO),
     CONSTRAINT FK_DOCUMENTO_DEP FOREIGN KEY (ID_DEPARTAMENTO) REFERENCES DEPARTAMENTO(ID_DEPARTAMENTO)
@@ -79,229 +85,250 @@ CREATE TABLE COMENTARIOS (
     CONSTRAINT PK_COMENTARIOS PRIMARY KEY (ID_COMENTARIO),
     CONSTRAINT FK_COMENTARIOS_RECLAMO FOREIGN KEY (ID_RECLAMO) REFERENCES RECLAMO(ID_RECLAMO)
 );
--- ======================
--- INSERTS DE EJEMPLO
--- ======================
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'Formato-para-el-Horario-de-Actividades', GETDATE());
+go
 
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'Constancia-De-Tutoria', GETDATE());
-
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'Consejo_Nacional_de_Acreditación', GETDATE());
-
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'CONSTANCIA', GETDATE());
-
-
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'COMISIÓN DE EVALUACIÓN DEL PROGRAMA DE ESTÍMULOS AL DESEMPEÑO DEL PERSONAL DOCENTE', GETDATE());
-
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'Constancia de Trabajo', GETDATE());
-
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'COMISIÓN DE EVALUACIÓN DEL PROGRAMA DE ESTÍMULOS AL DESEMPEÑO DEL PERSONAL DOCENTE', GETDATE());
-
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'Constancia de Productos Obtenidos y su Impacto', GETDATE());
-
-
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'OFICIO_COMISION', GETDATE());
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'OFICIO_COMISION', GETDATE());
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'OFICIO_COMISION', GETDATE());
-
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'CONSTANCIA_DDIE', GETDATE());
-
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'OFICIO_COMISION', GETDATE());
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'OFICIO_COMISION', GETDATE());
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'OFICIO_COMISION', GETDATE());
-
-
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'Constancia De Exencion De Examen Licenciatura', GETDATE());
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'Constancia De Exencion De Examen Especializacion', GETDATE());
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'Constancia De Exencion De Examen Maestria', GETDATE());
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'Constancia De Exencion De Examen Maestria Codirector', GETDATE());
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'Constancia De Exencion De Examen Doctorado', GETDATE());
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'Constancia De Exencion De Examen Doctorado Codirector', GETDATE());
-
-
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'Constancia', GETDATE());
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'Constancia SINODAL Licenciatura', GETDATE());
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'Constancia SINODAL Especializacion', GETDATE());
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'Constancia SINODAL Maestria', GETDATE());
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'Constancia SINODAL Doctorado', GETDATE());
-
-
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'CONSTANCIA_CUMPLIMIENTO', GETDATE());
-
-
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'CONSTANCIA DE PARTICIPACIÓN', GETDATE());
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'CERTIFICACIÓN DE EXAMEN DE GRADO', GETDATE());
-
-
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'CARTA DE EXCLUSIVIDAD LABORAL DOCENTES CON PLAZA DE TIEMPO COMPLETO', GETDATE());
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'H. COMISION DICTAMINADORA DEL EDD PRESENTE', GETDATE());
-
-
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'Constancia de Participación y Trabajo Terminado', GETDATE());
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'Autorización de Apertura de Programa de Estudio', GETDATE());
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'Constancia de Participación', GETDATE());
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'Comisión para Diseño de Módulos de Especialidad', GETDATE());
-INSERT INTO Documento (ID_DEPARTAMENTO, Nombre, FECHA)
-VALUES (10, 'Registro de Módulos de Especialidad', GETDATE());
-
-
--- JEFE
 INSERT INTO JEFE (JEFE_ID, NOMBRE, VIGENTE, CONTRA, CORREO)
-VALUES (1000, 'Carlos Gómez', 1, 'abcd', 'carlos@eddo.mx');
+VALUES
+(1, 'Dr. Ricardo Hernández López', 1, 'Jefe2024', 'ricardo.hernandez@tecnm.mx'),         -- Departamento Académico
 
--- DOCENTE
-INSERT INTO DOCENTE (NOMBRE, VIGENCIA, CONTRA, CORREO, TELEFONO)
-VALUES ('Ana Torres', 1, '123', 'ana.torres@tecnm.mx', '6671234567');
+(2, 'Mtra. Laura Martínez Rivas', 1, 'Jefe2024', 'laura.martinez@tecnm.mx'),              -- Dirección General del TecNM
 
--- DEPARTAMENTO
+(3, 'Dr. Samuel Pérez Quintana', 1, 'Jefe2024', 'samuel.perez@ddie.tecnm.mx'),            -- DDIE TecNM
+
+(4, 'Ing. Rosa Delgado Araujo', 1, 'Jefe2024', 'rosa.delgado@itculiacan.edu.mx'),         -- Dirección del Instituto Tecnológico
+
+(5, 'Lic. Fernando Ruiz Carrillo', 1, 'Jefe2024', 'fernando.ruiz@organizador.mx'),        -- Instituto Organizador
+
+(6, 'Mtro. Alejandro Jiménez Soto', 1, 'Jefe2024', 'alejandro.jimenez@itculiacan.edu.mx'), -- Desarrollo Académico
+
+(7, 'Dr. Patricia Torres Medina', 1, 'Jefe2024', 'patricia.torres@itculiacan.edu.mx'),    -- Ciencias Básicas (ITC)
+
+(8, 'Lic. Mariana Ortiz Velasco', 1, 'Jefe2024', 'mariana.ortiz@itculiacan.edu.mx');      -- Servicios Escolares
+go
 INSERT INTO DEPARTAMENTO (ID_DEPARTAMENTO, JEFE_ID, NOMBRE)
-VALUES (10, 1000, 'Ingeniería en Sistemas Computacionales');
+VALUES
+(1, 1, 'Departamento Académico'),
+(2, 2, 'Dirección General del TecNM'),
+(3, 3, 'DDIE del TecNM'),
+(4, 4, 'Dirección del Instituto Tecnológico'),
+(5, 5, 'Instituto Organizador'),
+(6, 6, 'Departamento de Desarrollo Académico'),
+(7, 7, 'Departamento de Ciencias Básicas'),
+(8, 8, 'Departamento de Servicios Escolares');
 
--- CONVOCATORIA
-INSERT INTO CONVOCATORIA (ID_CONVOCATORIA, NOMBRE, FECHA_INICIO, FECHA_FIN)
-VALUES (200, 'Convocatoria 2025A', '2025-01-10', '2025-06-30');
 
--- EXPEDIENTE
-INSERT INTO EXPEDIENTE (ID_EXPEDIENTE, ID_DOCENTE, ID_CONVOC)
-VALUES (300, 1, 200);
+go
+-- SALOME -------------------------------------------------------------
+
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES
+(1, 'Copia Examen de Grado', NULL),
+(1, 'Oficio de Autorización de Apertura', NULL),
+(8, 'Constancia con Nombres de Participantes', NULL),
+(8, 'Constancia de Participación', NULL),
+(8, 'Constancia de Participación', NULL),
+(2, 'Oficio de Comisión', NULL),
+(3, 'Oficio de Registro de Módulos', NULL);
+
+-- MIGUEL -------------------------------------------------------------
+
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES
+(8, 'Constancia de participación en cuerpos colegiados', NULL),
+(8, 'Recursos Educativos Digitales', NULL),
+(8, 'Formato de implementación de estrategias', NULL),
+(8, 'Formato asesorías estudiantes', NULL),
+(8, 'Constancia asesoría lugares', NULL),
+(4, 'Constancia de participación como jurado', NULL),
+(4, 'Participación de comités', NULL),
+(2, 'Participación en auditorías de sistemas de gestión', NULL),
+(4, 'Constancia de la institución organizadora', NULL),
+(4, 'Oficio de Comisión (ITec)', NULL);
+
+-- BR -------------------------------------------------------------
+
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES
+(5, 'Oficio Comisión (curso/diplomado)', NULL),
+(5, 'Oficio Comisión (curso/diplomado DDIE)', NULL),
+(5, 'Oficio Comisión (Formación y Competencias Docentes)', NULL),
+(3, 'Constancia DDIE (Competencias de Tutores)', NULL),
+(5, 'Oficio Comisión (Ambientes Virtuales)', NULL),
+(5, 'Oficio Comisión (Educación Inclusiva)', NULL),
+(5, 'Oficio Comisión (Proyecto Estratégico)', NULL),
+(6, 'Constancia Cumplimiento SPD', NULL);
+
+-- JESUS -------------------------------------------------------------
+
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES
+(7, 'Formato para el Horario de Actividades', NULL),
+(5, 'Constancia de Tutoría', NULL),
+(8, 'Consejo Nacional de Acreditación', NULL),
+(8, 'Constancia de Trabajo', NULL),
+(8, 'Constancia de Productos Obtenidos y su Impacto', NULL),
+(7, 'Constancia Exención Examen Licenciatura', NULL),
+(7, 'Constancia Exención Examen Especialización', NULL),
+(7, 'Constancia Exención Examen Maestría', NULL),
+(7, 'Constancia Exención Examen Maestría (Codirector)', NULL),
+(7, 'Constancia Exención Examen Doctorado', NULL),
+(7, 'Constancia Exención Examen Doctorado (Codirector)', NULL),
+(7, 'Constancia SINODAL Técnico Superior', NULL),
+(7, 'Constancia SINODAL Licenciatura', NULL),
+(7, 'Constancia SINODAL Especialización', NULL),
+(7, 'Constancia SINODAL Maestría', NULL),
+(7, 'Constancia SINODAL Doctorado', NULL);
 
 
--- DOCUMENTO_EXPEDIENTE (relación muchos a muchos)
-INSERT INTO DOCUMENTO_EXPEDIENTE (ID_DOCUMENTO, ID_EXPEDIENTE)
-VALUES 
-(1, 300),
-(2, 300);
 
--- RECLAMO
-INSERT INTO RECLAMO (ID_RECLAMO, ID_DOCUMENTO, FECHA)
-VALUES 
-(700, 1, '2025-04-12');
+GO
+CREATE OR ALTER PROCEDURE SP_LLENAR_DATOS_DOCUMENTO_DOCENTE
+        @CORREO VARCHAR(50),
+        @NOMBRE VARCHAR(100)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DECLARE @ID_DOCUMENTO INT;
+    DECLARE @ID_DOCENTE INT;
+    DECLARE @ID_EXPEDIENTE INT;
 
--- COMENTARIOS
-INSERT INTO COMENTARIOS (ID_RECLAMO, REMITENTE, FECHA, DESCRIPCION)
-VALUES 
-(700, 'DOCENTE', GETDATE(), 'El documento fue rechazado por error en formato.'),
-(700, 'JEFE', GETDATE(), 'Favor de corregir el formato del archivo PDF.');
 
-SELECT 
-    DOC.NOMBRE AS NOMBRE_DOCUMENTO,
-    DOC.APROBACION,
-    DOC.FOLIO
-FROM DOCUMENTO DOC
-JOIN DOCUMENTO_EXPEDIENTE DE ON DOC.FOLIO = DE.ID_DOCUMENTO
-JOIN EXPEDIENTE E ON DE.ID_EXPEDIENTE = E.ID_EXPEDIENTE
-JOIN DOCENTE D ON E.ID_DOCENTE = D.ID_DOCENTE
-JOIN CONVOCATORIA C ON E.ID_CONVOC = C.ID_CONVOCATORIA
-JOIN DEPARTAMENTO DEP ON DOC.ID_DEPARTAMENTO = DEP.ID_DEPARTAMENTO
-JOIN JEFE J ON DEP.JEFE_ID = J.JEFE_ID
-JOIN TIPO_DOCUMENTO TD ON DOC.ID_TIPO_DOCUMENTO = TD.ID_TIPO_DOCUMENTO
-JOIN RECLAMO R ON DOC.FOLIO = R.ID_DOCUMENTO
-where D.ID_DOCENTE = 1
+    SELECT @ID_DOCENTE = ID_DOCENTE FROM
+        DOCENTE WHERE CORREO = @CORREO
 
-SELECT 
-    DOC.NOMBRE AS NOMBRE_DOCUMENTO,
-    DOC.APROBACION,
-    DOC.FOLIO,
-    CO.DESCRIPCION
-FROM DOCUMENTO DOC
-JOIN DOCUMENTO_EXPEDIENTE DE ON DOC.FOLIO = DE.ID_DOCUMENTO
-JOIN EXPEDIENTE E ON DE.ID_EXPEDIENTE = E.ID_EXPEDIENTE
-JOIN DOCENTE D ON E.ID_DOCENTE = D.ID_DOCENTE
-JOIN CONVOCATORIA C ON E.ID_CONVOC = C.ID_CONVOCATORIA
-JOIN DEPARTAMENTO DEP ON DOC.ID_DEPARTAMENTO = DEP.ID_DEPARTAMENTO
-JOIN JEFE J ON DEP.JEFE_ID = J.JEFE_ID
-JOIN TIPO_DOCUMENTO TD ON DOC.ID_TIPO_DOCUMENTO = TD.ID_TIPO_DOCUMENTO
-JOIN RECLAMO R ON DOC.FOLIO = R.ID_DOCUMENTO
-JOIN COMENTARIOS CO ON CO.ID_RECLAMO = R.ID_RECLAMO
-WHERE (D.ID_DOCENTE = 1 AND DOC.NOMBRE like 'Reconocimiento de Proyecto IA') OR (J.JEFE_ID = 1 and  DOC.NOMBRE like 'Reconocimiento de Proyecto IA')
-            
-            SELECT 
-                doc.NOMBRE,
-                CO.remitente,
-                CO.fecha,
-                CO.descripcion,
-                d.ID_DOCENTE,
-                R.ID_RECLAMO
-            FROM DOCUMENTO DOC
-            JOIN DOCUMENTO_EXPEDIENTE DE ON DOC.FOLIO = DE.ID_DOCUMENTO
-            JOIN EXPEDIENTE E ON DE.ID_EXPEDIENTE = E.ID_EXPEDIENTE
-            JOIN DOCENTE D ON E.ID_DOCENTE = D.ID_DOCENTE
-            JOIN CONVOCATORIA C ON E.ID_CONVOC = C.ID_CONVOCATORIA
-            JOIN DEPARTAMENTO DEP ON DOC.ID_DEPARTAMENTO = DEP.ID_DEPARTAMENTO
-            JOIN JEFE J ON DEP.JEFE_ID = J.JEFE_ID
-            JOIN TIPO_DOCUMENTO TD ON DOC.ID_TIPO_DOCUMENTO = TD.ID_TIPO_DOCUMENTO
-            JOIN RECLAMO R ON DOC.FOLIO = R.ID_DOCUMENTO
-            JOIN COMENTARIOS CO ON CO.ID_RECLAMO = R.ID_RECLAMO
-            WHERE (D.ID_DOCENTE = 1 AND R.id_Reclamo = 700)
+    select @ID_DOCUMENTO = FOLIO FROM
+        DOCUMENTO WHERE NOMBRE = @NOMBRE
 
-            SELECT 
-                R.id_reclamo,
-                DOC.NOMBRE AS nombre_documento,
-                DOC.folio,
-                R.fecha
-            FROM DOCUMENTO DOC
-            JOIN DOCUMENTO_EXPEDIENTE DE ON DOC.FOLIO = DE.ID_DOCUMENTO
-            JOIN EXPEDIENTE E ON DE.ID_EXPEDIENTE = E.ID_EXPEDIENTE
-            JOIN DOCENTE D ON E.ID_DOCENTE = D.ID_DOCENTE
-            JOIN CONVOCATORIA C ON E.ID_CONVOC = C.ID_CONVOCATORIA
-            JOIN DEPARTAMENTO DEP ON DOC.ID_DEPARTAMENTO = DEP.ID_DEPARTAMENTO
-            JOIN JEFE J ON DEP.JEFE_ID = J.JEFE_ID
-            JOIN TIPO_DOCUMENTO TD ON DOC.ID_TIPO_DOCUMENTO = TD.ID_TIPO_DOCUMENTO
-            JOIN RECLAMO R ON DOC.FOLIO = R.ID_DOCUMENTO
-            where D.ID_DOCENTE = 1000 or J.JEFE_ID = 1000
-SELECT 
-    C.REMITENTE,
-    C.FECHA AS FECHA_COMENTARIO,
-    C.DESCRIPCION
-FROM COMENTARIOS C
-JOIN RECLAMO R ON C.ID_RECLAMO = R.ID_RECLAMO
-JOIN DOCUMENTO D ON R.ID_DOCUMENTO = D.FOLIO
-JOIN EXPEDIENTE E ON D.ID_EXPEDIENTE = E.ID_EXPEDIENTE
-JOIN DOCENTE DOC ON E.ID_DOCENTE = DOC.ID_DOCENTE
-JOIN DEPARTAMENTO DEP ON D.ID_DEPARTAMENTO = DEP.ID_DEPARTAMENTO
-JOIN JEFE J ON DEP.JEFE_ID = J.JEFE_ID
-WHERE (DOC.ID_DOCENTE = 1 AND DOC.NOMBRE = 501) OR (J.JEFE_ID = 1 and  DOC.NOMBRE = 501)
-            SELECT * FROM RECLAMO
--- CHECKS Y DEFAULTS (ejemplo base, puedes ampliar)
-ALTER TABLE DOCENTE ADD CONSTRAINT CHK_DOCENTE_VIGENTE CHECK (VIGENCIA IN (0,1));
-ALTER TABLE JEFE ADD CONSTRAINT CHK_JEFE_VIGENTE CHECK (VIGENTE IN (0,1));
-ALTER TABLE DOCUMENTO ADD CONSTRAINT CHK_DOCUMENTO_APROBACION CHECK (APROBACION IN (0,1));
+        IF EXISTS (SELECT 1 FROM EXPEDIENTE WHERE ID_DOCENTE = @ID_DOCENTE)
+        BEGIN
+                SELECT @ID_EXPEDIENTE = ID_EXPEDIENTE FROM
+                EXPEDIENTE WHERE ID_DOCENTE = @ID_DOCENTE
+        END
+        ELSE
+        BEGIN
+                INSERT INTO EXPEDIENTE(ID_DOCENTE,ID_CONVOC)
+                VALUES (@ID_DOCENTE, NULL);
+                SELECT @ID_EXPEDIENTE = SCOPE_IDENTITY();
+        END
+    -- Validación de nulos
+    IF  @ID_DOCENTE IS NULL OR @NOMBRE IS NULL
+    BEGIN
+        RAISERROR('No se permiten datos nulos', 16, 1);
+        RETURN;
+    END
 
-ALTER TABLE DOCENTE ADD CONSTRAINT DF_DOCENTE_VIGENTE DEFAULT (1) FOR VIGENCIA;
-ALTER TABLE JEFE ADD CONSTRAINT DF_JEFE_VIGENTE DEFAULT (1) FOR VIGENTE;
-ALTER TABLE DOCUMENTO ADD CONSTRAINT DF_DOCUMENTO_APROBACION DEFAULT (0) FOR APROBACION;
+
+        INSERT INTO DOCUMENTO_EXPEDIENTE(ID_DOCUMENTO,ID_EXPEDIENTE)
+        VALUES (@ID_DOCUMENTO, @ID_EXPEDIENTE);
+END
+go
+CREATE OR ALTER PROCEDURE SP_REGISTRAR_DOCENTE
+        @ID_DOCENTE INT,
+    @NOMBRE VARCHAR(100),
+    @APELLIDO_PAT VARCHAR(60),
+    @APELLIDO_MAT VARCHAR(60),
+    @CAMPUS VARCHAR(50),
+    @CORREO VARCHAR(50),
+    @TELEFONO VARCHAR(15),
+    @CONTRA VARCHAR(50)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Validación de nulos
+    IF  @ID_DOCENTE IS NULL OR @NOMBRE IS NULL OR @APELLIDO_PAT IS NULL OR @APELLIDO_MAT IS NULL
+       OR @CAMPUS IS NULL OR @CORREO IS NULL OR @TELEFONO IS NULL OR @CONTRA IS NULL
+    BEGIN
+        RAISERROR('No se permiten datos nulos', 16, 1);
+        RETURN;
+    END
+
+    -- Validación de correo repetido
+    IF EXISTS (SELECT 1 FROM DOCENTE WHERE CORREO = @CORREO)
+    BEGIN
+        RAISERROR('El correo ya está registrado', 16, 1);
+        RETURN;
+    END
+
+    -- Inserción correcta SIN ID_DOCENTE
+    INSERT INTO DOCENTE (ID_DOCENTE,NOMBRE, APELLIDO_PAT, APELLIDO_MAT, CAMPUS, CONTRA, CORREO, TELEFONO)
+    VALUES (@ID_DOCENTE,@NOMBRE, @APELLIDO_PAT, @APELLIDO_MAT, @CAMPUS, @CONTRA, @CORREO, @TELEFONO);
+END
+GO
+CREATE or alter PROCEDURE sp_VerificarLoginDocente
+    @Correo VARCHAR(100),
+    @Contrasena VARCHAR(100),
+    @IdDocente INT OUTPUT
+AS
+BEGIN
+        SET NOCOUNT ON;
+
+        SELECT @IdDocente = ID_DOCENTE
+        FROM DOCENTE
+        WHERE CORREO = @Correo
+            AND CONTRA = @Contrasena;
+        
+        IF @IdDocente IS NULL
+        BEGIN
+                SELECT @IdDocente = JEFE_ID
+                FROM JEFE
+                WHERE CORREO = @Correo AND CONTRA = @Contrasena;
+        END
+
+
+        IF @IdDocente IS NULL
+        BEGIN
+                RAISERROR('Credenciales invalidas',16,1)
+        END
+END
+GO
+
+CREATE OR ALTER PROCEDURE sp_CambiarContrasenaDocente
+        @Correo VARCHAR(100),
+        @NuevaContrasena VARCHAR(100)
+AS
+BEGIN
+        SET NOCOUNT ON;
+
+        IF @NuevaContrasena IS NULL OR LTRIM(RTRIM(@NuevaContrasena)) = ''
+        BEGIN
+                RAISERROR('La nueva contraseña no puede ser nula o vacía.',16,1)
+                RETURN
+        END
+
+        UPDATE DOCENTE
+        SET CONTRA = @NuevaContrasena
+        WHERE CORREO = @Correo
+
+        IF @@ROWCOUNT = 0
+        BEGIN
+                RAISERROR('Correo no encontrado.',16,1)
+        END
+END
+GO
+
+CREATE OR ALTER PROCEDURE sp_ActualizarContrasenaDocente
+        @IdDocente INT,
+        @NuevaContrasena VARCHAR(100)
+AS
+BEGIN
+        SET NOCOUNT ON;
+
+        IF @IdDocente IS NULL
+        BEGIN
+                RAISERROR('El Id del docente no puede ser nulo.',16,1)
+                RETURN
+        END
+
+        IF @NuevaContrasena IS NULL OR LTRIM(RTRIM(@NuevaContrasena)) = ''
+        BEGIN
+                RAISERROR('La nueva contraseña no puede ser nula o vacía.',16,1)
+                RETURN
+        END
+
+        UPDATE DOCENTE
+        SET CONTRA = @NuevaContrasena
+        WHERE ID_DOCENTE = @IdDocente
+
+        IF @@ROWCOUNT = 0
+        BEGIN
+                RAISERROR('IdDocente no encontrado.',16,1)
+        END
+END
+GO

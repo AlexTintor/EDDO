@@ -96,12 +96,7 @@ function login(){
 
 async function pagina(){
   const links = document.querySelectorAll(".sidebar a");
-  const resultado = await traerDatosCuenta();
   const botonCuenta = document.getElementById("btnCuenta");
-  if (resultado && resultado.estatus) {
-    sessionStorage.setItem("nombreDocente", resultado.cuenta[0].NOMBRE);
-    sessionStorage.setItem("datosCuenta", JSON.stringify(resultado.cuenta));
-  }
   
   loadPage("inicio.html");
 
@@ -143,13 +138,11 @@ async function pagina(){
 }
 
     /*Funciones para rellenar los datos de la interfaz Cuenta*/
-async function actualizarDatosCuenta(){
-    const datos1 = sessionStorage.getItem("datosCuenta");
-    const datos2 = JSON.parse(datos1);
-    const datos = datos2[0];
+async function actualizarDatosCuenta(datos1){
+    const datos = datos1[0];
     const textNombre = document.getElementById("textNombre");
     if (textNombre) {
-      textNombre.textContent = datos["NOMBRE"];
+      textNombre.textContent = datos["NOMBRE"] + " " + datos["APELLIDO_PAT"] + " " + datos["APELLIDO_MAT"];
     }
 
     const textCorreo = document.getElementById("textCorreo");
@@ -176,43 +169,47 @@ async function actualizarDatosCuenta(){
 
 
   /* Funcion para agregar un nuevo documento a la tabla de expediente */
-async function agregarRegistroDocumento(expediente,documentos) {
+async function agregarRegistroDocumento(expediente, documentos) {
   const tbody = document.querySelector("#tablaDocumentos tbody");
-
 
   if (!expediente || !expediente.expediente) {
     console.error("No se pudieron obtener los datos del expediente.");
+    const lblError = document.getElementById("lblError");
+    lblError.hidden = false;
+    lblError.textContent = "No se pudieron obtener los datos del expediente.";
     return;
   }
+  
 
   tbody.innerHTML = "";
-  //expediente.expediente.forEach(doc => {
-  documentos.Documentos.forEach(doc => {
-    //const existe = documentos.Documentos.some(item => item.Nombre === doc.Nombre_documento);
-    const existe = expediente.expediente.some(item => item.Nombre_documento === doc.NOMBRE);
-    const tr = document.createElement("tr");
-    const estado = existe ? "Generada" : "Pendiente";
-    if (!existe) {
-      tr.innerHTML = `
-        <td><i></i> ${doc.NOMBRE}</td>
-        <td class="status ${estado}"><i></i> ${estado}</td>
-        <td><button type="button" class="btn descargar" hidden = false>Descargar</button></td>
-        <td><button type="button" class="btn ver" data-section="ver-documento" hidden = false>Ver</button></td>
-        <td><button type="button" class="btn abrir">Abrir</button></td>
-      `;
-    }else{
 
-      tr.innerHTML = `
-        <td><i></i> ${doc.NOMBRE}</td>
-        <td class="status ${estado}"><i></i> ${estado}</td>
-        <td><button type="button" class="btn descargar">Descargar</button></td>
-        <td><button type="button" class="btn ver" data-section="ver-documento">Ver</button></td>
-        <td><button type="button" class="btn abrir">Abrir</button></td>
-      `;
-    }
+  // Ordenar: primero Generada, luego Pendiente
+  const docsOrdenados = documentos.Documentos.sort((a, b) => {
+    const existeA = expediente.expediente.some(item => item.Nombre_documento === a.NOMBRE);
+    const existeB = expediente.expediente.some(item => item.Nombre_documento === b.NOMBRE);
+
+    // Queremos que Generada (true) vaya antes → ordenar descendente
+    return (existeA === existeB) ? 0 : existeA ? -1 : 1;
+  });
+
+  // Ya recorremos la lista ordenada
+  docsOrdenados.forEach(doc => {
+    const existe = expediente.expediente.some(item => item.Nombre_documento === doc.NOMBRE);
+    const estado = existe ? "Generada" : "Pendiente";
+
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+      <td><i></i> ${doc.NOMBRE}</td>
+      <td class="status ${estado}"><i></i> ${estado}</td>
+      <td><a id = "btnDescargar" class="btn descargar" ${existe ? "" : "hidden"}>Descargar</a></td>
+      <td><button type="button" class="btn ver" data-section="ver-documento" ${existe ? "" : "hidden"}>Ver</button></td>
+      <td><button type="button" class="btn abrir">Abrir</button></td>
+    `;
     tbody.appendChild(tr);
   });
 }
+
 
 /*Fumcopm para agregar reclamos de forma dinamica*/
 function agregarReclamo(reclamos) {
@@ -220,6 +217,9 @@ function agregarReclamo(reclamos) {
     console.log("Reclamos recibidos para agregar:", reclamos);
     if (!reclamos || reclamos.reclamos.length === 0) {
         console.error("No se pudieron obtener los datos de los reclamos.");
+        const lblError = document.getElementById("lblErrorReclamo");
+        lblError.hidden = false;
+        lblError.textContent = "No se pudieron obtener los datos de los reclamos.";
         return;
     }
     reclamos.reclamos.forEach(rec => {
@@ -287,6 +287,47 @@ function btnsAbrirReclamo(){
   });
 }
 
+async function descargarDocumento(nombreDoc){
+  fetch("http://localhost:5000/generar-constancia", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      nombreDoc: nombreDoc,
+      idUsuario: sessionStorage.getItem("idUsuario")
+    })
+  })
+  .then(res => res.blob())  // <--- AQUÍ RECIBES EL PDF
+  .then(blob => {
+      const url = window.URL.createObjectURL(blob);
+      const link = document.getElementById("linkDescarga");
+      link.href = url;
+      link.download = nombreDoc + ".pdf";
+      link.addEventListener("click", () => {
+            setTimeout(() => {
+              window.URL.revokeObjectURL(link.href);
+            }, 5000); // 5 segundos después de descargar
+          });
+          link.click(); 
+          console.log("Descarga iniciada para:", nombreDoc);
+  }).catch(err => console.log(err));
+}
+function descargarTodosDocumentos(){
+  const btnDescargarTodos = document.getElementById("btnDescargarTodos");
+  btnDescargarTodos.addEventListener("click", async () => {
+    console.log("Iniciando descarga de todos los documentos...");
+    const documentos1 = await traerDatosExpediente();
+    const documentos = documentos1.expediente;
+    console.log("Descargando todos los documentos:", documentos);
+    for (const doc of documentos) {
+      const nombreDoc = doc.Nombre_documento;
+      console.log("Descargando documento:", nombreDoc);
+      await descargarDocumento(nombreDoc);
+    }
+  });
+}
+
 async function mostrarDocumento(nombreDoc){
   fetch("http://localhost:5000/generar-constancia", {
     method: "POST",
@@ -301,13 +342,19 @@ async function mostrarDocumento(nombreDoc){
   .then(res => res.blob())  // <--- AQUÍ RECIBES EL PDF
   .then(blob => {
     const url = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    console.log("URL del documento generado:", url);
       const framDoc = document.getElementById("framDoc");
+      const btnDescargar = document.getElementById("btnDescargar");
+
+      btnDescargar.href = url;
+      btnDescargar.download = nombreDoc + ".pdf";
       framDoc.src = url;
-      //a.download = nombreDoc + ".pdf";
-      //a.click();
-      window.URL.revokeObjectURL(url);
+      const lblError = document.getElementById("lblCargando");
+      lblError.hidden = true;
+      btnDescargar.addEventListener("click", () => {
+        setTimeout(() => {
+          window.URL.revokeObjectURL(btnDescargar.href);
+        }, 5000); // 5 segundos después de descargar
+      });
   }).catch(err => console.log(err));
 
 }
@@ -326,8 +373,6 @@ function guardarNombreDoc(){
 
       loadPage("verDocumento.html");
       mostrarDocumento(nombreDoc);
-
-
     });
 
   });
@@ -337,15 +382,24 @@ function guardarNombreDoc(){
       const fila = btn.closest("tr");
       
       const nombreDoc = fila.querySelector("td").innerText.trim();
-      locasessionStoragelStorage.removeItem("idReclamo", 0);
+      sessionStorage.removeItem("idReclamo", 0);
 
       sessionStorage.setItem("documentoSeleccionado", nombreDoc);
       console.log("📄 Documento guardado:", nombreDoc);
-      if(locasessionStoragelStorage.getItem("idReclamo")){
+      if(sessionStorage.getItem("idReclamo")){
         sessionStorage.removeItem("idReclamo", 0);
       }
-      
       loadPage("chat.html");
+    });
+  });
+
+    const botonesDescargar = document.querySelectorAll(".btn.descargar");
+    botonesDescargar.forEach(btn => {
+    btn.addEventListener("click", async () => {
+      const fila = btn.closest("tr");
+      
+      const nombreDoc = fila.querySelector("td").innerText.trim();
+      await descargarDocumento(nombreDoc);
     });
   });
 }
@@ -537,6 +591,8 @@ function loadPage(page) {
         }else{
           agregarRegistroDocumento(expediente,documentos);
         }
+        guardarNombreDoc();
+        descargarDocumentos();
       });
       inputFiltro.addEventListener("input", () => {
         if(inputFiltro.value === ""){
@@ -548,13 +604,16 @@ function loadPage(page) {
       agregarRegistroDocumento(expediente,documentos);
 
       guardarNombreDoc();
+      descargarTodosDocumentos();
 
     }
     if(page === "inicio.html"){
       //const validarRequitos = await validarRequi();
       const validarRequitos = true;
+      const resultado = await traerDatosCuenta();
+
       if (validarRequitos){
-        const nombreDocente = sessionStorage.getItem("nombreDocente");
+        const nombreDocente = resultado.cuenta[0].NOMBRE+" "+resultado.cuenta[0].APELLIDO_PAT+" "+resultado.cuenta[0].APELLIDO_MAT;
         const saludoElemento = document.getElementById("saludoDocente");
         if (saludoElemento && nombreDocente) {
           saludoElemento.textContent = `${nombreDocente}`;
@@ -591,7 +650,10 @@ function loadPage(page) {
     }
 
     if (page === "cuenta.html") {
-      actualizarDatosCuenta();
+        const resultado = await traerDatosCuenta();
+        if (resultado && resultado.estatus) {
+          actualizarDatosCuenta(resultado.cuenta);
+        }
         const btncambiarContra = document.getElementById("btnCambiarContra");
         btncambiarContra.addEventListener("click", () => {
           loadPage("cambiarContra.html");
@@ -612,6 +674,7 @@ function loadPage(page) {
 
 async function traerMensajes() {
   try {
+    console.log("📨 Solicitando mensajes para:", sessionStorage.getItem("idUsuario"), sessionStorage.getItem("idReclamo"), sessionStorage.getItem("documentoSeleccionado"));
     const response = await fetch("http://localhost:5000/traer-mensajes", {
       method: "POST",
       headers: {

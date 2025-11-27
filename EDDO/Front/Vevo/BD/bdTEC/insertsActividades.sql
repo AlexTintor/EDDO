@@ -59,7 +59,6 @@ VALUES (4, 2, 4, 'Ana', 'Soto', 'Valenzuela', 'Culiacán', 1, 'pass104', 'ana.sv
 
 INSERT INTO EMPLEADO (ID_EMPLEADO, ID_PLAZA, ID_DEPARTAMENTO, NOMBRE, APELLIDO_MAT, APELLIDO_PAT, CAMPUS, VIGENCIA, CONTRA, CORREO, TELEFONO)
 VALUES (5, 1, 5, 'Ricardo', 'Mendoza', 'Torres', 'Los Mochis', 1, 'pass105', 'ricardo.mt@itc.mx', '6675678901');
-
 INSERT INTO EMPLEADOSXDOCUMENTO (ID_EMPLEADO, ID_DOCUMENTO, DATOS_JSON)
 VALUES 
 (5, 1, '{
@@ -160,22 +159,105 @@ VALUES
 }');
 
 
+select * from DOCUMENTO
 
-INSERT INTO DEPARTAMENTO (ID_DEPARTAMENTO, NOMBRE)
+update DOCUMENTO
+set NOMBRE = 'Oficio Comisión (curso-diplomado)'
+where NOMBRE = 'Oficio Comisión (curso/diplomado)'
+update DOCUMENTO
+set NOMBRE = 'Oficio Comisión (curso-diplomado DDIE)'
+where NOMBRE = 'Oficio Comisión (curso/diplomado DDIE)'
+-------------------------
+
+
+go
+--1.2.2.1
+INSERT INTO EMPLEADOSXDOCUMENTO
+    (ID_EMPLEADO, ID_DOCUMENTO, DATOS_JSON)
 VALUES
-(1, 'Departamento Académico'),
-(2, 'Dirección General del TecNM'),
-(3, 'DDIE del TecNM'),
-(4, 'Dirección del Instituto Tecnológico'),
-(5, 'Instituto Organizador'),
-(6, 'Departamento de Desarrollo Académico'),
-(7, 'Departamento de Ciencias Básicas'),
-(8, 'Departamento de Servicios Escolares');
-
-
-INSERT INTO PLAZA(ID_PLAZA,HORARIO)
+    (2, 18, 
+    '{"VAR_OFICIO_COMISION": "DDA/CEN-101/2024", 
+    "VAR_NOMBRE_DOCENTE": "María Lozano Hernández", 
+    "VAR_NOMBRE_CURSO": "Taller de Programación en Python", 
+    "VAR_FECHA_INICIO_COMISION": "10 de abril de 2024", 
+    "VAR_FECHA_FIN_COMISION": "15 de abril de 2024", 
+    "VAR_NOMBRE_JEFE_DDA": "Ana Bertha Soto"}');
+--1.2.2.2
+INSERT INTO EMPLEADOSXDOCUMENTO
+    (ID_EMPLEADO, ID_DOCUMENTO, DATOS_JSON)
 VALUES
-(1,'Tiempo completo'),
-(2,'Medio tiempo');
+    (2, 19,
+    '{
+    "VAR_OFICIO_COMISION": "DDA/DDIE-001/2024",
+    "VAR_NOMBRE_DOCENTE": "María Lozano Hernández",
+    "VAR_NOMBRE_CURSO": "Desarrollo de Competencias Digitales Docentes",
+    "VAR_FECHA_INICIO_COMISION": "10 de marzo de 2024",
+    "VAR_FECHA_FIN_COMISION": "10 de abril de 2024",
+    "VAR_NOMBRE_JEFE_DDA": "Ana Bertha Soto"}');
 
+--1.2.2.4
+INSERT INTO EMPLEADOSXDOCUMENTO
+    (ID_EMPLEADO, ID_DOCUMENTO, DATOS_JSON)
+VALUES
+    (2, 21,
+    '{
+    "VAR_FOLIO_CONSTANCIA": "DDIE/DFDT-150/2024",
+    "VAR_NOMBRE_DOCENTE": "María Lozano Hernández",
+    "VAR_DURACION_HRS": "120",
+    "VAR_PERIODO": "01 de abril al 30 de junio de 2024",
+    "VAR_DIA": "20",
+    "VAR_MES": "Julio",
+    "VAR_ANIO": "2024",
+    "VAR_NOMBRE_DIRECTOR_DDIE": "Mario Alberto González" }');
 
+--1.2.2.5
+INSERT INTO EMPLEADOSXDOCUMENTO
+    (ID_EMPLEADO, ID_DOCUMENTO, DATOS_JSON)
+VALUES
+    (2, 22,
+    '{"VAR_OFICIO_COMISION": "DDA/RAV-008/2024",
+    "VAR_NOMBRE_DOCENTE": "María Lozano Hernández",
+    "VAR_NOMBRE_CURSO": "Diplomado Recursos Educativos en Ambientes Virtuales",
+    "VAR_FECHA_INICIO_COMISION": "01 de septiembre de 2024",
+    "VAR_FECHA_FIN_COMISION": "30 de noviembre de 2024",
+    "VAR_NOMBRE_JEFE_DDA": "Ana Bertha Soto"}');
+
+--1.2.2.6
+INSERT INTO EMPLEADOSXDOCUMENTO
+    (ID_EMPLEADO, ID_DOCUMENTO, DATOS_JSON)
+VALUES
+    (2, 23,
+    '{"VAR_OFICIO_COMISION": "DDA/DEI-001/2024",
+    "VAR_NOMBRE_DOCENTE": "María Lozano Hernández",
+    "VAR_NOMBRE_CURSO": "Diplomado en Educación Inclusiva para Profesores(as) del TecNM",
+    "VAR_FECHA_INICIO_COMISION": "01 de octubre de 2024",
+    "VAR_FECHA_FIN_COMISION": "30 de noviembre de 2024",
+    "VAR_NOMBRE_JEFE_DDA": "Ana Bertha Soto"}');
+
+--1.2.2.7
+INSERT INTO EMPLEADOSXDOCUMENTO
+    (ID_EMPLEADO, ID_DOCUMENTO, DATOS_JSON)
+VALUES
+    (2, 24,
+    '{"VAR_OFICIO_COMISION": "DDA/PE-001/2024",
+    "VAR_NOMBRE_DOCENTE": "María Lozano Hernández",
+    "VAR_NOMBRE_CURSO": "Diplomado en Tecnologías 4.0",
+    "VAR_FECHA_INICIO_COMISION": "01 de noviembre de 2024",
+    "VAR_FECHA_FIN_COMISION": "30 de diciembre de 2024",
+    "VAR_NOMBRE_JEFE_DDA": "Ana Bertha Soto"}');
+
+-- 1.4.1 (Constancia Cumplimiento SPD)
+INSERT INTO EMPLEADOSXDOCUMENTO
+    (ID_EMPLEADO, ID_DOCUMENTO, DATOS_JSON)
+VALUES
+    (2, 25,
+    '{"VAR_FOLIO_CONSTANCIA": "CB/AAC/15/2024",
+    "VAR_NOMBRE_DOCENTE": "María Lozano Hernández",
+    "VAR_ASIGNATURA_ASESORIA": "Cálculo Integral",
+    "VAR_PERIODO_CONSTANCIA": "Agosto - Diciembre 2024",
+    "VAR_TOTAL_ESTUDIANTES": "12",
+    "VAR_DIA_CONSTANCIA": "15",
+    "VAR_MES_CONSTANCIA": "Enero",
+    "VAR_ANIO_CONSTANCIA": "2024",
+    "VAR_NOMBRE_JEFE_CB": "Dr. Juan Carlos Soria",
+    "VAR_NOMBRE_SUBDIRECTOR_ACADEMICO": "M.C. Rigoberto Tarín Salazar"}');
