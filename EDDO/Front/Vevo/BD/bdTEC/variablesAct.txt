@@ -188,11 +188,23 @@ Constancia de Trabajo
 1.2.1.3
 Formato de implementacion de estrategias  
 {
-  "NOMBRE_COMPLETO": "",
-  "HABILIDADES": "",
-  "ASIGNATURA": "",
-  "ESTRATEGIA": "",
-  "PROGRAMA_EDUCATIVO": ""
+  "Var_Fecha": "",
+  "Var_Oficio": "",
+  "Var_Nombre": "",
+  "Var_Asignatura": "",
+  "Var_Estrategia": "",
+  "Var_ProgramaNombre": "",
+  "Var_Habilidades": "",
+  "Var_Sello": "",
+  "Var_FirmaJefa": "",
+  "Var_NombreJefa": "",
+  "Var_PuestoJefa": "",
+  "Var_FirmaPresidente": "",
+  "Var_FirmaResponsable": "",
+  "Var_NombrePresidente": "",
+  "Var_PuestoPresidente": "",
+  "Var_NombreResponsable": "",
+  "Var_PuestoResponsable": ""
 }
 -----
 1.2.1.4
