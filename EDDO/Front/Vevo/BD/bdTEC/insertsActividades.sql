@@ -46,19 +46,118 @@ INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia SINODAL Doctorado');
 
 
 INSERT INTO EMPLEADO (ID_EMPLEADO, ID_PLAZA, ID_DEPARTAMENTO, NOMBRE, APELLIDO_MAT, APELLIDO_PAT, CAMPUS, VIGENCIA, CONTRA, CORREO, TELEFONO)
-VALUES (101, 1, 1, 'Carlos', 'Ramírez', 'González', 'Culiacán', 1, 'pass101', 'carlos.rg@itc.mx', '6671234567');
+VALUES (1, 1, 1, 'Carlos', 'Ramírez', 'González', 'Culiacán', 1, 'pass101', 'carlos.rg@itc.mx', '6671234567');
 
 INSERT INTO EMPLEADO (ID_EMPLEADO, ID_PLAZA, ID_DEPARTAMENTO, NOMBRE, APELLIDO_MAT, APELLIDO_PAT, CAMPUS, VIGENCIA, CONTRA, CORREO, TELEFONO)
-VALUES (102, 2, 2, 'María', 'Lozano', 'Hernández', 'Culiacán', 1, 'pass102', 'maria.lh@itc.mx', '6672345678');
+VALUES (2, 2, 2, 'María', 'Lozano', 'Hernández', 'Culiacán', 1, 'pass102', 'maria.lh@itc.mx', '6672345678');
 
 INSERT INTO EMPLEADO (ID_EMPLEADO, ID_PLAZA, ID_DEPARTAMENTO, NOMBRE, APELLIDO_MAT, APELLIDO_PAT, CAMPUS, VIGENCIA, CONTRA, CORREO, TELEFONO)
-VALUES (103, 1, 3, 'Jorge', 'Pérez', 'Cárdenas', 'Guamúchil', 1, 'pass103', 'jorge.pc@itc.mx', '6673456789');
+VALUES (3, 1, 3, 'Jorge', 'Pérez', 'Cárdenas', 'Guamúchil', 1, 'pass103', 'jorge.pc@itc.mx', '6673456789');
 
 INSERT INTO EMPLEADO (ID_EMPLEADO, ID_PLAZA, ID_DEPARTAMENTO, NOMBRE, APELLIDO_MAT, APELLIDO_PAT, CAMPUS, VIGENCIA, CONTRA, CORREO, TELEFONO)
-VALUES (104, 2, 4, 'Ana', 'Soto', 'Valenzuela', 'Culiacán', 1, 'pass104', 'ana.sv@itc.mx', '6674567890');
+VALUES (4, 2, 4, 'Ana', 'Soto', 'Valenzuela', 'Culiacán', 1, 'pass104', 'ana.sv@itc.mx', '6674567890');
 
 INSERT INTO EMPLEADO (ID_EMPLEADO, ID_PLAZA, ID_DEPARTAMENTO, NOMBRE, APELLIDO_MAT, APELLIDO_PAT, CAMPUS, VIGENCIA, CONTRA, CORREO, TELEFONO)
-VALUES (105, 1, 5, 'Ricardo', 'Mendoza', 'Torres', 'Los Mochis', 1, 'pass105', 'ricardo.mt@itc.mx', '6675678901');
+VALUES (5, 1, 5, 'Ricardo', 'Mendoza', 'Torres', 'Los Mochis', 1, 'pass105', 'ricardo.mt@itc.mx', '6675678901');
+
+INSERT INTO EMPLEADOSXDOCUMENTO (ID_EMPLEADO, ID_DOCUMENTO, DATOS_JSON)
+VALUES 
+(5, 1, '{
+  "NOMBRE_EGRESADO": "Ricardo Mendoza Torres",
+  "NOMBRE_MAESTRIA": "Maestría en Ingeniería en Sistemas Computacionales",
+  "NOMBRE_INSTITUTO": "Instituto Tecnológico de Culiacán",
+  "CIUDAD_ESTADO": "Culiacán, Sinaloa",
+  "DIA": "26",
+  "MES": "Noviembre",
+  "ANIO": "2025",
+  "TITULO_TESIS": "Optimización de Procesos Académicos mediante Sistemas Inteligentes"
+}');
+
+INSERT INTO EMPLEADOSXDOCUMENTO (ID_EMPLEADO, ID_DOCUMENTO, DATOS_JSON)
+VALUES 
+(5, 2, '{
+  "NUMERO_OFICIO_AUTORIZACION": "OFI-TEC-2025-432",
+  "LUGAR_FECHA_EMISION": "Culiacán, Sinaloa; 26 de Noviembre de 2025",
+  "PERSONA_TITULAR_INSTITUTO": "Mtra. Laura Gabriela Rodríguez Salinas",
+  "NOMBRE_INSTITUTO": "Instituto Tecnológico de Culiacán",
+  "NIVEL": "Superior",
+  "NOMBRE_PROGRAMA_ESTUDIO": "Ingeniería en Sistemas Computacionales",
+  "CLAVE_TECNM": "24ISC001",
+  "PERIODO": "Agosto - Diciembre 2025"
+}');
+
+INSERT INTO EMPLEADOSXDOCUMENTO (ID_EMPLEADO, ID_DOCUMENTO, DATOS_JSON)
+VALUES 
+(5, 3, '{
+  "VAR_INSTITUTO": "Instituto Tecnológico de Culiacán",
+  "VAR_DEPARTAMENTO": "Departamento de Sistemas y Computación",
+  "VAR_LUGAR_FECHA": "Culiacán, Sinaloa; 26 de Noviembre de 2025",
+  "VAR_JEFE_NOMBRE": "Ing. Jorge Alberto Valdez Montoya",
+  "VAR_NIVEL": "Licenciatura",
+  "VAR_PROGRAMA": "Ingeniería en Sistemas Computacionales",
+  "VAR_FECHA_INICIO": "10 de Agosto de 2025",
+  "VAR_FECHA_FIN": "15 de Diciembre de 2025",
+  "VAR_PARTICIPANTES": "Ricardo Mendoza Torres",
+  "VAR_SUBDIRECTOR": "Mtro. Luis Fernando Cárdenas Soto"
+}');
+
+INSERT INTO EMPLEADOSXDOCUMENTO (ID_EMPLEADO, ID_DOCUMENTO, DATOS_JSON)
+VALUES 
+(5, 4, '{
+  "VAR_NOMBRE_FIRMANTE": "Mtra. Laura Gabriela Rodríguez Salinas",
+  "VAR_CARGO_FIRMANTE": "Directora Académica",
+  "VAR_INSTITUTO": "Instituto Tecnológico de Culiacán",
+  "VAR_PROFESOR": "Ricardo Mendoza Torres",
+  "VAR_CLAVE_EMPLEADO": "EMP-005-ISC",
+  "VAR_DEPARTAMENTO": "Departamento de Sistemas y Computación",
+  "VAR_FECHA_INICIO": "01 de Agosto de 2025",
+  "VAR_FECHA_TERMINO": "30 de Noviembre de 2025",
+  "VAR_CIUDAD_ESTADO": "Culiacán, Sinaloa",
+  "VAR_FECHA_EMISION": "26 de Noviembre de 2025",
+  "VAR_FIRMA": "L.G.R.S."
+}');
+INSERT INTO EMPLEADOSXDOCUMENTO (ID_EMPLEADO, ID_DOCUMENTO, DATOS_JSON)
+VALUES 
+(5, 5, '{
+  "VAR_INSTITUTO": "Instituto Tecnológico de Culiacán",
+  "VAR_DEPARTAMENTO": "Departamento de Sistemas y Computación",
+  "VAR_LUGAR_FECHA": "Culiacán, Sinaloa; 26 de Noviembre de 2025",
+  "VAR_PROFESOR": "Ricardo Mendoza Torres",
+  "VAR_JEFE_DEPTO": "Ing. Jorge Alberto Valdez Montoya",
+  "VAR_LICENCIATURA": "Ingeniería en Sistemas Computacionales",
+  "VAR_FECHA_INICIO": "12 de Agosto de 2025",
+  "VAR_FECHA_FIN": "16 de Diciembre de 2025",
+  "VAR_LISTA_MODULOS": "Arquitectura de Computadoras, Estructuras de Datos, Programación Web",
+  "VAR_SUBDIRECTOR": "Mtro. Luis Fernando Cárdenas Soto"
+}');
+
+INSERT INTO EMPLEADOSXDOCUMENTO (ID_EMPLEADO, ID_DOCUMENTO, DATOS_JSON)
+VALUES 
+(5, 6, '{
+  "NOMBRE_INSTITUTO": "Instituto Tecnológico de Culiacán",
+  "NUMERO_OFICIO": "OFI-COM-2025-118",
+  "LUGAR_FECHA_EMISION": "Culiacán, Sinaloa; 26 de Noviembre de 2025",
+  "NOMBRE_PROFESOR_COMISIONADO": "Ricardo Mendoza Torres",
+  "NOMBRE_DEPARTAMENTO": "Departamento de Sistemas y Computación",
+  "NOMBRE_PROGRAMA_LICENCIATURA": "Ingeniería en Sistemas Computacionales",
+  "OBJETIVO": "Participar como responsable académico en actividades de fortalecimiento del programa educativo.",
+  "FECHA_INICIO": "02 de Septiembre de 2025",
+  "FECHA_TERMINO": "30 de Noviembre de 2025",
+  "NOMBRE_TITULAR": "Mtra. Laura Gabriela Rodríguez Salinas",
+  "CARGO_TITULAR": "Directora Académica"
+}');
+
+INSERT INTO EMPLEADOSXDOCUMENTO (ID_EMPLEADO, ID_DOCUMENTO, DATOS_JSON)
+VALUES 
+(5, 7, '{
+  "VAR_NUM_REGISTRO": "REG-ISC-2025-087",
+  "VAR_LUGAR_FECHA": "Culiacán, Sinaloa; 26 de Noviembre de 2025",
+  "VAR_DIRECTOR_INSTITUTO": "Ing. Marco Antonio Beltrán Sánchez",
+  "VAR_INSTITUTO": "Instituto Tecnológico de Culiacán",
+  "VAR_LICENCIATURA": "Ingeniería en Sistemas Computacionales",
+  "VAR_TABLA_MODULOS": "Algoritmos, Matemáticas Discretas, Redes de Computadoras",
+  "VAR_DIRECTOR_DOCENCIA": "Mtra. Laura Gabriela Rodríguez Salinas"
+}');
 
 
 

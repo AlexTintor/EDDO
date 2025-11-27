@@ -4,6 +4,7 @@ def traerEmpleados(conexion, correo, idDocente):
     try:
         cursor = conexion.cursor()
         cursor.execute("""SELECT 
+                    e.ID_EMPLEADO,
                     e.NOMBRE,
                     e.APELLIDO_PAT,
                     e.APELLIDO_MAT,
@@ -19,6 +20,7 @@ def traerEmpleados(conexion, correo, idDocente):
         empleados = []
         for fila in filas:
             empleados.append({
+                "ID_EMPLEADO": fila.ID_EMPLEADO,
                 "NOMBRE": fila.NOMBRE,
                 "APELLIDO_PAT": fila.APELLIDO_PAT,
                 "APELLIDO_MAT": fila.APELLIDO_MAT,
@@ -34,14 +36,14 @@ def traerEmpleados(conexion, correo, idDocente):
         print("❌ Error al consultar empleados:", e)
         return None
     
-def traerDocumentosTEC(conexion,idUsuario):
+def traerDocumentosTEC(conexion,correo):
     try:
         cursor = conexion.cursor()
-        cursor.execute("""SELECT  NOMBRE 
+        cursor.execute("""SELECT  D.NOMBRE 
                        FROM DOCUMENTO D
                        INNER JOIN EMPLEADOSXDOCUMENTO ED ON D.ID_DOCUMENTO = ED.ID_DOCUMENTO
                        INNER JOIN EMPLEADO E ON ED.ID_EMPLEADO = E.ID_EMPLEADO
-                       WHERE E.ID_EMPLEADO = ?""", (idUsuario,))
+                       WHERE E.correo = ?""", (correo,))
         filas = cursor.fetchall()
 
         documentos = []

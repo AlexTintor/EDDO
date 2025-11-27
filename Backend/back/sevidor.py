@@ -5,8 +5,8 @@ from flask import Flask, after_this_request, request, jsonify, send_file
 import smtplib, random
 from email.message import EmailMessage
 from flask_cors import CORS
-from bdEDDO import validarLogin, traerExpediente, traerReclamos, cambiarContra,cambiarContraActual,guardarMensaje,traerMsjs,registrarDoc, todosDocumentos
-from bdTec import  traerEmpleados, traerPlaza,validarDocenteTEC
+from bdEDDO import validarLogin, traerExpediente, traerReclamos, cambiarContra,cambiarContraActual,guardarMensaje,traerMsjs,registrarDoc, todosDocumentos,llenadoDoc
+from bdTec import  traerEmpleados, traerPlaza,validarDocenteTEC,traerDocumentosTEC
 from bdEDD import validarRequisito # type: ignore
 from convertirPdf import generar_constancia
 import pyodbc
@@ -155,7 +155,7 @@ def registrarDocente():
     
     if isinstance(datos, list) and len(datos) > 0:
         datos = datos[0]
-
+    id_empleado = datos["ID_EMPLEADO"]
     nombre = datos["NOMBRE"] 
     telefono = datos["TELEFONO"]
     apellido_pat = datos["APELLIDO_PAT"]
@@ -168,13 +168,40 @@ def registrarDocente():
     if not conexion:
         return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos1"}), 500
     
-    respuesta = registrarDoc(conexion,nombre,apellido_pat,apellido_mat, campus,correo,telefono,contra)
+    respuesta = registrarDoc(conexion,id_empleado,nombre,apellido_pat,apellido_mat, campus,correo,telefono,contra)
     conexion.close()
+
+    llenadoDocumentos(correo)
 
     if respuesta["estatus"]:
         return jsonify({"estatus": True, "cuenta": respuesta})
     else:
         return jsonify({"estatus": False, "error": respuesta["error"]}), 404 
+    
+def llenadoDocumentos(correo):
+    try:
+        conexion1 = conectar_bd("BDTEC")
+        if not conexion1:
+            print("No se pudo conectar a la base de datos TEC")
+            return
+        
+        datos = traerDocumentosTEC(conexion1,correo)
+        conexion1.close()
+
+        conexion = conectar_bd("EDDO")
+        if not conexion:
+            print("No se pudo conectar a la base de datos")
+            return
+        
+        for doc in datos:
+            llenadoDoc(conexion,correo,doc["NOMBRE"])
+        conexion.close()
+        
+        return {"estatus": True}
+    
+    except Exception as e:
+        print("❌ Error al llenar documentos:", e)
+        return {"estatus": False, "error": str(e)}
     
 
 @app.route("/cuenta", methods=["POST"])

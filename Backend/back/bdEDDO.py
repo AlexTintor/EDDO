@@ -145,11 +145,12 @@ def cambiarContraActual(conexion, idUsuario, contraNueva, contraActual):
         except:
             pass
 
-def registrarDoc(conexion,nombre,apellido_pat,apellido_mat,campus, correo, telefono, contra):
+def registrarDoc(conexion,idUsuario,nombre,apellido_pat,apellido_mat,campus, correo, telefono, contra):
     try:
         cursor = conexion.cursor()
         cursor.execute("""
             EXEC SP_REGISTRAR_DOCENTE 
+                @ID_DOCENTE = ?,
                 @NOMBRE = ?, 
                 @APELLIDO_PAT = ?,
                 @APELLIDO_MAT = ?,
@@ -157,7 +158,7 @@ def registrarDoc(conexion,nombre,apellido_pat,apellido_mat,campus, correo, telef
                 @CORREO = ?,
                 @TELEFONO = ?,
                 @CONTRA = ?
-        """, (nombre,apellido_pat, apellido_mat,campus, correo,telefono,contra))
+        """, (idUsuario,nombre,apellido_pat, apellido_mat,campus, correo,telefono,contra))
         conexion.commit()
 
         return {"estatus": True}
@@ -180,7 +181,20 @@ def registrarDoc(conexion,nombre,apellido_pat,apellido_mat,campus, correo, telef
             cursor.close()
         except:
             pass
+def llenadoDoc(conexion,correo,nombre):
+    try:
+        cursor = conexion.cursor()
+        cursor.execute("""
+            exec SP_LLENAR_DATOS_DOCUMENTO_DOCENTE @CORREO = ?, @NOMBRE = ?
+        """, (correo, nombre))
+        conexion.commit()
 
+        return {"estatus": True}
+
+    except Exception as e:
+        print("❌ Error al Llenar los datos:", e)
+        return None
+    
 def guardarMensaje(conexion, idUsuario, idReclamo, mensaje, nombreDoc):
     try:
         cursor = conexion.cursor()

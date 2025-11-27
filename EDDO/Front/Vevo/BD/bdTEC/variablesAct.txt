@@ -245,7 +245,7 @@ OFICIO_COMISION (Formación y Competencias Docentes)
 }
 --------
 1.2.2.4
-CONSTANCIA_DDIE (Diplomado de Competencias de Tutores)
+CONSTANCIA DDIE (Diplomado de Competencias de Tutores)
 {
   "VAR_FOLIO_CONSTANCIA": "",
   "VAR_NOMBRE_DOCENTE": "",
@@ -563,6 +563,7 @@ Constancia Cumplimiento SPD
   "VAR_NOMBRE_JEFE_CB": "",
   "VAR_NOMBRE_SUBDIRECTOR_ACADEMICO": ""
 }
+
 -------
 1.4.2 Formato acesorias estudiantes
   "Var_Fecha": ""
@@ -713,26 +714,17 @@ Constancia de la institución organizadora
 1.4.8.1.1
 CONSTANCIA DE PARTICIPACIÓN
 {
-  "SUBDIRECTOR_O_DIRECTOR": "",
-  "CARGO_TITULAR": "",
-  "NOMBRE_INSTITUTO": "",
-  "NOMBRE_PROFESOR": "",
-  "NOMBRE_DEPARTAMENTO": "",
-  "DIA": "",
-  "MES": "",
-  "ANIO": "",
-  "CIUDAD_ESTADO": "",
-  "PARTICIPACIONES": [
-    {
-      "DESCRIPCION": ""
-    },
-    {
-      "DESCRIPCION": ""
-    },
-    {
-      "DESCRIPCION": ""
-    }
-  ]
+"VAR_NOMBRE_FIRMANTE":""
+"VAR_CARGO_FIRMANTE":""
+"VAR_INSTITUTO":""
+"VAR_PROFESOR":""
+"VAR_CLAVE_EMPLEADO":""
+"VAR_DEPARTAMENTO":""
+"VAR_FECHA_INICIO":""
+"VAR_FECHA_TERMINO":""
+"VAR_CIUDAD_ESTADO":""
+"VAR_FECHA_EMISION":""
+"VAR_FIRMA":""
 }
 -----
 1.4.9
@@ -776,31 +768,16 @@ PRESENTE
 1.4.8.3
 Constancia con Nombres de Participantes
 {
-  "NOMBRE_INSTITUTO": "",
-  "LUGAR_FECHA_EMISION": "",
-  "NOMBRE_JEFE_DEPARTAMENTO": "",
-  "NOMBRE_DEPARTAMENTO": "",
-  "NIVEL": "",
-  "NOMBRE_PROGRAMA_ESTUDIO": "",
-  "FECHA_INICIO": "",
-  "FECHA_TERMINO": "",
-  "PARTICIPANTES": [
-    {
-      "NOMBRE": "",
-      "NUMERO": "",
-      "DEPARTAMENTO": ""
-    },
-    {
-      "NOMBRE": "",
-      "NUMERO": "",
-      "DEPARTAMENTO": ""
-    },
-    {
-      "NOMBRE": "",
-      "NUMERO": "",
-      "DEPARTAMENTO": ""
-    }
-  ]
+"VAR_INSTITUTO":""
+"VAR_DEPARTAMENTO":""
+"VAR_LUGAR_FECHA":""
+"VAR_JEFE_NOMBRE":""
+"VAR_NIVEL":""
+"VAR_PROGRAMA":""
+"VAR_FECHA_INICIO":""
+"VAR_FECHA_FIN":""
+"VAR_PARTICIPANTES":""
+"VAR_SUBDIRECTOR":""
 }
 ------
 1.4.8.3
@@ -820,21 +797,16 @@ Constancia de Participación
 1.4.8.2
 Constancia de Participación 1.4.8.2
 {
-  "NOMBRE_INSTITUTO": "",
-  "NOMBRE_DEPARTAMENTO": "",
-  "LUGAR_FECHA_EMISION": "",
-  "NOMBRE_PROFESOR": "",
-  "NOMBRE_JEFE_DEPARTAMENTO": "",
-  "NOMBRE_DEPARTAMENTO_REP": "",
-  "NOMBRE_PROFESOR_REP": "",
-  "NOMBRE_LICENCIATURA": "",
-  "FECHA_INICIO": "",
-  "FECHA_TERMINO": "",
-  "MODULOS_ESPECIALIDAD": [
-    { "NOMBRE": "" },
-    { "NOMBRE": "" },
-    { "NOMBRE": "" }
-  ]
+"VAR_INSTITUTO":""
+"VAR_DEPARTAMENTO":""
+"VAR_LUGAR_FECHA":""
+"VAR_PROFESOR":""
+"VAR_JEFE_DEPTO":""
+"VAR_LICENCIATURA":""
+"VAR_FECHA_INICIO":""
+"VAR_FECHA_FIN":""
+"VAR_LISTA_MODULOS":""
+"VAR_SUBDIRECTOR":""
 }
 ------
 1.4.8.2
@@ -856,27 +828,13 @@ Oficio de Comisión
 1.4.8.2
 Oficio de Registro de Módulos
 {
-  "NUMERO_OFICIO_REGISTRO": "",
-  "LUGAR_FECHA_EMISION": "",
-  "NOMBRE_TITULAR_INSTITUTO": "",
-  "NOMBRE_INSTITUTO": "",
-  "NOMBRE_LICENCIATURA": "",
-  "MODULOS": [
-    {
-      "CLAVE": "",
-      "NOMBRE_MODULO": "",
-      "HORAS": "",
-      "FECHA_INICIO": "",
-      "FECHA_TERMINO": ""
-    },
-    {
-      "CLAVE": "",
-      "NOMBRE_MODULO": "",
-      "HORAS": "",
-      "FECHA_INICIO": "",
-      "FECHA_TERMINO": ""
-    }
-  ]
+"VAR_NUM_REGISTRO":""
+"VAR_LUGAR_FECHA":""
+"VAR_DIRECTOR_INSTITUTO":""
+"VAR_INSTITUTO":""
+"VAR_LICENCIATURA":""
+"VAR_TABLA_MODULOS":""
+"VAR_DIRECTOR_DOCENCIA":""
 }
 
 
