@@ -145,16 +145,19 @@ def cambiarContraActual(conexion, idUsuario, contraNueva, contraActual):
         except:
             pass
 
-def registrarDoc(conexion,nombre, correo, telefono, contra):
+def registrarDoc(conexion,nombre,apellido_pat,apellido_mat,campus, correo, telefono, contra):
     try:
         cursor = conexion.cursor()
         cursor.execute("""
             EXEC SP_REGISTRAR_DOCENTE 
                 @NOMBRE = ?, 
+                @APELLIDO_PAT = ?,
+                @APELLIDO_MAT = ?,
+                @CAMPUS = ?,
                 @CORREO = ?,
                 @TELEFONO = ?,
                 @CONTRA = ?
-        """, (nombre, correo,telefono,contra))
+        """, (nombre,apellido_pat, apellido_mat,campus, correo,telefono,contra))
         conexion.commit()
 
         return {"estatus": True}

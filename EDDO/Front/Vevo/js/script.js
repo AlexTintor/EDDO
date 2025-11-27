@@ -15,7 +15,7 @@ function desplegarInterfazSalir(){
   });
 
   btnConfirmar.addEventListener("click", () => {
-    localStorage.clear();
+    sessionStorage.clear();
     window.location.href = "inicioSesion.html";
   });
 }
@@ -45,7 +45,7 @@ function login(){
         .then(response => response.json())
         .then(data => {
             if (data.estatus) {
-                localStorage.setItem("idUsuario", data.id_docente);
+                sessionStorage.setItem("idUsuario", data.id_docente);
                 if(data.id_docente < 1000)
                   window.location.href = "principal.html";
                 else
@@ -99,8 +99,8 @@ async function pagina(){
   const resultado = await traerDatosCuenta();
   const botonCuenta = document.getElementById("btnCuenta");
   if (resultado && resultado.estatus) {
-    localStorage.setItem("nombreDocente", resultado.cuenta[0].NOMBRE);
-    localStorage.setItem("datosCuenta", JSON.stringify(resultado.cuenta));
+    sessionStorage.setItem("nombreDocente", resultado.cuenta[0].NOMBRE);
+    sessionStorage.setItem("datosCuenta", JSON.stringify(resultado.cuenta));
   }
   
   loadPage("inicio.html");
@@ -144,7 +144,7 @@ async function pagina(){
 
     /*Funciones para rellenar los datos de la interfaz Cuenta*/
 async function actualizarDatosCuenta(){
-    const datos1 = localStorage.getItem("datosCuenta");
+    const datos1 = sessionStorage.getItem("datosCuenta");
     const datos2 = JSON.parse(datos1);
     const datos = datos2[0];
     const textNombre = document.getElementById("textNombre");
@@ -244,11 +244,11 @@ function agregarReclamo(reclamos) {
 
 async function traerDatosReclamo() {
   try {
-    console.log("📄 Solicitando reclamos para:", localStorage.getItem("idUsuario"));
+    console.log("📄 Solicitando reclamos para:", sessionStorage.getItem("idUsuario"));
     const response = await fetch("http://localhost:5000/reclamos", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ idUsuario: localStorage.getItem("idUsuario") })
+      body: JSON.stringify({ idUsuario: sessionStorage.getItem("idUsuario") })
     });
 
     const data = await response.json();
@@ -276,9 +276,9 @@ function btnsAbrirReclamo(){
 
       const idReclamo = fila.querySelector("td").innerText.trim();
 
-      localStorage.setItem("idReclamo", idReclamo);
-      if(localStorage.getItem("documentoSeleccionado")){
-        localStorage.removeItem("documentoSeleccionado", 0);
+      sessionStorage.setItem("idReclamo", idReclamo);
+      if(sessionStorage.getItem("documentoSeleccionado")){
+        sessionStorage.removeItem("documentoSeleccionado", 0);
       }
       console.log("Reclamo:", idReclamo);
       loadPage("chat.html");
@@ -295,7 +295,7 @@ async function mostrarDocumento(nombreDoc){
     },
     body: JSON.stringify({
       nombreDoc: nombreDoc,
-      idUsuario: localStorage.getItem("idUsuario")
+      idUsuario: sessionStorage.getItem("idUsuario")
     })
   })
   .then(res => res.blob())  // <--- AQUÍ RECIBES EL PDF
@@ -321,7 +321,7 @@ function guardarNombreDoc(){
       
       const nombreDoc = fila.querySelector("td").innerText.trim();
 
-      localStorage.setItem("documentoSeleccionado", nombreDoc);
+      sessionStorage.setItem("documentoSeleccionado", nombreDoc);
 
 
       loadPage("verDocumento.html");
@@ -337,12 +337,12 @@ function guardarNombreDoc(){
       const fila = btn.closest("tr");
       
       const nombreDoc = fila.querySelector("td").innerText.trim();
-      localStorage.removeItem("idReclamo", 0);
+      locasessionStoragelStorage.removeItem("idReclamo", 0);
 
-      localStorage.setItem("documentoSeleccionado", nombreDoc);
+      sessionStorage.setItem("documentoSeleccionado", nombreDoc);
       console.log("📄 Documento guardado:", nombreDoc);
-      if(localStorage.getItem("idReclamo")){
-        localStorage.removeItem("idReclamo", 0);
+      if(locasessionStoragelStorage.getItem("idReclamo")){
+        sessionStorage.removeItem("idReclamo", 0);
       }
       
       loadPage("chat.html");
@@ -372,7 +372,7 @@ async function traerDatosCuenta(){
     const response = await fetch("http://localhost:5000/cuenta", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ idUsuario: localStorage.getItem("idUsuario") })
+      body: JSON.stringify({ idUsuario: sessionStorage.getItem("idUsuario") })
     });
     const data = await response.json();
 
@@ -395,7 +395,7 @@ async function traerDatosExpediente() {
     const response = await fetch("http://localhost:5000/expedient", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ idUsuario: localStorage.getItem("idUsuario") })
+      body: JSON.stringify({ idUsuario: sessionStorage.getItem("idUsuario") })
     });
 
     const data = await response.json();
@@ -443,9 +443,7 @@ function registro(){
 
   btnRegistro.addEventListener("click",async ()=>{
     lblError.hidden = true;
-    const nombre = document.getElementById("nombre").value;
     const correo = document.getElementById("email").value;
-    const telefono = document.getElementById("telefono").value;
     const contra1 = document.getElementById("password1").value;
     const contra2 = document.getElementById("password2").value;
 
@@ -454,7 +452,7 @@ function registro(){
       lblError.textContent = "La contraseña no es la misma, pon la misma en los dos campos";
       lblError.hidden = false;
     }else{
-      const data = await registrarDocente(nombre,correo,telefono,contra1);
+      const data = await registrarDocente(correo,contra1);
       console.log(data);
       if(data.estatus){
           window.location.href = "inicioSesion.html";
@@ -472,12 +470,12 @@ function registro(){
   
 }
 
-async function registrarDocente(nombre,correo,telefono,contra){
+async function registrarDocente(correo,contra){
     try {
     const response = await fetch("http://localhost:5000/registrarDocente", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ NOMBRE:nombre,CORREO:correo, TELEFONO:telefono, CONTRA: contra })
+      body: JSON.stringify({CORREO:correo,  CONTRA: contra })
     });
 
     const data = await response.json();
@@ -500,7 +498,7 @@ async function validarRequi(){
           headers: {
               "Content-Type": "application/json"
           },
-          body: JSON.stringify({ idUsuario: localStorage.getItem("idUsuario")})
+          body: JSON.stringify({ idUsuario: sessionStorage.getItem("idUsuario")})
       })
       .then(response => response.json())
       .then(data => {
@@ -556,7 +554,7 @@ function loadPage(page) {
       //const validarRequitos = await validarRequi();
       const validarRequitos = true;
       if (validarRequitos){
-        const nombreDocente = localStorage.getItem("nombreDocente");
+        const nombreDocente = sessionStorage.getItem("nombreDocente");
         const saludoElemento = document.getElementById("saludoDocente");
         if (saludoElemento && nombreDocente) {
           saludoElemento.textContent = `${nombreDocente}`;
@@ -575,13 +573,13 @@ function loadPage(page) {
     }
 
     if (page === "reclamo.html") {
-      /*if(localStorage.getItem("reclamos")){
-        const expediente = JSON.parse(localStorage.getItem("reclamos"));
+      /*if(sessionStorage.getItem("reclamos")){
+        const expediente = JSON.parse(sessionStorage.getItem("reclamos"));
         agregarReclamo(expediente);
       }else {
         const expediente = await traerDatosReclamo();
         if (expediente) {
-          localStorage.setItem("reclamos", JSON.stringify(expediente));
+          sessionStorage.setItem("reclamos", JSON.stringify(expediente));
           agregarReclamo(expediente);
         }
       }*/
@@ -620,9 +618,9 @@ async function traerMensajes() {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        idUsuario: localStorage.getItem("idUsuario"),
-        nombreDoc: localStorage.getItem("idReclamo"),
-        documentoSeleccionado: localStorage.getItem("documentoSeleccionado")
+        idUsuario: sessionStorage.getItem("idUsuario"),
+        nombreDoc: sessionStorage.getItem("idReclamo"),
+        documentoSeleccionado: sessionStorage.getItem("documentoSeleccionado")
       })
     });
 
@@ -658,9 +656,9 @@ async function actualizarChat(){
   }
 
   console.log("Mensajes para actualizar el chat:", mensajes);
-  const tipo = localStorage.getItem("idUsuario") <= 999 ? "DOCENTE" : "JEFE";
+  const tipo = sessionStorage.getItem("idUsuario") <= 999 ? "DOCENTE" : "JEFE";
   console.log("Tipo de usuario:", tipo);
-  console.log("Mensajes recibidos:", localStorage.getItem("idUsuario"));
+  console.log("Mensajes recibidos:", sessionStorage.getItem("idUsuario"));
 
   mensajes.msjs.forEach(msj => {
     const fecha = msj["fecha"];
@@ -717,7 +715,7 @@ function mandarMsjAlBackend(mensaje) {
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ idUsuario: localStorage.getItem("idUsuario"), idReclamo: localStorage.getItem("idReclamo"), mensaje: mensaje,  nombreDoc: localStorage.getItem("documentoSeleccionado") })
+    body: JSON.stringify({ idUsuario: sessionStorage.getItem("idUsuario"), idReclamo: sessionStorage.getItem("idReclamo"), mensaje: mensaje,  nombreDoc: sessionStorage.getItem("documentoSeleccionado") })
   })
   .then(response => response.json())
   .then(data => {
@@ -752,7 +750,7 @@ function cambiarContraActual(){
           headers: {
               "Content-Type": "application/json"
           },
-          body: JSON.stringify({ idUsuario: localStorage.getItem("idUsuario"), contraActual: passwordActual, contraNueva: passwordNueva})
+          body: JSON.stringify({ idUsuario: sessionStorage.getItem("idUsuario"), contraActual: passwordActual, contraNueva: passwordNueva})
           })
           .then(response => response.json())
           .then(data => {
@@ -812,8 +810,8 @@ function enviarCodigo() {
         .then(response => response.json())
         .then(data => {
             if (data.estatus) {
-                localStorage.setItem("correo", correo);
-                localStorage.setItem("codigo", data.codigo);
+                sessionStorage.setItem("correo", correo);
+                sessionStorage.setItem("codigo", data.codigo);
                 window.location.href = "ingresarCodigo.html";
                 btnEnviarCodigo.innerHTML = "Enviar Código";
             } else {
@@ -861,7 +859,7 @@ function validarCodigo(){
     const cells = [...document.querySelectorAll('.inputCelda')];
     const btnEnviarCodigo = document.getElementById('btnEnviarCodigo');
     const lblError = document.getElementById("lblError");
-    let codigo = localStorage.getItem('codigo');
+    let codigo = sessionStorage.getItem('codigo');
     
     btnEnviarCodigo.addEventListener('click', (e) => {
         e.preventDefault();
@@ -948,7 +946,7 @@ function restablecerContra(){
           headers: {
               "Content-Type": "application/json"
           },
-          body: JSON.stringify({ correo: localStorage.getItem("correo"), contraNueva: password})
+          body: JSON.stringify({ correo: sessionStorage.getItem("correo"), contraNueva: password})
           })
           .then(response => response.json())
           .then(data => {

@@ -134,12 +134,10 @@ def reclamos():
 @app.route("/registrarDocente", methods =["POST"])
 def registrarDocente():
     data = request.get_json()
-    nombre = data.get("NOMBRE")
     correo = data.get("CORREO")
-    telefono = data.get("TELEFONO")
     contra = data.get("CONTRA")
 
-    if not nombre or not correo or not telefono or not contra:
+    if not  correo  or not contra:
         return jsonify({"estatus": False, "error": "Faltan datos"}), 400
     
     conexion2 = conectar_bd("BDTEC")
@@ -150,13 +148,27 @@ def registrarDocente():
     if not validarDocenteTEC(conexion2, correo):
         return jsonify({"estatus": False, "error": "El correo no pertenece a un docente del TEC"}), 400
     
+    datos = traerEmpleados(conexion2, correo, idDocente = 0)
+
+    if not datos:
+        return jsonify({"estatus": False, "error": "No se encontraron datos del docente en TEC"}), 404
+    
+    if isinstance(datos, list) and len(datos) > 0:
+        datos = datos[0]
+
+    nombre = datos["NOMBRE"] 
+    telefono = datos["TELEFONO"]
+    apellido_pat = datos["APELLIDO_PAT"]
+    apellido_mat = datos["APELLIDO_MAT"]
+    campus = datos["CAMPUS"]
+
     conexion2.close()
     
     conexion = conectar_bd("EDDO")
     if not conexion:
         return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos1"}), 500
     
-    respuesta = registrarDoc(conexion,nombre,correo,telefono,contra)
+    respuesta = registrarDoc(conexion,nombre,apellido_pat,apellido_mat, campus,correo,telefono,contra)
     conexion.close()
 
     if respuesta["estatus"]:
@@ -176,8 +188,10 @@ def cuenta():
     conexion = conectar_bd("BDTEC")
     if not conexion:
         return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
-
-    cuenta = traerEmpleados(conexion, idUsuario)
+    correo = ""
+    print(idUsuario)
+    cuenta = traerEmpleados(conexion, correo, idUsuario)
+    print(cuenta)
     conexion.close()
 
     if cuenta:

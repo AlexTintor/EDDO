@@ -1,6 +1,6 @@
 ------
 1.1.1a
-Formato-para-el-Horario-de-Actividades
+Formato para el Horario de Actividades
 {
   "VAR_NOM_DOCENTE": "",
   "VAR_CARRERA": "",
@@ -13,7 +13,7 @@ Formato-para-el-Horario-de-Actividades
   "V_FECHA_INGRESO_SEP": "",
   "V_FECHA_INGRESO_TEC": "",
 
-  "VARIABLE_ASIGNATURA1": "",
+  "VARIABLE_ASIGNATURA1": "", 
   "V_GRUPO1": "",
   "V_EST1": "",
   "V_TIPO_AULA1": "",
@@ -104,7 +104,7 @@ Formato-para-el-Horario-de-Actividades
 
 ------
 1.1.5.1
-Constancia-De-Tutoria
+Constancia de Tutoría
 {
   "VAR_NOM_DOCENTE": "",
   "VAR_DEPARTAMENTO": "",
@@ -119,7 +119,7 @@ Constancia-De-Tutoria
 
 ------
 1.1.6b
-Consejo_Nacional_de_Acreditación
+Consejo Nacional de Acreditación
 {
   "V_FECHA_INICIO": "",
   "V_FECHA_FINAL": "",
@@ -127,28 +127,49 @@ Consejo_Nacional_de_Acreditación
   "V_FECHA": ""
 }
 -------
-1.1.7
-CONSTANCIA
-{
-  "NOMBRE_COMPLETO": "",
-  "MES_INICIO_MES_FINAL": "",
-  "AÑO": "",
-  "NUMERO_DICTAMEN": "",
-  "ALUMNOS": ""
-}
+1.1.7 
+Constancia de participación en cuerpos colegiados
+  "Var_Fecha": ""
+  "Var_Oficio": ""
+  "Var_Nombre": ""
+  "Var_Semestre": ""
+  "Var_NumDictamen": ""
+  "Var_TotalAlumnos": ""
+  "Var_AlumnosConCredito": ""
+  "Var_Sello": ""
+  "Var_FirmaJefaDpto": ""
+  "Var_NombreJefaDpto": ""
+  "Var_PuestoJefaDpto": ""
+  "Var_FirmaJefeCentro": ""
+  "Var_FirmaResponsable": ""
+  "Var_NombreJefeCentro": ""
+  "Var_PuestoJefeCentro": ""
+  "Var_NombreResponsable": ""
+  "Var_PuestoResponsable": ""
+
 
 ----
-1.2.1.1a
-COMISIÓN DE EVALUACIÓN DEL
-PROGRAMA DE ESTÍMULOS AL DESEMPEÑO DEL PERSONAL DOCENTE
-PARA LOS INSTITUTOS TECNÓLOGICOS FEDERALES Y CENTROS.
-PRESENTE.
-{
-  "NOMBRE_COMPLETO": "",
-  "ASIGNATURA": "",
-  "PROGRAMA": ""
-}
------
+1.2.1.1 Recursos educativos digitales
+  "Var_Fecha": ""
+  "Var_Oficio": ""
+  "Var_Nombre": ""
+  "Var_Semestre": ""
+  "Var_Asignatura": ""
+  "Var_ProgramaNombre": ""
+  "Var_Sello": ""
+  "Var_NombreJefa": ""
+  "Var_PuestoJefa": ""
+  "Var_FirmaJefa": ""
+  "Var_NombrePresidente": ""
+  "Var_PuestoPresidente": ""
+  "Var_FirmaPresidente": ""
+  "Var_NombreResponsable": ""
+  "Var_PuestoResponsable": ""
+  "Var_FirmaResponsable": ""
+  --
+
+
+
 1.2.1.2 
 Constancia de Trabajo
 {
@@ -160,13 +181,12 @@ Constancia de Trabajo
   "VAR_MES": "",
   "VAR_AÑO": ""
 }
+
+
 ------
 
 1.2.1.3
-COMISIÓN DE EVALUACIÓN DEL
-PROGRAMA DE ESTÍMULOS AL DESEMPEÑO DEL PERSONAL DOCENTE
-PARA LOS INSTITUTOS TECNÓLOGICOS FEDERALES Y CENTROS.
-PRESENTE.
+Formato de implementacion de estrategias  
 {
   "NOMBRE_COMPLETO": "",
   "HABILIDADES": "",
@@ -191,7 +211,7 @@ Constancia de Productos Obtenidos y su Impacto
 }
 -----
 1.2.2.1
-OFICIO_COMISION:
+Oficio Comisión (curso/diplomado)
 {
   "VAR_OFICIO_COMISION": "",
   "VAR_NOMBRE_DOCENTE": "",
@@ -203,7 +223,7 @@ OFICIO_COMISION:
 }
 --------
 1.2.2.2
-OFICIO_COMISION:
+OFICIO_COMISION (curso/diplomado de la DDIE) 
 {
   "VAR_OFICIO_COMISION": "",
   "VAR_NOMBRE_DOCENTE": "",
@@ -214,7 +234,7 @@ OFICIO_COMISION:
 }
 ---------
 1.2.2.3
-OFICIO_COMISION:
+OFICIO_COMISION (Formación y Competencias Docentes) 
 {
   "VAR_OFICIO_COMISION": "",
   "VAR_NOMBRE_DOCENTE": "",
@@ -225,7 +245,7 @@ OFICIO_COMISION:
 }
 --------
 1.2.2.4
-CONSTANCIA_DDIE:
+CONSTANCIA_DDIE (Diplomado de Competencias de Tutores)
 {
   "VAR_FOLIO_CONSTANCIA": "",
   "VAR_NOMBRE_DOCENTE": "",
@@ -238,7 +258,7 @@ CONSTANCIA_DDIE:
 }
 ------------
 1.2.2.5
-OFICIO_COMISION:
+OFICIO_COMISION (Recursos Educativos en Ambientes Virtuales)
 {
   "VAR_OFICIO_COMISION": "",
   "VAR_NOMBRE_DOCENTE": "",
@@ -249,7 +269,7 @@ OFICIO_COMISION:
 }
 -----------
 1.2.2.6
-OFICIO_COMISION:
+OFICIO_COMISION (en Diplomado en Educación Inclusiva)
 {
   "VAR_OFICIO_COMISION": "",
   "VAR_NOMBRE_DOCENTE": "",
@@ -260,7 +280,7 @@ OFICIO_COMISION:
 }
 -------------
 1.2.2.7
-OFICIO_COMISION:
+OFICIO_COMISION (en Proyecto Estratégico)
 {
   "VAR_OFICIO_COMISION": "",
   "VAR_NOMBRE_DOCENTE": "",
@@ -271,28 +291,25 @@ OFICIO_COMISION:
 }
 ---------
 1.3.1.1
-Constancia De Exencion De Examen Licenciatura:
+Constancia de exencion de examen profecional
 {
-  "VAR_FOLIO": "",
-  "VAR_NOMBRE_COMPLETO": "",
-  "VAR_NOCONTROL": "",
-  "VAR_INSTITUTO": "",
-  "VAR_CLAVE": "",
-  "VAR_CARRERA": "",
-  "VAR_OPCION_TITULACION": "",
-  "VAR_DIA": "",
-  "VAR_MES": "",
-  "VAR_AÑO": "",
-  "VAR_NOMBRE_PRESI": "",
-  "VAR_CEDULA_PRESI": "",
-  "VAR_NOMBRE_SECRE": "",
-  "VAR_CEDULA_SECRE": "",
-  "VAR_NOMBRE_VOCAL": "",
-  "VAR_CEDULA_VOCAL": ""
+  "Var_Nombre": ""
+  "Var_NumControl": ""
+  "Var_Instituto": ""
+  "Var_Clave": ""
+  "Var_Carrera": ""
+  "Var_Opcion": ""
+  "Var_Fecha": ""
+  "Var_NombrePresidente": ""
+  "Var_NombreSecretario": ""
+  "Var_NombreVocal": ""
+  "Var_CedulaPresidente": ""
+  "Var_CedulaSecretario": ""
+  "Var_CedulaVocal": ""
 }
 -------
 1.3.1.2
-Constancia De Exencion De Examen Especializacion:
+Constancia De Exencion De Examen Especializacion
 {
   "VAR_FOLIO": "",
   "VAR_NOMBRE_COMPLETO": "",
@@ -313,7 +330,7 @@ Constancia De Exencion De Examen Especializacion:
 }
 ------
 1.3.1.3
-Constancia De Exencion De Examen Maestria:
+Constancia De Exencion De Examen Maestria
 {
   "VAR_FOLIO": "",
   "VAR_NOMBRE_COMPLETO": "",
@@ -334,7 +351,7 @@ Constancia De Exencion De Examen Maestria:
 }
 -------------
 1.3.1.4
-Constancia De Exencion De Examen Maestria.Codirector:
+Constancia De Exencion De Examen Maestria.Codirector
 {
   "VAR_FOLIO": "",
   "VAR_NOMBRE_COMPLETO": "",
@@ -355,7 +372,7 @@ Constancia De Exencion De Examen Maestria.Codirector:
 }
 ----------
 1.3.1.5
-Constancia De Exencion De Examen Doctorado:
+Constancia De Exencion De Examen Doctorado
 {
   "VAR_FOLIO": "",
   "VAR_NOMBRE_COMPLETO": "",
@@ -376,7 +393,7 @@ Constancia De Exencion De Examen Doctorado:
 }
 ----------
 1.3.1.6
-Constancia De Exencion De Examen Doctorado.Codirector:
+Constancia De Exencion De Examen Doctorado.Codirector
 {
   "VAR_FOLIO": "",
   "VAR_NOMBRE_COMPLETO": "",
@@ -397,6 +414,7 @@ Constancia De Exencion De Examen Doctorado.Codirector:
 }
 ---------------
 1.3.2.1
+Constancia SINODAL Tecnico Superior	
 {
   "VAR_NOMB_DOCENTE": "",
   "VAR_FECHA_INICIO": "",
@@ -423,7 +441,7 @@ Constancia De Exencion De Examen Doctorado.Codirector:
 
 -----------
 1.3.2.2
-Constancia SINODAL Licenciatura:
+Constancia SINODAL Licenciatura
 {
   "VAR_NOMB_DOCENTE": "",
   "VAR_FECHA_INICIO": "",
@@ -450,7 +468,7 @@ Constancia SINODAL Licenciatura:
 
 --------------
 1.3.2.3
-Constancia SINODAL Especializacion:
+Constancia SINODAL Especializacion
 {
   "VAR_NOMB_DOCENTE": "",
   "VAR_FECHA_INICIO": "",
@@ -477,7 +495,7 @@ Constancia SINODAL Especializacion:
 
 ------------
 1.3.2.4
-Constancia SINODAL Maestria:
+Constancia SINODAL Maestria
 {
   "VAR_NOMB_DOCENTE": "",
   "VAR_FECHA_INICIO": "",
@@ -504,7 +522,7 @@ Constancia SINODAL Maestria:
 
 --------------
 1.3.2.5
-Constancia SINODAL Doctorado:
+Constancia SINODAL Doctorado
 {
   "VAR_NOMB_DOCENTE": "",
   "VAR_FECHA_INICIO": "",
@@ -532,7 +550,7 @@ Constancia SINODAL Doctorado:
 
 ----
 1.4.1
-CONSTANCIA_CUMPLIMIENTO:
+Constancia Cumplimiento SPD
 {
   "VAR_FOLIO_CONSTANCIA": "",
   "VAR_NOMBRE_DOCENTE": "",
@@ -545,9 +563,154 @@ CONSTANCIA_CUMPLIMIENTO:
   "VAR_NOMBRE_JEFE_CB": "",
   "VAR_NOMBRE_SUBDIRECTOR_ACADEMICO": ""
 }
+-------
+1.4.2 Formato acesorias estudiantes
+  "Var_Fecha": ""
+  "Var_Oficio": ""
+  "Var_Nombre": ""
+  "Var_Rol": ""
+  "Var_NombreDeCurso": ""
+  "Var_FechaInicio": ""
+  "Var_FechaFin": ""
+  "Var_Alcance": ""
+  "Var_funcionesRealizadas": ""
+  "Var_Sello": ""
+  "Var_FirmaJefa": ""
+  "Var_NombreJefa": ""
+  "Var_PuestoJefa": ""
+  "Var_FirmaPresidente": ""
+  "Var_NombrePresidente": ""
+  "Var_PuestoPresidente": ""
+  "Var_FirmaResponsable": ""
+  "Var_NombreResponsable": ""
+  "Var_PuestoResponsable": ""
 
 -----
-1.4.8.1
+1.4.3 Constancia acesoria lugares
+  "Var_Fecha": ""
+  "Var_Oficio": ""
+  "Var_Nombre": ""
+  "Var_NombreProyecto": ""
+  "Var_NombreEvento": ""
+  "Var_Nivel": ""
+  "Var_Lugar": ""
+  "Var_FechaInicio": ""
+  "Var_FechaFin": ""
+  "Var_NumDictamen": ""
+  "Var_Sello": ""
+  "Var_FirmaJefaDpto": ""
+  "Var_NombreJefaDpto": ""
+  "Var_PuestoJefaDpto": ""
+  "Var_FirmaSubdirector": ""
+  "Var_NombreSubdirector": ""
+  "Var_PuestoSubdirector": ""
+  "Var_FirmaResponsable": ""
+  "Var_NombreResponsable": ""
+  "Var_PuestoResponsable": ""
+------
+1.4.4.1 Coordinación y colaboración en concursos o eventos académicos
+  "Var_Fecha": ""
+  "Var_Oficio": ""
+  "Var_Nombre": ""
+  "Var_Cargo": ""
+  "Var_NombreEvento": ""
+  "Var_FechaInicio": ""
+  "Var_FechaFin": ""
+  "Var_Nivel": ""
+  "Var_ActividadesDesarrolladas": ""
+  "Var_Sello": ""
+  "Var_FirmaJefaDpto": ""
+  "Var_NombreJefaDpto": ""
+  "Var_PuestoJefaDpto": ""
+  "Var_FirmaSubdireccion": ""
+  "Var_NombreSubdireccion": ""
+  "Var_PuestoSubdireccion": ""
+  "Var_FirmaResponsable": ""
+  "Var_NombreResponsable": ""
+  "Var_PuestoResponsable": ""
+----------
+1.4.5.1 Constancia de participacion como jurado
+  "Var_Fecha": ""
+  "Var_Oficio": ""
+  "Var_Nombre": ""
+  "Var_NombreEvento": ""
+  "Var_FechaInicio": ""
+  "Var_FechaFin": ""
+  "Var_Nivel": ""
+  "Var_Sello": ""
+  "Var_FirmaJefaDpto": ""
+  "Var_NombreJefaDpto": ""
+  "Var_PuestoJefaDpto": ""
+  "Var_FirmaSubdireccion": ""
+  "Var_NombreSubdireccion": ""
+  "Var_PuestoSubdireccion": ""
+  "Var_FirmaResponsable": ""
+  "Var_NombreResponsable": ""
+  "Var_PuestoResponsable": ""
+-----------
+1.4.6. Participacion de comites
+  "Var_Fecha": ""
+  "Var_Oficio": ""
+  "Var_Nombre": ""
+  "Var_NombreEvento": ""
+  "Var_FechaInicio": ""
+  "Var_FechaFin": ""
+  "Var_Nivel": ""
+  "Var_Sello": ""
+  "Var_FirmaJefaDpto": ""
+  "Var_NombreJefaDpto": ""
+  "Var_PuestoJefaDpto": ""
+  "Var_FirmaSubdireccion": ""
+  "Var_NombreSubdireccion": ""
+  "Var_PuestoSubdireccion": ""
+  "Var_FirmaResponsable": ""
+  "Var_NombreResponsable": ""
+  "Var_PuestoResponsable": ""
+-----------------
+Oficio de Comisión por la persona titular del ITec
+  "Var_Fecha": ""
+  "Var_Oficio": ""
+  "Var_Nombre": ""
+  "Var_Cargo": ""
+  "Var_NombreEvento": ""
+  "Var_FechaInicio": ""
+  "Var_FechaFin": ""
+  "Var_Nivel": ""
+  "Var_Sello": ""
+  "Var_FirmaTitular": ""
+  "Var_NombreTitular": ""
+----------------
+Constancia de la institución organizadora
+  "Var_NombreInstitucion": ""
+  "Var_LugarEvento": ""
+  "Var_Fecha": ""
+  "Var_Nombre": ""
+  "Var_Cargo": ""
+  "Var_NombreEvento": ""
+  "Var_FechaInicio": ""
+  "Var_FechaFin": ""
+  "Var_Nivel": ""
+  "Var_FirmaOrganizador": ""
+  "Var_NombreOrganizador": ""
+  "Var_PuestoOrganizador": ""
+----------------
+1.4.7 Participación en auditorías de sistemas de gestión
+  "Var_Fecha": ""
+  "Var_Nombre": ""
+  "Var_RolAuditor": ""
+  "Var_NombreInstitucion": ""
+  "Var_sistema": ""
+  "Var_FechaInicio": ""
+  "Var_FechaFin": ""
+  "Var_LugarAuditoria": ""
+  "Var_FirmaTitular": ""
+  "Var_NombreTitular": ""
+
+
+-------------------
+
+---
+1.4.8.1.1
 CONSTANCIA DE PARTICIPACIÓN
 {
   "SUBDIRECTOR_O_DIRECTOR": "",
@@ -573,7 +736,7 @@ CONSTANCIA DE PARTICIPACIÓN
 }
 -----
 1.4.9
-CERTIFICACIÓN DE EXAMEN DE GRADO
+Copia Examen de Grado
 {
   "NOMBRE_EGRESADO": "",
   "NOMBRE_MAESTRIA": "",
@@ -611,7 +774,7 @@ PRESENTE
 }
 -----
 1.4.8.3
-Constancia de Participación y Trabajo Terminado
+Constancia con Nombres de Participantes
 {
   "NOMBRE_INSTITUTO": "",
   "LUGAR_FECHA_EMISION": "",
@@ -641,7 +804,7 @@ Constancia de Participación y Trabajo Terminado
 }
 ------
 1.4.8.3
-Autorización de Apertura de Programa de Estudio.
+Constancia de Participación
 {
   "NUMERO_OFICIO_AUTORIZACION": "",
   "LUGAR_FECHA_EMISION": "",
@@ -655,7 +818,7 @@ Autorización de Apertura de Programa de Estudio.
 ------
 
 1.4.8.2
-Constancia de Participación.
+Constancia de Participación 1.4.8.2
 {
   "NOMBRE_INSTITUTO": "",
   "NOMBRE_DEPARTAMENTO": "",
@@ -675,7 +838,7 @@ Constancia de Participación.
 }
 ------
 1.4.8.2
-Comisión para Diseño de Módulos de Especialidad.
+Oficio de Comisión	
 {
   "NOMBRE_INSTITUTO": "",
   "NUMERO_OFICIO": "",
@@ -691,7 +854,7 @@ Comisión para Diseño de Módulos de Especialidad.
 }
 --------
 1.4.8.2
-Registro de Módulos de Especialidad.
+Oficio de Registro de Módulos
 {
   "NUMERO_OFICIO_REGISTRO": "",
   "LUGAR_FECHA_EMISION": "",

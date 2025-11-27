@@ -1,21 +1,33 @@
 import pyodbc
 
-def traerEmpleados(conexion, idDocente):
+def traerEmpleados(conexion, correo, idDocente):
     try:
         cursor = conexion.cursor()
-        cursor.execute("""SELECT NOMBRE_EMPLEADO,CORREO_EMPLEADO,TELEFONO,CAMPUS, NOMBRE_DEPARTAMENTO 
-                       FROM VISTA_EMPLEADOS_COMPLETA where ID_EMPLEADO = ?""", (idDocente,))
+        cursor.execute("""SELECT 
+                    e.NOMBRE,
+                    e.APELLIDO_PAT,
+                    e.APELLIDO_MAT,
+                    e.CORREO,
+                    e.TELEFONO,
+                    e.CAMPUS,
+                    d.NOMBRE AS NOMBRE_DEPA
+                FROM EMPLEADO e
+                JOIN DEPARTAMENTO d ON e.ID_DEPARTAMENTO = d.ID_DEPARTAMENTO
+                WHERE E.CORREO = ? OR E.ID_EMPLEADO = ?  """, (correo, idDocente,))
         filas = cursor.fetchall()
 
         empleados = []
         for fila in filas:
             empleados.append({
-                "NOMBRE": fila.NOMBRE_EMPLEADO,
-                "CORREO": fila.CORREO_EMPLEADO,
+                "NOMBRE": fila.NOMBRE,
+                "APELLIDO_PAT": fila.APELLIDO_PAT,
+                "APELLIDO_MAT": fila.APELLIDO_MAT,
+                "CORREO": fila.CORREO,
                 "TELEFONO": fila.TELEFONO,
                 "CAMPUS": fila.CAMPUS,
-                "DEPARTAMENTO": fila.NOMBRE_DEPARTAMENTO
+                "DEPARTAMENTO": fila.NOMBRE_DEPA
             })
+            print(empleados)
         return empleados
 
     except Exception as e:
@@ -82,3 +94,4 @@ def validarDocenteTEC(conexion, correo):
             cursor.close()
         except Exception:
             pass
+

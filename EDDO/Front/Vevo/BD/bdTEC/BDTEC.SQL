@@ -51,50 +51,51 @@ CREATE TABLE EMPLEADOSXDOCUMENTO (
     DATOS_JSON NVARCHAR(MAX) NULL,
     CONSTRAINT CK_DOC_ACT_JSON CHECK (ISJSON(DATOS_JSON)=1)
 );
-INSERT INTO Documento (Nombre) VALUES ('Formato-para-el-Horario-de-Actividades');
-INSERT INTO Documento (Nombre) VALUES ('Constancia-De-Tutoria');
-INSERT INTO Documento (Nombre) VALUES ('Consejo_Nacional_de_Acreditación');
-INSERT INTO Documento (Nombre) VALUES ('CONSTANCIA');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Copia Examen de Grado');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Oficio de Autorización de Apertura');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia con Nombres de Participantes');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia de Participación');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia de Participación 1.4.8.2');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Oficio de Comisión');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Oficio de Registro de Módulos');
 
-INSERT INTO Documento (Nombre) VALUES ('COMISIÓN DE EVALUACIÓN DEL PROGRAMA DE ESTÍMULOS AL DESEMPEÑO DEL PERSONAL DOCENTE');
-INSERT INTO Documento (Nombre) VALUES ('Constancia de Trabajo');
-INSERT INTO Documento (Nombre) VALUES ('COMISIÓN DE EVALUACIÓN DEL PROGRAMA DE ESTÍMULOS AL DESEMPEÑO DEL PERSONAL DOCENTE');
-INSERT INTO Documento (Nombre) VALUES ('Constancia de Productos Obtenidos y su Impacto');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia de participación en cuerpos colegiados');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Recursos Educativos Digitales');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Formato de implementación de estrategias');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Formato asesorías estudiantes');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia asesoría lugares');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia de participación como jurado');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Participación de comités');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Participación en auditorías de sistemas de gestión');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia de la institución organizadora');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Oficio de Comisión (ITec)');
 
-INSERT INTO Documento (Nombre) VALUES ('OFICIO_COMISION');
-INSERT INTO Documento (Nombre) VALUES ('OFICIO_COMISION');
-INSERT INTO Documento (Nombre) VALUES ('OFICIO_COMISION');
-INSERT INTO Documento (Nombre) VALUES ('CONSTANCIA_DDIE');
-INSERT INTO Documento (Nombre) VALUES ('OFICIO_COMISION');
-INSERT INTO Documento (Nombre) VALUES ('OFICIO_COMISION');
-INSERT INTO Documento (Nombre) VALUES ('OFICIO_COMISION');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Oficio Comisión (curso/diplomado)');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Oficio Comisión (curso/diplomado DDIE)');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Oficio Comisión (Formación y Competencias Docentes)');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia DDIE (Competencias de Tutores)');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Oficio Comisión (Ambientes Virtuales)');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Oficio Comisión (Educación Inclusiva)');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Oficio Comisión (Proyecto Estratégico)');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia Cumplimiento SPD');
 
-INSERT INTO Documento (Nombre) VALUES ('Constancia De Exencion De Examen Licenciatura');
-INSERT INTO Documento (Nombre) VALUES ('Constancia De Exencion De Examen Especializacion');
-INSERT INTO Documento (Nombre) VALUES ('Constancia De Exencion De Examen Maestria');
-INSERT INTO Documento (Nombre) VALUES ('Constancia De Exencion De Examen Maestria Codirector');
-INSERT INTO Documento (Nombre) VALUES ('Constancia De Exencion De Examen Doctorado');
-INSERT INTO Documento (Nombre) VALUES ('Constancia De Exencion De Examen Doctorado Codirector');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Formato para el Horario de Actividades');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia de Tutoría');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Consejo Nacional de Acreditación');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia de Trabajo');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia de Productos Obtenidos y su Impacto');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia Exención Examen Licenciatura');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia Exención Examen Especialización');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia Exención Examen Maestría');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia Exención Examen Maestría (Codirector)');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia Exención Examen Doctorado');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia Exención Examen Doctorado (Codirector)');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia SINODAL Técnico Superior');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia SINODAL Licenciatura');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia SINODAL Especialización');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia SINODAL Maestría');
+    INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia SINODAL Doctorado');
 
-INSERT INTO Documento (Nombre) VALUES ('Constancia');
-INSERT INTO Documento (Nombre) VALUES ('Constancia SINODAL Licenciatura');
-INSERT INTO Documento (Nombre) VALUES ('Constancia SINODAL Especializacion');
-INSERT INTO Documento (Nombre) VALUES ('Constancia SINODAL Maestria');
-INSERT INTO Documento (Nombre) VALUES ('Constancia SINODAL Doctorado');
-
-INSERT INTO Documento (Nombre) VALUES ('CONSTANCIA_CUMPLIMIENTO');
-
-INSERT INTO Documento (Nombre) VALUES ('CONSTANCIA DE PARTICIPACIÓN');
-INSERT INTO Documento (Nombre) VALUES ('CERTIFICACIÓN DE EXAMEN DE GRADO');
-
-INSERT INTO Documento (Nombre) VALUES ('CARTA DE EXCLUSIVIDAD LABORAL DOCENTES CON PLAZA DE TIEMPO COMPLETO');
-INSERT INTO Documento (Nombre) VALUES ('H. COMISION DICTAMINADORA DEL EDD PRESENTE');
-
-INSERT INTO Documento (Nombre) VALUES ('Constancia de Participación y Trabajo Terminado');
-INSERT INTO Documento (Nombre) VALUES ('Autorización de Apertura de Programa de Estudio');
-INSERT INTO Documento (Nombre) VALUES ('Constancia de Participación');
-INSERT INTO Documento (Nombre) VALUES ('Comisión para Diseño de Módulos de Especialidad');
-INSERT INTO Documento (Nombre) VALUES ('Registro de Módulos de Especialidad');
 
 -- =====================================
 -- PRIMARY KEYS
