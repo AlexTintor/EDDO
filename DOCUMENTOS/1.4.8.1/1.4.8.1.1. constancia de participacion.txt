@@ -1,0 +1,10 @@
+1.4.8.1.1. constancia de participacion
+"VAR_JEFE_DEP":""
+"VAR_PROFESOR":""
+"VAR_ID_PROFESOR ":""
+"VAR_DEPARTAMENTO":""
+"VAR_FECHA_INICIO":""
+"VAR_FECHA_TERMINO":""
+"VAR_FECHA_EMISION":""
+"VAR_FIRMA_JEF":""
+
