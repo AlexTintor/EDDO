@@ -25,14 +25,15 @@ CREATE TABLE EMPLEADO (
 
 CREATE TABLE DOCUMENTO (
     ID_DOCUMENTO INT NOT NULL IDENTITY(1,1),
-    NOMBRE VARCHAR(50)
+    NOMBRE VARCHAR(50),
+	DATOS_JSON NVARCHAR(MAX)
 );
 
 CREATE TABLE EMPLEADOSXDOCUMENTO (
     ID_EMPLEADO INT NOT NULL,
     ID_DOCUMENTO INT NOT NULL,
     DATOS_JSON NVARCHAR(MAX) NULL,
-    CONSTRAINT CK_DOC_ACT_JSON CHECK (ISJSON(DATOS_JSON)=1)
+    CONSTRAINT CK_DOC_ACT_JSO CHECK (ISJSON(DATOS_JSON)=1)
 );
 -- =====================================
 -- PRIMARY KEYS
@@ -79,7 +80,6 @@ ADD CONSTRAINT CHK_CORREO CHECK (CORREO LIKE '%@%');
 
 ALTER TABLE PLAZA
 ADD CONSTRAINT CHK_HORARIO CHECK (HORARIO IS NOT NULL);
--- =====================================
 go
 CREATE OR ALTER VIEW VISTA_EMPLEADOS_COMPLETA AS
 SELECT 
@@ -95,54 +95,23 @@ FROM EMPLEADO e
 JOIN PLAZA p ON e.ID_PLAZA = p.ID_PLAZA
 JOIN DEPARTAMENTO d ON e.ID_DEPARTAMENTO = d.ID_DEPARTAMENTO;
 go
+insert into PLAZA (ID_PLAZA,HORARIO)
+VALUES (1,'COMPLETO')
 
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Copia Examen de Grado');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Oficio de Autorización de Apertura');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia con Nombres de Participantes');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia de Participación');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia de Participación 1.4.8.2');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Oficio de Comisión');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Oficio de Registro de Módulos');
-
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia de participación en cuerpos colegiados');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Recursos Educativos Digitales');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Formato de implementación de estrategias');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Formato asesorías estudiantes');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia asesoría lugares');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia de participación como jurado');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Participación de comités');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Participación en auditorías de sistemas de gestión');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia de la institución organizadora');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Oficio de Comisión (ITec)');
-
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Oficio Comisión (curso-diplomado)');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Oficio Comisión (curso-diplomado DDIE)');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Oficio Comisión (Formación y Competencias Docentes)');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia DDIE (Competencias de Tutores)');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Oficio Comisión (Ambientes Virtuales)');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Oficio Comisión (Educación Inclusiva)');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Oficio Comisión (Proyecto Estratégico)');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia Cumplimiento SPD');
-
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Formato para el Horario de Actividades');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia de Tutoría');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Consejo Nacional de Acreditación');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia de Trabajo');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia de Productos Obtenidos y su Impacto');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia Exención Examen Licenciatura');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia Exención Examen Especialización');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia Exención Examen Maestría');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia Exención Examen Maestría (Codirector)');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia Exención Examen Doctorado');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia Exención Examen Doctorado (Codirector)');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia SINODAL Técnico Superior');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia SINODAL Licenciatura');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia SINODAL Especialización');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia SINODAL Maestría');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia SINODAL Doctorado');
-
-
-
+insert into PLAZA (ID_PLAZA,HORARIO)
+VALUES (2,'EDIO')
+go
+INSERT INTO DEPARTAMENTO (ID_DEPARTAMENTO, NOMBRE)
+VALUES
+(1, 'Departamento Académico'),
+(2, 'Dirección General del TecNM'),
+(3, 'DDIE del TecNM'),
+(4, 'Dirección del Instituto Tecnológico'),
+(5, 'Instituto Organizador'),
+(6, 'Departamento de Desarrollo Académico'),
+(7, 'Departamento de Ciencias Básicas'),
+(8, 'Departamento de Servicios Escolares');
+go
 INSERT INTO EMPLEADO (ID_EMPLEADO, ID_PLAZA, ID_DEPARTAMENTO, NOMBRE, APELLIDO_MAT, APELLIDO_PAT, CAMPUS, VIGENCIA, CONTRA, CORREO, TELEFONO)
 VALUES (1, 1, 1, 'Carlos', 'Ramírez', 'González', 'Culiacán', 1,'carlos.rg@itc.mx', '6671234567');
 
@@ -158,6 +127,89 @@ VALUES (4, 2, 4, 'Ana', 'Soto', 'Valenzuela', 'Culiacán', 1, 'ana.sv@itc.mx', '
 INSERT INTO EMPLEADO (ID_EMPLEADO, ID_PLAZA, ID_DEPARTAMENTO, NOMBRE, APELLIDO_MAT, APELLIDO_PAT, CAMPUS, VIGENCIA, CONTRA, CORREO, TELEFONO)
 VALUES (5, 1, 5, 'Ricardo', 'Mendoza', 'Torres', 'Los Mochis', 1, 'ricardo.mt@itc.mx', '6675678901');
 
+INSERT INTO DOCUMENTO(NOMBRE, DATOS_JSON) VALUES ('Constancia Cumplimiento SPD',
+'{
+  "VAR_FOLIO_CONSTANCIA": "",
+  "VAR_NOMBRE_DOCENTE": "",
+  "VAR_ASIGNATURA_ASESORIA": "",
+  "VAR_PERIODO_CONSTANCIA": "",
+  "VAR_TOTAL_ESTUDIANTES": "",
+  "VAR_DIA_CONSTANCIA": "",
+  "VAR_MES_CONSTANCIA": "",
+  "VAR_ANIO_CONSTANCIA": "",
+  "VAR_JEFE_CIENCIAS_BASICAS": "",
+  "VAR_JEFE_SUBDIRECCION_ACADEMICA": "",
+  "VAR_FIRMA_CIENCIAS_BASICAS": "",
+  "VAR_FIRMA_SUBDIRECCION_ACADEMICA": ""
+}');
+INSERT INTO DOCUMENTO(NOMBRE, DATOS_JSON) VALUES ('Constancia DDIE (Competencias de Tutores)',
+'{
+  "VAR_FOLIO_CONSTANCIA": "",
+  "VAR_NOMBRE_DOCENTE": "",
+  "VAR_DURACION_HRS": "",
+  "VAR_PERIODO": "",
+  "VAR_DIA": "",
+  "VAR_MES": "",
+  "VAR_ANIO": "",
+  "VAR_JEFE_DOCENCIA_E_INNOVACION_EDUCATIVA": "",
+  "VAR_FIRMA_DOCENCIA_E_INNOVACION_EDUCATIVA": ""
+}');
+INSERT INTO DOCUMENTO(NOMBRE, DATOS_JSON) VALUES ('Oficio Comisión (Proyecto Estratégico)',
+'{
+  "VAR_OFICIO_COMISION": "",
+  "VAR_NOMBRE_DOCENTE": "",
+  "VAR_NOMBRE_CURSO": "",
+  "VAR_FECHA_INICIO_COMISION": "",
+  "VAR_FECHA_FIN_COMISION": "",
+  "VAR_JEFE_DEPARTAMENTO_ACADEMICO": "",
+  "VAR_FIRMA_DEPARTAMENTO_ACADEMICO": ""
+}');
+
+INSERT INTO DOCUMENTO(NOMBRE, DATOS_JSON) VALUES ('Oficio Comisión (Ambientes Virtuales)',
+'{
+  "VAR_OFICIO_COMISION": "",
+  "VAR_NOMBRE_DOCENTE": "",
+  "VAR_NOMBRE_CURSO": "",
+  "VAR_FECHA_INICIO_COMISION": "",
+  "VAR_FECHA_FIN_COMISION": "",
+  "VAR_JEFE_DEPARTAMENTO_ACADEMICO": "",
+  "VAR_FIRMA_DEPARTAMENTO_ACADEMICO": ""
+}');
+
+INSERT INTO DOCUMENTO(NOMBRE, DATOS_JSON) VALUES ('Oficio Comisión (curso_diplomado)',
+'{
+  "VAR_OFICIO_COMISION": "",
+  "VAR_NOMBRE_DOCENTE": "",
+  "VAR_NOMBRE_CURSO": "",
+  "VAR_INSTITUCION_CURSO": "",
+  "VAR_FECHA_INICIO_COMISION": "",
+  "VAR_FECHA_FIN_COMISION": "",
+  "VAR_JEFE_DEPARTAMENTO_ACADEMICO": "",
+  "VAR_FIRMA_DEPARTAMENTO_ACADEMICO": ""
+}');
+
+INSERT INTO DOCUMENTO(NOMBRE, DATOS_JSON) VALUES ('Oficio Comisión (curso-diplomado DDIE)',
+'{
+  "VAR_OFICIO_COMISION": "",
+  "VAR_NOMBRE_DOCENTE": "",
+  "VAR_NOMBRE_CURSO": "",
+  "VAR_FECHA_INICIO_COMISION": "",
+  "VAR_FECHA_FIN_COMISION": "",
+  "VAR_JEFE_DEPARTAMENTO_ACADEMICO": "",
+  "VAR_FIRMA_DEPARTAMENTO_ACADEMICO": ""
+}');
+
+INSERT INTO DOCUMENTO(NOMBRE, DATOS_JSON) VALUES ('Oficio Comisión (Educación Inclusiva)',
+'{
+  "VAR_OFICIO_COMISION": "",
+  "VAR_NOMBRE_DOCENTE": "",
+  "VAR_NOMBRE_CURSO": "",
+  "VAR_FECHA_INICIO_COMISION": "",
+  "VAR_FECHA_FIN_COMISION": "",
+  "VAR_JEFE_DEPARTAMENTO_ACADEMICO": "",
+  "VAR_FIRMA_DEPARTAMENTO_ACADEMICO": ""
+}');
+/*
 INSERT INTO EMPLEADOSXDOCUMENTO (ID_EMPLEADO, ID_DOCUMENTO, DATOS_JSON)
 VALUES 
 (5, 1, '{
@@ -348,4 +400,4 @@ VALUES
     "VAR_MES_CONSTANCIA": "Enero",
     "VAR_ANIO_CONSTANCIA": "2024",
     "VAR_NOMBRE_JEFE_CB": "Dr. Juan Carlos Soria",
-    "VAR_NOMBRE_SUBDIRECTOR_ACADEMICO": "M.C. Rigoberto Tarín Salazar"}');
+    "VAR_NOMBRE_SUBDIRECTOR_ACADEMICO": "M.C. Rigoberto Tarín Salazar"}');*/

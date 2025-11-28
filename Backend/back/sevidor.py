@@ -374,6 +374,33 @@ def validarRequisitos():
 
     return jsonify({"estatus": True, "cumpleRequisito": cumple_requisitos})
 
+@app.route('/traerDepartamentos', methods=['GET'])
+def traerDepartamentos():
+    try:
+        conexion = conectar_bd("EDDO")
+        if not conexion:
+            return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
+        
+        cursor = conexion.cursor()
+        cursor.execute("""
+            SELECT NOMBRE FROM DEPARTAMENTO
+        """ )
+        filas = cursor.fetchall()
+        conexion.close()
+
+        departamentos = []
+        for fila in filas:
+            (NOMBRE,) = fila
+            departamentos.append({
+                "NOMBRE": NOMBRE
+            })
+        return jsonify({"estatus": True, "departamentos": departamentos})
+    
+    except Exception as e:
+        print("❌ Error al traer departamentos:", e)
+        return []
+
+
 @app.route('/generar-constancia', methods=['POST'])
 def generar():
     data = request.get_json()
@@ -400,17 +427,270 @@ def generar():
         try:
             import json
             datos = json.loads(datos_json)
+            datos,datos2 = llenarCampoFirma(datos)
+            print("Datos después de llenar firmas:", datos)
         except Exception as e:
             print("❌ Error al convertir datos JSON:", e)
             return jsonify({"estatus": False, "error": "Error al procesar los datos"}), 500
     else:
         return jsonify({"estatus": False, "error": "No se encontraron datos para el documento"}), 404
     # Aquí llamas tu función que genera el PDF
-    path_pdf = generar_constancia(datos,nombreDoc)
-
+    path_pdf = generar_constancia(datos,nombreDoc,datos2)
 
     # Enviar PDF al frontend
     return send_file(path_pdf, mimetype="application/pdf")
+
+def llenarCampoFirma(datos):
+    conexion = conectar_bd("EDDO")
+    if not conexion:
+        print("No se pudo conectar a la base de datos")
+        return
+
+    cursor = conexion.cursor()
+    cursor.execute("SELECT JEFE_ID, NOMBRE FROM DEPARTAMENTO")
+    filas = cursor.fetchall()
+
+    datos2 = []  # <- evita error
+
+    for jefeId, nombreDep in filas:
+
+        # Convertir "Juan Perez" -> "JUAN_PEREZ"
+        variableEsperada = "VAR_JEFE_" + nombreDep.replace(" ", "_").upper()
+
+        # Verificar si esa variable existe en los datos JSON
+        if variableEsperada in datos:
+            cursor.execute("SELECT NOMBRE FROM JEFE WHERE JEFE_ID = ?", (jefeId,))
+            fila = cursor.fetchone()
+
+            if fila:
+                nombreJefe = fila[0]
+                datos[variableEsperada] = nombreJefe
+                datos2.append({variableEsperada: nombreJefe})
+
+                print("Asignado valor:", nombreJefe, "a la variable:", variableEsperada)
+
+    conexion.close()
+
+    print("Datos finales con firmas:", datos)
+    print("Nombre del jefe asignado:", datos2)
+
+    return datos, datos2
+
+
+
+
+
+
+
+
+@app.route('/traerIdDoce', methods=['GET'])
+def traerIdDoce():
+
+    conexion = conectar_bd("BDTEC")
+    if not conexion:
+        return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
+
+    cursor = conexion.cursor()
+    cursor.execute("SELECT ID_EMPLEADO, NOMBRE,APELLIDO_PAT,APELLIDO_MAT FROM empleado")
+    filas = cursor.fetchall()   # ← CAMBIO IMPORTANTE
+    conexion.close()
+    
+    if not filas:
+        return jsonify({"estatus": False, "error": "No se encontraron docentes"}), 404
+
+    docentes = []
+    for fila in filas:
+        ID_EMPLEADO, NOMBRE,APELLIDO_PAT,APELLIDO_MAT = fila
+        NOMBRE = f"{NOMBRE} {APELLIDO_PAT} {APELLIDO_MAT}"
+        docentes.append({
+            "ID_EMPLEADO": ID_EMPLEADO,
+            "NOMBRE": NOMBRE
+        })
+
+    return jsonify({"estatus": True, "docentes": docentes})
+
+@app.route('/traerDocumentos', methods=['POST'])
+def traerDocumentos():
+    data = request.get_json()
+    idDocente = data.get("idDocente")
+    conexion = conectar_bd("BDTEC")
+    if not conexion:
+        return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
+
+    cursor = conexion.cursor()
+    cursor.execute("""SELECT D.ID_DOCUMENTO ,D.NOMBRE FROM DOCUMENTO D
+                   inner join EMPLEADOSXDOCUMENTO ED ON ED.ID_DOCUMENTO = D.ID_DOCUMENTO
+                   inner join EMPLEADO E ON ED.ID_EMPLEADO = E.ID_EMPLEADO
+                   WHERE E.ID_EMPLEADO = ?""", (idDocente,))
+    filas = cursor.fetchall()   # ← CAMBIO IMPORTANTE
+    conexion.close()
+
+    
+    if not filas:
+        return jsonify({"estatus": False, "error": "No se encontraron documentos"}), 404
+
+    documentos = []
+    for fila in filas:
+        ID_DOCUMENTO,NOMBRE = fila
+        documentos.append({
+            "ID_DOCUMENTO": ID_DOCUMENTO,
+            "NOMBRE": NOMBRE
+        })
+
+    return jsonify({"estatus": True, "documentos": documentos})
+
+@app.route('/traerDocumentoLlenado', methods=['GET'])
+def traerDocumentoLlenado():
+
+    conexion = conectar_bd("BDTEC")
+    if not conexion:
+        return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
+
+    cursor = conexion.cursor()
+
+    cursor.execute("SELECT ID_DOCUMENTO,NOMBRE FROM DOCUMENTO")
+    filas = cursor.fetchall()   # ← CAMBIO IMPORTANTE
+    conexion.close()
+
+    if not filas:
+        return jsonify({"estatus": False, "error": "No se encontraron documentos"}), 404
+    datos_json = []
+    for fila in filas:
+        (ID_DOCUMENTO,NOMBRE) = fila 
+        datos_json.append({
+            "ID_DOCUMENTO": ID_DOCUMENTO,
+            "NOMBRE": NOMBRE
+        })
+
+    return jsonify({"estatus": True, "datos_json": datos_json})
+
+@app.route('/traerDocumento', methods=['POST'])
+def traerDocumento():
+    id_documento = request.json.get('idDocumento')
+    id_docente = request.json.get('idDocente')
+    conexion = conectar_bd("BDTEC")
+    if not conexion:
+        return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
+
+    cursor = conexion.cursor()
+    print(id_documento)
+    print(id_docente)
+    cursor.execute("SELECT DATOS_JSON FROM EMPLEADOSXDOCUMENTO WHERE ID_DOCUMENTO = ? and ID_EMPLEADO = ?",(id_documento,id_docente))
+    filas = cursor.fetchone()   # ← CAMBIO IMPORTANTE
+    conexion.close()
+    print(filas)
+
+    if not filas:
+        return jsonify({"estatus": False, "error": "No se encontraron documentos"}), 404
+    datos_json = filas[0]
+    return jsonify({"estatus": True, "datos_json": datos_json})
+
+@app.route('/actualizarDocumentos', methods=['POST'])
+def actualizarDocumentos():
+    try:
+        data = request.get_json()
+        id_empleado = data.get("idEmpleado")
+        id_documento = data.get("idDocumento")
+        datos_json = data.get("datosJson")
+        conexion = conectar_bd("BDTEC")
+        import json
+        datos_json_str = json.dumps(datos_json)
+
+        if not conexion:
+            print("No se pudo conectar a la base de datos TEC")
+        
+        cursor = conexion.cursor()
+        print("Datos a actualizar:", datos_json)
+        cursor.execute("UPDATE EMPLEADOSXDOCUMENTO SET DATOS_JSON = ? WHERE ID_EMPLEADO = ? AND ID_DOCUMENTO = ?", (datos_json_str,id_empleado, id_documento))
+        conexion.commit()
+        conexion.close()
+        return jsonify({"estatus": True})
+    
+    except Exception as e:
+        print("❌ Error al actualizar documentos:", e)
+        return jsonify({"estatus": False, "error": str(e)}), 500
+    
+@app.route('/insertarDocumento', methods=['POST']) 
+def insertarDocumento():
+    try:
+        data = request.get_json()
+        id_empleado = data.get("idEmpleado")
+        id_documento = data.get("idDocumento")
+        datos_json = data.get("datosJson")
+        
+        conexion = conectar_bd("BDTEC")
+        if not conexion:
+            print("No se pudo conectar a la base de datos TEC")
+            return
+        
+        import json
+        datos_json_str = json.dumps(datos_json)
+
+        cursor = conexion.cursor()
+        cursor.execute("SELECT COUNT(*) FROM EMPLEADOSXDOCUMENTO WHERE ID_EMPLEADO = ? AND ID_DOCUMENTO = ? ", (id_empleado, id_documento))
+        resultado = cursor.fetchone()
+        if resultado and resultado[0] > 0:
+            conexion.close()
+            return {"estatus": False, "error": "El registro ya existe."}
+
+        cursor.execute("INSERT INTO EMPLEADOSXDOCUMENTO (ID_EMPLEADO, ID_DOCUMENTO, DATOS_JSON) VALUES (?, ?, ?)", (id_empleado, id_documento, datos_json_str))
+        cursor.execute("SELECT NOMBRE FROM DOCUMENTO WHERE ID_DOCUMENTO = ?", (id_documento,))
+        fila = cursor.fetchone()
+        nombreDoc    = fila[0] if fila else ""
+        conexion.commit()
+        conexion.close()
+
+        conexion = conectar_bd("EDDO")
+        if not conexion:
+            print("No se pudo conectar a la base de datos")
+            return
+        
+        cursor = conexion.cursor()
+        cursor.execute("SELECT CORREO FROM DOCENTE WHERE ID_DOCENTE  = ?", (id_empleado,))
+        fila = cursor.fetchone()
+        correo = fila[0] if fila else ""
+        print("Correo obtenido:", correo)
+        print("Nombre del documento:", nombreDoc)
+        llenadoDoc(conexion,correo,nombreDoc)
+        
+        conexion.close()
+        return {"estatus": True}
+    
+    except Exception as e:
+        print("❌ Error al insertar documento:", e)
+        return {"estatus": False, "error": str(e)}
+    
+@app.route('/traerDatosDocumento', methods=['POST'])
+def traerDatosDocumento():
+    try:
+        data = request.get_json()
+        id_documento = data.get("idDocumento")
+
+        conexion = conectar_bd("BDTEC")
+        if not conexion:
+            return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
+
+        cursor = conexion.cursor()
+        cursor.execute("SELECT DATOS_JSON FROM DOCUMENTO WHERE ID_DOCUMENTO = ?", (id_documento,))
+        fila = cursor.fetchone()
+        conexion.close()
+
+        if fila:  # ← extraer el string del JSON
+            datos_json = fila[0]
+            return jsonify({
+                "estatus": True,
+                "datos_json":datos_json 
+            })
+
+        else:
+            return jsonify({
+                "estatus": False,
+                "error": "No se encontraron datos del documento"
+            }), 404
+
+    except Exception as e:
+        print("❌ Error al consultar datos del documento:", e)
+        return jsonify({"estatus": False, "error": str(e)}), 500
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=False, use_reloader=False)

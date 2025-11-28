@@ -326,4 +326,3 @@ def traerDocumentosEDDO(conexion,idUsuario):
     except Exception as e:
         print("❌ Error al consultar documentos:", e)
         return None
-

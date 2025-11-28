@@ -4,8 +4,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function cargarComboDocentes() {
     const data = await traerDocentes();
-    const datosJson = {};
     if (!data) return;
+
+    console.log(data);
 
     const comboDocentes = document.getElementById("comboDocentes");
     
@@ -21,18 +22,19 @@ async function cargarComboDocentes() {
     comboDocentes.addEventListener("change", async function() {
         const lblAviso = document.querySelector(".lblAviso");
         lblAviso.hidden = true;
-      });
-      
-      
-      const comboDocumento = document.getElementById("comboDocumento");
-      
-      const documento = await traerDocumentos();
-      llenarComboDocumentos(documento);
+        const formDatos = document.getElementById("formDatosJson");
+        formDatos.innerHTML = "";
+        const idDocenteSeleccionado = comboDocentes.value;
+        console.log(idDocenteSeleccionado);
+        const documento = await traerDocumentos(idDocenteSeleccionado);
+        llenarComboDocumentos(documento);
+    });
+
+
+    const comboDocumento = document.getElementById("comboDocumento");
+
     function llenarComboDocumentos(documentos){
         comboDocumento.innerHTML = ""; 
-            const option = document.createElement("option");
-            option.textContent = "Seleccione uno"; // lo que ve el usuario
-            comboDocumento.appendChild(option);
         if (!documentos){
             const option = document.createElement("option");
             option.textContent = "Sin documentos"; // lo que ve el usuario
@@ -41,7 +43,7 @@ async function cargarComboDocentes() {
 
 
         console.log(documentos);
-        documentos.datos_json.forEach(doc => {
+        documentos.documentos.forEach(doc => {
             const option = document.createElement("option");
             option.class = "optionDocumento";
             option.value = doc.ID_DOCUMENTO;   // value que usarás para backend
@@ -60,8 +62,9 @@ async function cargarComboDocentes() {
     let datosJsonObj;
 
     comboDocumento.addEventListener("change", async function() {
-        const idDocumentoSeleccionado = comboDocumento.value;
-        const datosJsonResponse = await traerDatosJson(idDocumentoSeleccionado);
+        const ID_DOCUMENTO = comboDocumento.value;
+        const idDocente = idDocentes();
+        const datosJsonResponse = await traerDatosJson(ID_DOCUMENTO, idDocente);
         const lblAviso = document.querySelector(".lblAviso");
         lblAviso.hidden = true;
         let datosJson = datosJsonResponse.datos_json;
@@ -89,6 +92,7 @@ async function cargarComboDocentes() {
         return textoVisible.value;
     }
     function mandarDocumento(datosJson){
+      const lblAviso = document.querySelector(".lblAviso");
         for (const key in datosJson) {
             if (datosJson.hasOwnProperty(key)) {
                 const value = datosJson[key];
@@ -104,28 +108,16 @@ async function cargarComboDocentes() {
         }
         const idDocente = idDocentes();
         const idDocumento = idDocumentos();
-        console.log("Datos a insertar:", datosJson);
-        console.log("ID Docente:", idDocente);
-        console.log("ID Documento:", idDocumento);
-        insertar(idDocente, idDocumento, datosJson);
+        actualizarDatos(idDocente, idDocumento, datosJson);
     }
 }
 
 
 function agregarVariables(datosJsonObj) {
     const formDatos = document.getElementById("formDatosJson");
-    
-    formDatos.innerHTML = "";
-    const comboDocumento = document.getElementById("comboDocumento");
-            const option = document.createElement("option");
-            option.textContent = "Seleccione 1"; // lo que ve el usuario
-            comboDocumento.appendChild(option);
-
-    const comboDocentes = document.getElementById("comboDocentes"); 
-        option.textContent = "Seleccione uno"; // lo que ve el usuario
-        comboDocentes.appendChild(option);
     // Limpiar contenido previo
-      for (const key in datosJsonObj) {
+    formDatos.innerHTML = "";
+    for (const key in datosJsonObj) {
       if (datosJsonObj.hasOwnProperty(key)) {
           const div = document.createElement("div");
           div.className = "divDatosJson";
@@ -152,7 +144,6 @@ function agregarVariables(datosJsonObj) {
             formDatos.appendChild(document.createElement("br"));
         }
     }
-    
 }
 
 
@@ -178,11 +169,12 @@ async function traerDocentes(){
   }
 }
 
-async function traerDocumentos(){
+async function traerDocumentos(idDocente){
     try{
-    const response = await fetch("http://localhost:5000/traerDocumentoLlenado", {
-      method: "GET",
-      headers: { "Content-Type": "application/json" }
+    const response = await fetch("http://localhost:5000/traerDocumentos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ idDocente: idDocente })
     });
     const data = await response.json();
 
@@ -199,40 +191,12 @@ async function traerDocumentos(){
   }
 }
 
-async function insertar(idDocente,id_documento, datosJson){
+async function traerDatosJson(ID_DOCUMENTO,id_docente){
         try{
-            const lblAviso = document.querySelector(".lblAviso");
-    const response = await fetch("http://localhost:5000/insertarDocumento", {
+    const response = await fetch("http://localhost:5000/traerDocumento", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ idEmpleado: idDocente, idDocumento: id_documento, datosJson: datosJson })
-    });
-    const data = await response.json();
-
-    if (data.estatus) {
-        lblAviso.hidden = false;
-        lblAviso.textContent = "Documento insertado correctamente.";
-      console.log("Datos de cuenta:", data);
-      return data;
-    } else {
-        lblAviso.hidden = false;
-        lblAviso.textContent = "Error al insertar el documento.";
-      console.log("Error:", data.error);
-      return null;
-    }
-  } catch (error) {
-    lblAviso.hidden = false;
-    lblAviso.textContent = "Error al insertar el documento.";
-    console.error("Error en traerDatosJson:", error);
-    return null;
-  }
-}
-async function traerDatosJson(id_documento){
-        try{
-    const response = await fetch("http://localhost:5000/traerDatosDocumento", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({  idDocumento: id_documento })
+        body: JSON.stringify({ idDocumento: ID_DOCUMENTO, idDocente: id_docente })
     });
     const data = await response.json();
 
@@ -249,3 +213,28 @@ async function traerDatosJson(id_documento){
   }
 }
 
+async function actualizarDatos(id_empleado,id_documento, datos_json){
+    try{
+    const response = await fetch("http://localhost:5000/actualizarDocumentos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idEmpleado: id_empleado, idDocumento: id_documento, datosJson    : datos_json })
+    });
+    const data = await response.json();
+
+    if (data.estatus) {
+        console.log("Datos de cuenta:", data);
+        const lblAviso = document.querySelector(".lblAviso");
+        lblAviso.hidden = false;
+        lblAviso.textContent = "Documento insertado correctamente";
+        lblAviso.style.color = "#16a34a"; // Color verde para éxito
+      return;
+    } else {
+      console.log("Error:", data.error);
+      return null;
+    }
+  } catch (error) {
+    console.error("Error en actualizarDatos:", error);
+    return null;
+  } 
+}

@@ -39,7 +39,7 @@ def traerEmpleados(conexion, correo, idDocente):
 def traerDocumentosTEC(conexion,correo):
     try:
         cursor = conexion.cursor()
-        cursor.execute("""SELECT  D.NOMBRE 
+        cursor.execute("""SELECT  D.NOMBRE, ED.DATOS_JSON
                        FROM DOCUMENTO D
                        INNER JOIN EMPLEADOSXDOCUMENTO ED ON D.ID_DOCUMENTO = ED.ID_DOCUMENTO
                        INNER JOIN EMPLEADO E ON ED.ID_EMPLEADO = E.ID_EMPLEADO
@@ -50,6 +50,7 @@ def traerDocumentosTEC(conexion,correo):
         for fila in filas:
             documentos.append({
                 "NOMBRE": fila.NOMBRE
+                ,"DATOS_JSON": fila.DATOS_JSON
             })
         return documentos
 
@@ -96,4 +97,18 @@ def validarDocenteTEC(conexion, correo):
             cursor.close()
         except Exception:
             pass
+
+def traerIdDocente(conexion):
+    try:
+        cursor = conexion.cursor()
+        cursor.execute("""
+            select id_empleado from Empleados
+        """, )
+        filas = cursor.fetchall()
+        ids = [fila.ID_EMPLEADO for fila in filas]
+        return ids
+
+    except Exception as e:
+        print("❌ Error al insertar documento TEC:", e)
+        return False
 

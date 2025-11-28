@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/insertarDoc.css">
+    <script src="../js/insertarDoc.js" defer></script>
+    <title>Document</title>
+</head>
+<body class = "bodyLogin">
+    <main class = "mainLogin">
+        <article>
+            <header class = "headerLogin ">
+                <figure class = "figureLogoEddo">
+                    <img src="../../img/EDDO.png" alt="Logo EDDO" class = "logoEddo">
+                </figure>
+                <h2>Ingresar documento</h2>
+            </header>
+            <hr class="divisor" />
+            <form class="loginForm">
+                <label for="miCombo">Selecciona al maestro</label>
+                <select id="comboDocentes" name="miCombo" class = "selectDocumento">
+                    <option value="Sin datos">Seleccione uno</option>
+                </select>
+                <label for="miCombo">Selecciona el documento</label>
+                <select id="comboDocumento" name="miCombo" class = "selectDocumento">
+                    <option value="Sin datos">Seleccione uno</option>
+                </select>
+            </form>
+            <form action="" id = "formDatosJson" class = "formDatosJson">
+
+            </form>
+            <p class = "lblAviso" hidden></p>
+            <div class = "divBtnIniciarSesion"> 
+                <button type="button" class="btn" id = "btnInsertar">Insertar documento</button>        
+            </div>
+        </article>
+    </main>
+</body>
+</html>

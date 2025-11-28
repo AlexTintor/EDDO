@@ -120,9 +120,9 @@ INSERT INTO REQUISITOS_DE_INICIO (ID_REQUISITO, NOMBRE, DESCRIPCION) VALUES
 (13, 'Evaluaciones departamentales', 'Dos evaluaciones departamentales 2024 con calificación mínima de suficiente.'),
 (14, 'Evaluaciones de desempeño', 'Dos evaluaciones del desempeño 2024 con calificación mínima de suficiente.');
 go
-INSERT INTO CONVOCATORIA (ID_CONVOCATORIA, NOMBRE, FECHA_INICIO, FECHA_FIN)
-VALUES (1, 'Convocatoria 2025', '2025-01-01', '2025-12-31');
-go
+    INSERT INTO CONVOCATORIA (ID_CONVOCATORIA, NOMBRE, FECHA_INICIO, FECHA_FIN)
+    VALUES (1, 'Convocatoria 2025', '2025-01-01', '2025-12-31');
+    go
 INSERT INTO REQUISITO_CONVO (ID_REQUISITO, ID_CONVOCATORIA) VALUES
 (1, 1),
 (2, 1),

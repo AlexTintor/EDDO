@@ -3,6 +3,8 @@ create database EDDO
 select * from DOCENTE
 select * from EXPEDIENTE
 select * from DOCUMENTO_EXPEDIENTE
+select * from DEPARTAMENTO
+select * from DOCUMENTO
 
 CREATE TABLE DOCENTE (
     ID_DOCENTE INT NOT NULL,
@@ -86,35 +88,34 @@ CREATE TABLE COMENTARIOS (
     CONSTRAINT FK_COMENTARIOS_RECLAMO FOREIGN KEY (ID_RECLAMO) REFERENCES RECLAMO(ID_RECLAMO)
 );
 go
-
-INSERT INTO JEFE (JEFE_ID, NOMBRE, VIGENTE, CONTRA, CORREO)
-VALUES
-(1, 'Dr. Ricardo Hernández López', 1, 'Jefe2024', 'ricardo.hernandez@tecnm.mx'),         -- Departamento Académico
-
-(2, 'Mtra. Laura Martínez Rivas', 1, 'Jefe2024', 'laura.martinez@tecnm.mx'),              -- Dirección General del TecNM
-
-(3, 'Dr. Samuel Pérez Quintana', 1, 'Jefe2024', 'samuel.perez@ddie.tecnm.mx'),            -- DDIE TecNM
-
-(4, 'Ing. Rosa Delgado Araujo', 1, 'Jefe2024', 'rosa.delgado@itculiacan.edu.mx'),         -- Dirección del Instituto Tecnológico
-
-(5, 'Lic. Fernando Ruiz Carrillo', 1, 'Jefe2024', 'fernando.ruiz@organizador.mx'),        -- Instituto Organizador
-
-(6, 'Mtro. Alejandro Jiménez Soto', 1, 'Jefe2024', 'alejandro.jimenez@itculiacan.edu.mx'), -- Desarrollo Académico
-
-(7, 'Dr. Patricia Torres Medina', 1, 'Jefe2024', 'patricia.torres@itculiacan.edu.mx'),    -- Ciencias Básicas (ITC)
-
-(8, 'Lic. Mariana Ortiz Velasco', 1, 'Jefe2024', 'mariana.ortiz@itculiacan.edu.mx');      -- Servicios Escolares
+INSERT INTO JEFE (JEFE_ID, NOMBRE, VIGENTE, CONTRA, CORREO) VALUES
+(1, 'JUAN LOPEZ HERNANDEZ', 1, 'Pass1234', 'j.lopez@tecnm.mx'),
+(2, 'HECTOR VIZCARRA JIMENEZ', 1, 'Pass1234', 'h.vizcarra@tecnm.mx'),
+(3, 'MARIA JOSE SALAZAR SOSA', 1, 'Pass1234', 'm.salazar@tecnm.mx'),
+(4, 'JOSE LANDEROS MANZO', 1, 'Pass1234', 'j.landeros@tecnm.mx'),
+(5, 'JESUS RAMON CASTRO BUENO', 1, 'Pass1234', 'j.castro@tecnm.mx'),
+(6, 'ELIAS PEREZ CORRALES', 1, 'Pass1234', 'e.perez@tecnm.mx'),
+(7, 'EMILIO LOPEZ SALGADO', 1, 'Pass1234', 'e.lopez@tecnm.mx'),
+(8, 'MARIA JOSÉ DOMINGUEZ GONZALEZ', 1, 'Pass1234', 'm.dominguez@tecnm.mx'),
+(9, 'RAUL MILLAN ZEPEDA', 1, 'Pass1234', 'r.millan@tecnm.mx'),
+(10, 'BRIANDA LIZARRAGA MURIETA', 1, 'Pass1234', 'b.lizarraga@tecnm.mx'),
+(11, 'PEDRO PASCAL DOMINGUEZ', 1, 'Pass1234', 'p.dominguez@tecnm.mx'),
+(12, 'JOSE VERDUGO ALAPIZCO', 1, 'Pass1234', 'j.verdugo@tecnm.mx');
 go
-INSERT INTO DEPARTAMENTO (ID_DEPARTAMENTO, JEFE_ID, NOMBRE)
-VALUES
-(1, 1, 'Departamento Académico'),
-(2, 2, 'Dirección General del TecNM'),
-(3, 3, 'DDIE del TecNM'),
-(4, 4, 'Dirección del Instituto Tecnológico'),
-(5, 5, 'Instituto Organizador'),
-(6, 6, 'Departamento de Desarrollo Académico'),
-(7, 7, 'Departamento de Ciencias Básicas'),
-(8, 8, 'Departamento de Servicios Escolares');
+
+INSERT INTO DEPARTAMENTO (ID_DEPARTAMENTO, JEFE_ID, NOMBRE) VALUES
+(1, 1, 'INSTITUTO TECNOLOGICO DE CULIACAN'),  
+(2, 2, 'DIRECCION GENERAL'),                 
+(3, 3, 'SUBDIRECCION ACADEMICA'),            
+(4, 4, 'DEPARTAMENTO ACADEMICO'),            
+(5, 5, 'CENTRO DE INFORMACION'),             
+(6, 6, 'SERVICIOS ESCOLARES'),               
+(7, 7, 'DOCENCIA E INNOVACIÓN EDUCATIVA'),   
+(8, 8, 'PRESIDENTA DE ACADEMIA'),            
+(9, 9, 'DEPARTAMENTO SISTEMAS Y COMPUTACION'),
+(10, 10, 'ACADEMIA DE ING. EN SISTEMAS COMPUTACIONALES'),
+(11, 11, 'Ciencias Básicas'),
+(12, 12, 'PRESIDENCIA DE CONAIC');
 
 
 go

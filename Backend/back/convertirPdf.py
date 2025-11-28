@@ -1,9 +1,10 @@
 import json
 from docx import Document
 from docx2pdf import convert
+from docx.shared import Inches
 import os
 
-def generar_constancia(datos,nombreDoc):
+def generar_constancia(datos,nombreDoc,datos2):
 
     # Si datos es string y parece JSON → convertir
     if isinstance(datos, str):
@@ -24,6 +25,33 @@ def generar_constancia(datos,nombreDoc):
     salida_pdf = r"C:\\VisualStudio\\Python\\EDDO\\EDDO\\EDDO\\documentos\\{nombreDoc}.pdf".format(nombreDoc=nombreDoc)
     # Leer plantilla Word
     doc = Document(ruta_docx)
+    def reemplazar_imagen_en_documento(doc, marcador, ruta_imagen):
+        # Buscar en párrafos
+        for p in doc.paragraphs:
+            if marcador in p.text:
+                # Limpiar runs
+                for run in p.runs:
+                    run.text = ""
+
+                # Colocar la imagen en un run NUEVO
+                run = p.add_run()
+                run.add_picture(ruta_imagen, width=Inches(1.5))
+                print(f"🖼️ Imagen reemplazada (párrafo): {marcador}")
+
+        # Buscar en tablas
+        for tabla in doc.tables:
+            for fila in tabla.rows:
+                for celda in fila.cells:
+                    for p in celda.paragraphs:
+                        if marcador in p.text:
+                            # Limpiar runs
+                            for run in p.runs:
+                                run.text = ""
+
+                            run = p.add_run()
+                            run.add_picture(ruta_imagen, width=Inches(1.5))
+                            print(f"🖼️ Imagen reemplazada (tabla): {marcador}")
+
 
     # Función auxiliar que reemplaza texto en todos los párrafos (sin perder formato)
     def reemplazar_en_parrafo(parrafo, buscar, reemplazar):
@@ -57,9 +85,10 @@ def generar_constancia(datos,nombreDoc):
                                 for p2 in subcelda.paragraphs:
                                     reemplazar_en_parrafo(p2, buscar, reemplazar)
 
+    for clave, valor in datos2.items():
+        print(f"Reemplazando {clave} por {valor}")
 
-
-    # Reemplazar todas las variables
+    
     for clave, valor in datos.items():
         print(f"Reemplazando {clave} por {valor}")
         reemplazar_en_documento(doc, clave, valor)
@@ -89,5 +118,4 @@ datos = {
     "VAR_DIA_MES": "1 de enero de 2024",
     "VAR_FECHA_ESC_2": "9 de junio de 2025"
 }
-
-#generar_constancia(datos, "doc1")
+#generar_constancia(datos, "Constancia de Participación 1.4.8.2")

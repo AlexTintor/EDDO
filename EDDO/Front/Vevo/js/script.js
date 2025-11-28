@@ -592,7 +592,8 @@ function loadPage(page) {
           agregarRegistroDocumento(expediente,documentos);
         }
         guardarNombreDoc();
-        descargarDocumentos();
+        const nombre_documento = sessionStorage.getItem("documentoSeleccionado");
+        descargarDocumento(nombre_documento);
       });
       inputFiltro.addEventListener("input", () => {
         if(inputFiltro.value === ""){
@@ -1030,4 +1031,25 @@ function restablecerContra(){
     btnRegresar.addEventListener("click", () => {
       window.location.href = "inicioSesion.html";
     }); 
+}
+
+async function traerDepas(){
+        try{
+    const response = await fetch("http://localhost:5000/traerDepartamentos", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
+    });
+    const data = await response.json();
+
+    if (data.estatus) {
+      console.log("Datos de cuenta:", data);
+      return data;
+    } else {
+      console.log("Error:", data.error);
+      return null;
+    }
+  } catch (error) {
+    console.error("Error en traerDatosJson:", error);
+    return null;
+  }
 }
