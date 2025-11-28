@@ -85,14 +85,15 @@ def generar_constancia(datos,nombreDoc,datos2):
                                 for p2 in subcelda.paragraphs:
                                     reemplazar_en_parrafo(p2, buscar, reemplazar)
 
-    for clave, valor in datos2.items():
-        print(f"Reemplazando {clave} por {valor}")
+    for item in datos2:
+        depa = item.get("nombreDepa")
+        nombreJefe = item.get("nombreJefe")
+        print("Procesando departamento:", depa, "con jefe:", nombreJefe)
+        if depa and nombreJefe:
+            variableFirma = "VAR_FIRMA_" + depa.replace(" ", "_").upper()
+            ruta_imagen = r"C:\\VisualStudio\\Python\\EDDO\\EDDO\\EDDO\\firmas\\firma_{nombreJefe}.png".format(nombreJefe=nombreJefe)
 
-    
-    for clave, valor in datos.items():
-        print(f"Reemplazando {clave} por {valor}")
-        reemplazar_en_documento(doc, clave, valor)
-
+            reemplazar_imagen_en_documento(doc, variableFirma, ruta_imagen)
     # Guardar el nuevo documento
     doc.save(salida_docx)
 

@@ -456,6 +456,7 @@ def llenarCampoFirma(datos):
 
         # Convertir "Juan Perez" -> "JUAN_PEREZ"
         variableEsperada = "VAR_JEFE_" + nombreDep.replace(" ", "_").upper()
+        variableFirma = "VAR_FIRMA_" + nombreDep.replace(" ", "_").upper()
 
         # Verificar si esa variable existe en los datos JSON
         if variableEsperada in datos:
@@ -465,10 +466,19 @@ def llenarCampoFirma(datos):
             if fila:
                 nombreJefe = fila[0]
                 datos[variableEsperada] = nombreJefe
-                datos2.append({variableEsperada: nombreJefe})
+                datos2.append({"nombreJefe": nombreJefe, "nombreDepa":nombreDep})
 
                 print("Asignado valor:", nombreJefe, "a la variable:", variableEsperada)
+        if variableFirma in datos:
+            cursor.execute("SELECT NOMBRE FROM JEFE WHERE JEFE_ID = ?", (jefeId,))
+            fila = cursor.fetchone()
 
+            if fila:
+                nombreJefe = fila[0]
+                datos[variableFirma] = nombreJefe
+                datos2.append({variableFirma: nombreJefe, "nombreDepa":nombreDep})
+
+                print("Asignado valor:", nombreJefe, "a la variable de firma:", variableFirma)
     conexion.close()
 
     print("Datos finales con firmas:", datos)
