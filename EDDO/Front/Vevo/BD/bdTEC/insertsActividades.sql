@@ -1,4 +1,13 @@
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Copia Examen de Grado');
+INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Copia Examen de Grado', '{
+  "NOMBRE_EGRESADO": "Ricardo Mendoza Torres",
+  "NOMBRE_MAESTRIA": "Maestría en Ingeniería en Sistemas Computacionales",
+  "NOMBRE_INSTITUTO": "Instituto Tecnológico de Culiacán",
+  "CIUDAD_ESTADO": "Culiacán, Sinaloa",
+  "DIA": "26",
+  "MES": "Noviembre",
+  "ANIO": "2025",
+  "TITULO_TESIS": "Optimización de Procesos Académicos mediante Sistemas Inteligentes"
+}');
 INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Oficio de Autorización de Apertura');
 INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia con Nombres de Participantes');
 INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia de Participación');
@@ -17,8 +26,8 @@ INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Participación en auditorías de sistema
 INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia de la institución organizadora');
 INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Oficio de Comisión (ITec)');
 
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Oficio Comisión (curso/diplomado)');
-INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Oficio Comisión (curso/diplomado DDIE)');
+INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Oficio Comisión (curso-diplomado)');
+INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Oficio Comisión (curso-diplomado DDIE)');
 INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Oficio Comisión (Formación y Competencias Docentes)');
 INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Constancia DDIE (Competencias de Tutores)');
 INSERT INTO DOCUMENTO (NOMBRE) VALUES ('Oficio Comisión (Ambientes Virtuales)');
@@ -59,6 +68,7 @@ VALUES (4, 2, 4, 'Ana', 'Soto', 'Valenzuela', 'Culiacán', 1, 'pass104', 'ana.sv
 
 INSERT INTO EMPLEADO (ID_EMPLEADO, ID_PLAZA, ID_DEPARTAMENTO, NOMBRE, APELLIDO_MAT, APELLIDO_PAT, CAMPUS, VIGENCIA, CONTRA, CORREO, TELEFONO)
 VALUES (5, 1, 5, 'Ricardo', 'Mendoza', 'Torres', 'Los Mochis', 1, 'pass105', 'ricardo.mt@itc.mx', '6675678901');
+
 INSERT INTO EMPLEADOSXDOCUMENTO (ID_EMPLEADO, ID_DOCUMENTO, DATOS_JSON)
 VALUES 
 (5, 1, '{
@@ -157,17 +167,6 @@ VALUES
   "VAR_TABLA_MODULOS": "Algoritmos, Matemáticas Discretas, Redes de Computadoras",
   "VAR_DIRECTOR_DOCENCIA": "Mtra. Laura Gabriela Rodríguez Salinas"
 }');
-
-
-select * from DOCUMENTO
-
-update DOCUMENTO
-set NOMBRE = 'Oficio Comisión (curso-diplomado)'
-where NOMBRE = 'Oficio Comisión (curso/diplomado)'
-update DOCUMENTO
-set NOMBRE = 'Oficio Comisión (curso-diplomado DDIE)'
-where NOMBRE = 'Oficio Comisión (curso/diplomado DDIE)'
--------------------------
 
 
 go
