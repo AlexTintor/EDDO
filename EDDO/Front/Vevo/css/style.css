@@ -542,9 +542,17 @@ h2{
 .divMsj.uno{
     display: flex;
     justify-content: end;  
+    align-items: end;
 }
 
+.divMsj.dos{
+    display: flex;
+    justify-content: start;  
+    align-items: start;
+}
 .divMsj{
+  display: flex;
+  flex-direction: column;
     margin: 5px 40px;
 }
 .msj{
@@ -615,4 +623,74 @@ h2{
   color: #273b67;
   margin-left: 15px;
   margin-top:15px;
+}
+
+
+.upload-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.upload-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Ocultar input nativo */
+#archivo {
+    display: none;
+}
+
+/* Botón de archivo */
+.custom-file-upload {
+    background-color: #4A90E2;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+    max-width: 180px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.custom-file-upload:hover {
+    background-color: #357ABD;
+}
+
+/* Botón subir */
+.btn {
+    background-color: #27ae60;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background-color: #1e8449;
+}
+.btn.descargarArchivo{
+    background-color: #d1514a;
+    color: white;
+    font-weight: bold;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+}
+.a.descargarArchivo{
+    font-style: italic;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
 }

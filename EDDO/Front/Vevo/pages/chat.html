@@ -3,10 +3,16 @@
 
     </article>
     <form class = "formEnviarMensaje">
-        <div class = "divCheckbox">
-            <input type="checkbox" name="" id="" >
-            <label for="checkbox">Marcar como completo</label>
+        
+        <div class="upload-container">
+            <label for="archivo" class="custom-file-upload" id="labelArchivo">
+                Seleccionar archivo
+            </label>
+
+            <input type="file" id="archivo" name="archivo" required>
+
         </div>
         <input type="text" utocomplete="off" placeholder="Ingresa el mensaje" id="inputMensaje" class = "inputMensaje">
         <button type="button" class = "btnEnviarMsj" id = "btnEnviarMsj">Enviar</button>
     </form>
+</section>

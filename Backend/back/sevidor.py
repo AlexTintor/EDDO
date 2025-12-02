@@ -12,6 +12,8 @@ from convertirPdf import generar_constancia
 import pyodbc
 app = Flask(__name__)
 CORS(app)
+UPLOAD_FOLDER = "uploads"
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 def conectar_bd(bd):
     try:
@@ -208,14 +210,15 @@ def llenadoDocumentos(correo):
 def cuenta():
     data = request.get_json()
     idUsuario = data.get("idUsuario")
+    correo = data.get("correo")
 
     if not idUsuario:
         return jsonify({"estatus": False, "error": "Faltan datos"}), 400
 
     conexion = conectar_bd("BDTEC")
+
     if not conexion:
         return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
-    correo = ""
     cuenta = traerEmpleados(conexion, correo, idUsuario)
     conexion.close()
 
@@ -281,7 +284,7 @@ def cambiarContraseñaActual():
     if not conexion:
         return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
 
-    respuesta = cambiarContraActual(conexion, idUsuario, contraActual,contraNueva)
+    respuesta = cambiarContraActual(conexion, idUsuario, contraNueva,contraActual)
     conexion.close()
 
     if respuesta["estatus"]:
@@ -296,15 +299,16 @@ def guardarMsj():
     idReclamo= data.get("idReclamo")
     mensaje = data.get("mensaje")
     nombreDoc = data.get("nombreDoc")
+    ruta = data.get("rutaArchivo")
 
-    if not idUsuario or not mensaje:
+    if not idUsuario :
         return jsonify({"estatus": False, "error": "Faltan datos"}), 400
 
     conexion = conectar_bd("EDDO")
     if not conexion:
         return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
 
-    respusta = guardarMensaje(conexion, idUsuario, idReclamo , mensaje, nombreDoc);
+    respusta = guardarMensaje(conexion, idUsuario, idReclamo , mensaje, nombreDoc, ruta);
     conexion.close()
     if respusta:
         return jsonify({"estatus": True})
@@ -331,11 +335,12 @@ def traerMensajes():
         if filas:
             mensajes = []
             for fila in filas:
-                remitente, fecha, descripcion,NOMBRE = fila
+                remitente, fecha, descripcion,ruta,NOMBRE = fila
                 mensajes.append({
                     "remitente": remitente,
                     "fecha": fecha.strftime("%Y-%m-%d %H:%M:%S"),
                     "descripcion": descripcion,
+                    "rutaArchivo": ruta,
                     "nombreDoc": NOMBRE 
                 })
             return jsonify({"estatus":True,"msjs":mensajes})
@@ -346,11 +351,47 @@ def traerMensajes():
         print("❌ Error al consultar mensajes:", e)
         return jsonify({"error": str(e)}), 500
 
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    if 'file' not in request.files:
+        return jsonify({"message": "No se envió ningún archivo"}), 400
+
+    file = request.files['file']
+
+    if file.filename == '':
+        return jsonify({"message": "Nombre de archivo vacío"}), 400
+    
+    ruta = str(int(time.time())) +"_"+ file.filename
+    print("Ruta del archivo guardado:", ruta)
+    ruta_guardado = os.path.join(UPLOAD_FOLDER, ruta)
+    file.save(ruta_guardado)
+
+    return jsonify({"message": "Archivo guardado correctamente", "ruta": ruta}), 200
+
+@app.route('/descargar', methods=['POST'])
+def descargar_documento():
+    data = request.get_json()
+    ruta = data.get("ruta")
+
+    if not ruta:
+        return jsonify({"estatus": False, "error": "Falta la ruta"}), 400
+    ruta_archivo = os.path.abspath(os.path.join(ruta, "..","uploads",ruta))
+    
+
+    if not os.path.isfile(ruta_archivo):
+        return jsonify({"estatus": False, "error": "Archivo no encontrado"}), 404
+
+    try:
+        return send_file(ruta_archivo, as_attachment=True)
+    except Exception as e:
+        return jsonify({"estatus": False, "error": str(e)}), 500
+    
+
 @app.route("/validarRequisito", methods=["POST"])
 def validarRequisitos():
     data = request.get_json()
     idUsuario = data.get("idUsuario")
-
+    cumple_requisitos = True
     if not idUsuario:
         return jsonify({"estatus": False, "error": "Faltan datos"}), 400
 
@@ -360,17 +401,20 @@ def validarRequisitos():
 
     cumple_requisitos = validarRequisito(conexion, idUsuario)
 
+    print("Cumple requisitos en EDDO:", cumple_requisitos)
+
     conexion2 = conectar_bd("BDTEC")
     if not conexion2:
         return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
     
     cumple_requisito_plaza = traerPlaza(conexion2, idUsuario)
-
-    if cumple_requisito_plaza != "Tiempo Completo":
+    print("Horas de plaza obtenidas:", cumple_requisito_plaza)
+    if cumple_requisito_plaza < 40:
         cumple_requisitos = False
 
     conexion2.close()
     conexion.close()
+    print("Cumple requisitos final:", cumple_requisitos)
 
     return jsonify({"estatus": True, "cumpleRequisito": cumple_requisitos})
 
@@ -428,7 +472,6 @@ def generar():
             import json
             datos = json.loads(datos_json)
             datos,datos2 = llenarCampoFirma(datos)
-            print("Datos después de llenar firmas:", datos)
         except Exception as e:
             print("❌ Error al convertir datos JSON:", e)
             return jsonify({"estatus": False, "error": "Error al procesar los datos"}), 500
@@ -451,12 +494,12 @@ def llenarCampoFirma(datos):
     filas = cursor.fetchall()
 
     datos2 = []  # <- evita error
-
     for jefeId, nombreDep in filas:
 
         # Convertir "Juan Perez" -> "JUAN_PEREZ"
         variableEsperada = "VAR_JEFE_" + nombreDep.replace(" ", "_").upper()
         variableFirma = "VAR_FIRMA_" + nombreDep.replace(" ", "_").upper()
+        print("Buscando variable:", variableEsperada)
 
         # Verificar si esa variable existe en los datos JSON
         if variableEsperada in datos:
@@ -468,7 +511,6 @@ def llenarCampoFirma(datos):
                 datos[variableEsperada] = nombreJefe
                 datos2.append({"nombreJefe": nombreJefe, "nombreDepa":nombreDep})
 
-                print("Asignado valor:", nombreJefe, "a la variable:", variableEsperada)
         if variableFirma in datos:
             cursor.execute("SELECT NOMBRE FROM JEFE WHERE JEFE_ID = ?", (jefeId,))
             fila = cursor.fetchone()
@@ -478,11 +520,7 @@ def llenarCampoFirma(datos):
                 datos[variableFirma] = nombreJefe
                 datos2.append({variableFirma: nombreJefe, "nombreDepa":nombreDep})
 
-                print("Asignado valor:", nombreJefe, "a la variable de firma:", variableFirma)
     conexion.close()
-
-    print("Datos finales con firmas:", datos)
-    print("Nombre del jefe asignado:", datos2)
 
     return datos, datos2
 
@@ -620,6 +658,31 @@ def actualizarDocumentos():
         print("❌ Error al actualizar documentos:", e)
         return jsonify({"estatus": False, "error": str(e)}), 500
     
+@app.route('/traerCorreo', methods=['POST'])
+def traerCorreo():
+    try:
+        data = request.get_json()
+        id_docente = data.get("idDocente")
+
+        conexion = conectar_bd("EDDO")
+        if not conexion:
+            return jsonify({"estatus": False, "error": "No se pudo conectar a la base de datos"}), 500
+        
+        print("ID del docente recibido:", id_docente)
+        cursor = conexion.cursor()
+        cursor.execute("SELECT CORREO FROM JEFE WHERE JEFE_ID = ?", (id_docente,))
+        fila = cursor.fetchone()
+        conexion.close()
+        print("Fila obtenida de la base de datos:", fila)
+        if fila:
+            correo = fila[0]    
+            return jsonify({"estatus": True, "correo": correo})
+        else:
+            return jsonify({"estatus": False, "error": "No se encontró el correo"}), 404
+    except Exception as e:
+        print("❌ Error al traer correo:", e)
+        return jsonify({"estatus": False, "error": str(e)}), 500
+
 @app.route('/insertarDocumento', methods=['POST']) 
 def insertarDocumento():
     try:

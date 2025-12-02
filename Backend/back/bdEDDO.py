@@ -124,7 +124,7 @@ def cambiarContraActual(conexion, idUsuario, contraNueva, contraActual):
         contraGuardada = resultado[0]
 
         if contraGuardada != contraActual:
-            return {"estatus": False, "error": "La contraseña actual no coincide."}
+            return {"estatus": False, "error": "La contraseña actual es incorrecta."}
 
         cursor.execute("""
             EXEC sp_ActualizarContrasenaDocente 
@@ -195,7 +195,7 @@ def llenadoDoc(conexion,correo,nombre):
         print("❌ Error al Llenar los datos:", e)
         return None
     
-def guardarMensaje(conexion, idUsuario, idReclamo, mensaje, nombreDoc):
+def guardarMensaje(conexion, idUsuario, idReclamo, mensaje, nombreDoc,rutaArchivo):
     try:
         cursor = conexion.cursor()
 
@@ -245,9 +245,9 @@ def guardarMensaje(conexion, idUsuario, idReclamo, mensaje, nombreDoc):
         # 2. Insertar comentario
         # =========================================
         cursor.execute("""
-            INSERT INTO COMENTARIOS (ID_RECLAMO, DESCRIPCION, FECHA, REMITENTE)
-            VALUES (?, ?, GETDATE(), ?)
-        """, (idReclamo, mensaje, remitente))
+            INSERT INTO COMENTARIOS (ID_RECLAMO, DESCRIPCION, FECHA, REMITENTE, ruta)
+            VALUES (?, ?, GETDATE(), ?, ?   )
+        """, (idReclamo, mensaje, remitente, rutaArchivo))
 
         conexion.commit()
         return True
@@ -266,7 +266,9 @@ def traerMsjs(conexion, idReclamo, idUsuario,nombreDoc):
             CO.remitente,
             CO.fecha,
             CO.descripcion,
-            DOC.NOMBRE 
+            CO.ruta,
+            DOC.NOMBRE
+            
         FROM DOCUMENTO DOC
         JOIN DOCUMENTO_EXPEDIENTE DE ON DOC.FOLIO = DE.ID_DOCUMENTO
         JOIN EXPEDIENTE E ON DE.ID_EXPEDIENTE = E.ID_EXPEDIENTE

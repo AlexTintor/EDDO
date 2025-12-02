@@ -61,16 +61,13 @@ def traerDocumentosTEC(conexion,correo):
 def traerPlaza(conexion, idUsuario):
     try:
         cursor = conexion.cursor()
-        cursor.execute("""SELECT P.NOMBRE_PLAZA
+        cursor.execute("""SELECT P.HORAS
                        FROM PLAZA P
                        INNER JOIN EMPLEADO E ON P.ID_PLAZA = E.ID_PLAZA
                        WHERE E.ID_EMPLEADO = ?""", (idUsuario,))
         fila = cursor.fetchone()
-
-        if fila:
-            return fila.NOMBRE_PLAZA
-        else:
-            return None
+        fila = fila if fila else None
+        return fila.HORAS if fila else None
 
     except Exception as e:
         print("❌ Error al consultar plaza:", e)

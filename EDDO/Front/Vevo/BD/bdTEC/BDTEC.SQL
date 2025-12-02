@@ -1,6 +1,11 @@
+create DATABASE BDTEC
+go
+use BDTEC
+go
 CREATE TABLE PLAZA (
     ID_PLAZA INT NOT NULL,
-    HORARIO VARCHAR(50)
+    HORARIO VARCHAR(50),
+	HORAS INT
 );
 
 CREATE TABLE DEPARTAMENTO (
@@ -80,13 +85,13 @@ ADD CONSTRAINT CHK_CORREO CHECK (CORREO LIKE '%@%');
 
 ALTER TABLE PLAZA
 ADD CONSTRAINT CHK_HORARIO CHECK (HORARIO IS NOT NULL);
+-- =====================================
 go
 CREATE OR ALTER VIEW VISTA_EMPLEADOS_COMPLETA AS
 SELECT 
     e.ID_EMPLEADO,
     e.NOMBRE AS NOMBRE_EMPLEADO,
     e.CORREO AS CORREO_EMPLEADO,
-    e.CONTRA,
     e.TELEFONO,
     e.CAMPUS,
     p.HORARIO AS HORARIO_PLAZA,
@@ -95,12 +100,11 @@ FROM EMPLEADO e
 JOIN PLAZA p ON e.ID_PLAZA = p.ID_PLAZA
 JOIN DEPARTAMENTO d ON e.ID_DEPARTAMENTO = d.ID_DEPARTAMENTO;
 go
-insert into PLAZA (ID_PLAZA,HORARIO)
-VALUES (1,'COMPLETO')
+insert into PLAZA (ID_PLAZA,HORARIO,HORAS)
+VALUES (1,'COMPLETO',40)
 
-insert into PLAZA (ID_PLAZA,HORARIO)
-VALUES (2,'EDIO')
-go
+insert into PLAZA (ID_PLAZA,HORARIO,HORAS)
+VALUES (2,'MEDIO TIEMPO',20)
 INSERT INTO DEPARTAMENTO (ID_DEPARTAMENTO, NOMBRE)
 VALUES
 (1, 'Departamento Académico'),
@@ -111,21 +115,47 @@ VALUES
 (6, 'Departamento de Desarrollo Académico'),
 (7, 'Departamento de Ciencias Básicas'),
 (8, 'Departamento de Servicios Escolares');
-go
-INSERT INTO EMPLEADO (ID_EMPLEADO, ID_PLAZA, ID_DEPARTAMENTO, NOMBRE, APELLIDO_MAT, APELLIDO_PAT, CAMPUS, VIGENCIA, CONTRA, CORREO, TELEFONO)
+
+INSERT INTO EMPLEADO (ID_EMPLEADO, ID_PLAZA, ID_DEPARTAMENTO, NOMBRE, APELLIDO_MAT, APELLIDO_PAT, CAMPUS, VIGENCIA, CORREO, TELEFONO)
 VALUES (1, 1, 1, 'Carlos', 'Ramírez', 'González', 'Culiacán', 1,'carlos.rg@itc.mx', '6671234567');
 
-INSERT INTO EMPLEADO (ID_EMPLEADO, ID_PLAZA, ID_DEPARTAMENTO, NOMBRE, APELLIDO_MAT, APELLIDO_PAT, CAMPUS, VIGENCIA, CONTRA, CORREO, TELEFONO)
+INSERT INTO EMPLEADO (ID_EMPLEADO, ID_PLAZA, ID_DEPARTAMENTO, NOMBRE, APELLIDO_MAT, APELLIDO_PAT, CAMPUS, VIGENCIA, CORREO, TELEFONO)
 VALUES (2, 2, 2, 'María', 'Lozano', 'Hernández', 'Culiacán', 1, 'maria.lh@itc.mx', '6672345678');
 
-INSERT INTO EMPLEADO (ID_EMPLEADO, ID_PLAZA, ID_DEPARTAMENTO, NOMBRE, APELLIDO_MAT, APELLIDO_PAT, CAMPUS, VIGENCIA, CONTRA, CORREO, TELEFONO)
+INSERT INTO EMPLEADO (ID_EMPLEADO, ID_PLAZA, ID_DEPARTAMENTO, NOMBRE, APELLIDO_MAT, APELLIDO_PAT, CAMPUS, VIGENCIA, CORREO, TELEFONO)
 VALUES (3, 1, 3, 'Jorge', 'Pérez', 'Cárdenas', 'Guamúchil', 1,  'jorge.pc@itc.mx', '6673456789');
 
-INSERT INTO EMPLEADO (ID_EMPLEADO, ID_PLAZA, ID_DEPARTAMENTO, NOMBRE, APELLIDO_MAT, APELLIDO_PAT, CAMPUS, VIGENCIA, CONTRA, CORREO, TELEFONO)
+INSERT INTO EMPLEADO (ID_EMPLEADO, ID_PLAZA, ID_DEPARTAMENTO, NOMBRE, APELLIDO_MAT, APELLIDO_PAT, CAMPUS, VIGENCIA, CORREO, TELEFONO)
 VALUES (4, 2, 4, 'Ana', 'Soto', 'Valenzuela', 'Culiacán', 1, 'ana.sv@itc.mx', '6674567890');
 
-INSERT INTO EMPLEADO (ID_EMPLEADO, ID_PLAZA, ID_DEPARTAMENTO, NOMBRE, APELLIDO_MAT, APELLIDO_PAT, CAMPUS, VIGENCIA, CONTRA, CORREO, TELEFONO)
+INSERT INTO EMPLEADO (ID_EMPLEADO, ID_PLAZA, ID_DEPARTAMENTO, NOMBRE, APELLIDO_MAT, APELLIDO_PAT, CAMPUS, VIGENCIA, CORREO, TELEFONO)
 VALUES (5, 1, 5, 'Ricardo', 'Mendoza', 'Torres', 'Los Mochis', 1, 'ricardo.mt@itc.mx', '6675678901');
+
+INSERT INTO EMPLEADO (ID_EMPLEADO, ID_PLAZA, ID_DEPARTAMENTO, NOMBRE, APELLIDO_MAT, APELLIDO_PAT, CAMPUS, VIGENCIA, CORREO, TELEFONO)
+VALUES (6, 1, 5, 'Ricardo', 'Quintero', 'Torres', 'Los Mochis', 1, 'Quintero.t@itc.mx', '6675678901');
+
+INSERT INTO EMPLEADO (ID_EMPLEADO, ID_PLAZA, ID_DEPARTAMENTO, NOMBRE, APELLIDO_MAT, APELLIDO_PAT, CAMPUS, VIGENCIA, CORREO, TELEFONO)
+VALUES (7, 1, 5, 'JUAN', 'HERNANDEZ', 'Lopez', 'Los Mochis', 1, 'j.lopez@tecnm.mx', '6674923943');
+
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES 
+('Copia Examen de Grado', '{
+    "VAR_PROFESOR": "",
+    "VAR_GRADO": "",
+    "VAR_MAESTRIA": "",
+    "VAR_CIUDAD_ESTADO": "",
+    "VAR_DIA": "",
+    "VAR_MES": "",
+    "VAR_ANIO": "",
+    "VAR_TITULO_TESIS": "",
+    "VAR_JEFE_DIRECCION_GENERAL": "",
+    "VAR_JEFE_SERVICIOS_ESCOLARES": "",
+    "VAR_FIRMA_DIRECCION_GENERAL": "",
+    "VAR_FIRMA_SERVICIOS_ESCOLARES": ""
+}');
+
+
+
 
 INSERT INTO DOCUMENTO(NOMBRE, DATOS_JSON) VALUES ('Constancia Cumplimiento SPD',
 '{
@@ -209,195 +239,626 @@ INSERT INTO DOCUMENTO(NOMBRE, DATOS_JSON) VALUES ('Oficio Comisión (Educación 
   "VAR_JEFE_DEPARTAMENTO_ACADEMICO": "",
   "VAR_FIRMA_DEPARTAMENTO_ACADEMICO": ""
 }');
-/*
-INSERT INTO EMPLEADOSXDOCUMENTO (ID_EMPLEADO, ID_DOCUMENTO, DATOS_JSON)
-VALUES 
-(5, 1, '{
-  "NOMBRE_EGRESADO": "Ricardo Mendoza Torres",
-  "NOMBRE_MAESTRIA": "Maestría en Ingeniería en Sistemas Computacionales",
-  "NOMBRE_INSTITUTO": "Instituto Tecnológico de Culiacán",
-  "CIUDAD_ESTADO": "Culiacán, Sinaloa",
-  "DIA": "26",
-  "MES": "Noviembre",
-  "ANIO": "2025",
-  "TITULO_TESIS": "Optimización de Procesos Académicos mediante Sistemas Inteligentes"
+
+
+
+
+
+
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Copia Examen de Grado', '{
+"VAR_PROFESOR":"",
+"VAR_GRADO":"",
+"VAR_MAESTRIA":"",
+"VAR_CIUDAD_ESTADO":"",
+"VAR_DIA":"",
+"VAR_MES":"",
+"VAR_ANIO":"",
+"VAR_TITULO_TESIS":"",
+"VAR_DIRECTOR":"",
+"VAR_JEFE_ESCOLARES":"",
+"VAR_FIRMA_DIR":"",
+"VAR_FIRMA_JEF":""
 }');
 
-INSERT INTO EMPLEADOSXDOCUMENTO (ID_EMPLEADO, ID_DOCUMENTO, DATOS_JSON)
-VALUES 
-(5, 2, '{
-  "NUMERO_OFICIO_AUTORIZACION": "OFI-TEC-2025-432",
-  "LUGAR_FECHA_EMISION": "Culiacán, Sinaloa; 26 de Noviembre de 2025",
-  "PERSONA_TITULAR_INSTITUTO": "Mtra. Laura Gabriela Rodríguez Salinas",
-  "NOMBRE_INSTITUTO": "Instituto Tecnológico de Culiacán",
-  "NIVEL": "Superior",
-  "NOMBRE_PROGRAMA_ESTUDIO": "Ingeniería en Sistemas Computacionales",
-  "CLAVE_TECNM": "24ISC001",
-  "PERIODO": "Agosto - Diciembre 2025"
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Oficio de Autorización de Apertura','{
+"VAR_NUM_OFICIO":"",
+"VAR_FECHA":"",
+"VAR_NOMBRE_INSTITUTO":"",
+"VAR_NIVEL_PROGRAMA":"",
+"VAR_NOMBRE_PROGRAMA":"",
+"VAR_CLAVE_REGISTRO":"",
+"VAR_PERIODO_INICIO":"",
+"VAR_DIRECTOR":"",
+"VAR_FIRMA":""
 }');
 
-INSERT INTO EMPLEADOSXDOCUMENTO (ID_EMPLEADO, ID_DOCUMENTO, DATOS_JSON)
-VALUES 
-(5, 3, '{
-  "VAR_INSTITUTO": "Instituto Tecnológico de Culiacán",
-  "VAR_DEPARTAMENTO": "Departamento de Sistemas y Computación",
-  "VAR_LUGAR_FECHA": "Culiacán, Sinaloa; 26 de Noviembre de 2025",
-  "VAR_JEFE_NOMBRE": "Ing. Jorge Alberto Valdez Montoya",
-  "VAR_NIVEL": "Licenciatura",
-  "VAR_PROGRAMA": "Ingeniería en Sistemas Computacionales",
-  "VAR_FECHA_INICIO": "10 de Agosto de 2025",
-  "VAR_FECHA_FIN": "15 de Diciembre de 2025",
-  "VAR_PARTICIPANTES": "Ricardo Mendoza Torres",
-  "VAR_SUBDIRECTOR": "Mtro. Luis Fernando Cárdenas Soto"
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia con Nombres de Participantes','{
+"VAR_DEPARTAMENTO":"",
+"VAR_FECHA":"",
+"VAR_JEFE_NOMBRE":"",
+"VAR_NIVEL":"",
+"VAR_PROGRAMA":"",
+"VAR_FECHA_INICIO":"",
+"VAR_FECHA_FIN":"",
+"VAR_SUBDIRECTOR":"",
+"NOMBRE_PARTICIPANTE_1":"",	
+"NUMERO_1":"",
+"NOMBRE_PARTICIPANTE_2":"",	
+"NUMERO_2":"",
+"NOMBRE_PARTICIPANTE_3":"",	
+"NUMERO_3":"",
+"VAR_FIRMA_SUB":"",
+"VAR_FIRMA_JEFE":""
 }');
 
-INSERT INTO EMPLEADOSXDOCUMENTO (ID_EMPLEADO, ID_DOCUMENTO, DATOS_JSON)
-VALUES 
-(5, 4, '{
-  "VAR_NOMBRE_FIRMANTE": "Mtra. Laura Gabriela Rodríguez Salinas",
-  "VAR_CARGO_FIRMANTE": "Directora Académica",
-  "VAR_INSTITUTO": "Instituto Tecnológico de Culiacán",
-  "VAR_PROFESOR": "Ricardo Mendoza Torres",
-  "VAR_CLAVE_EMPLEADO": "EMP-005-ISC",
-  "VAR_DEPARTAMENTO": "Departamento de Sistemas y Computación",
-  "VAR_FECHA_INICIO": "01 de Agosto de 2025",
-  "VAR_FECHA_TERMINO": "30 de Noviembre de 2025",
-  "VAR_CIUDAD_ESTADO": "Culiacán, Sinaloa",
-  "VAR_FECHA_EMISION": "26 de Noviembre de 2025",
-  "VAR_FIRMA": "L.G.R.S."
-}');
-INSERT INTO EMPLEADOSXDOCUMENTO (ID_EMPLEADO, ID_DOCUMENTO, DATOS_JSON)
-VALUES 
-(5, 5, '{
-  "VAR_INSTITUTO": "Instituto Tecnológico de Culiacán",
-  "VAR_DEPARTAMENTO": "Departamento de Sistemas y Computación",
-  "VAR_LUGAR_FECHA": "Culiacán, Sinaloa; 26 de Noviembre de 2025",
-  "VAR_PROFESOR": "Ricardo Mendoza Torres",
-  "VAR_JEFE_DEPTO": "Ing. Jorge Alberto Valdez Montoya",
-  "VAR_LICENCIATURA": "Ingeniería en Sistemas Computacionales",
-  "VAR_FECHA_INICIO": "12 de Agosto de 2025",
-  "VAR_FECHA_FIN": "16 de Diciembre de 2025",
-  "VAR_LISTA_MODULOS": "Arquitectura de Computadoras, Estructuras de Datos, Programación Web",
-  "VAR_SUBDIRECTOR": "Mtro. Luis Fernando Cárdenas Soto"
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia de Participación','{
+"VAR_JEFE_DEP":"",
+"VAR_PROFESOR":"",
+"VAR_ID_PROFESOR":"",
+"VAR_DEPARTAMENTO":"",
+"VAR_FECHA_INICIO":"",
+"VAR_FECHA_TERMINO":"",
+"VAR_FECHA_EMISION":"",
+"VAR_FIRMA_JEF":""
 }');
 
-INSERT INTO EMPLEADOSXDOCUMENTO (ID_EMPLEADO, ID_DOCUMENTO, DATOS_JSON)
-VALUES 
-(5, 6, '{
-  "NOMBRE_INSTITUTO": "Instituto Tecnológico de Culiacán",
-  "NUMERO_OFICIO": "OFI-COM-2025-118",
-  "LUGAR_FECHA_EMISION": "Culiacán, Sinaloa; 26 de Noviembre de 2025",
-  "NOMBRE_PROFESOR_COMISIONADO": "Ricardo Mendoza Torres",
-  "NOMBRE_DEPARTAMENTO": "Departamento de Sistemas y Computación",
-  "NOMBRE_PROGRAMA_LICENCIATURA": "Ingeniería en Sistemas Computacionales",
-  "OBJETIVO": "Participar como responsable académico en actividades de fortalecimiento del programa educativo.",
-  "FECHA_INICIO": "02 de Septiembre de 2025",
-  "FECHA_TERMINO": "30 de Noviembre de 2025",
-  "NOMBRE_TITULAR": "Mtra. Laura Gabriela Rodríguez Salinas",
-  "CARGO_TITULAR": "Directora Académica"
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia de Participación 1.4.8.2','{
+"VAR_INSTITUTO":"",
+"VAR_LUGAR_FECHA":"",
+"VAR_PROFESOR":"",
+"VAR_JEFE_DEPTO":"",
+"VAR_LICENCIATURA":"",
+"VAR_FECHA_INICIO":"",
+"VAR_FECHA_FIN":"",
+"VAR_MODULO1":"",
+"VAR_MODULO2":"",
+"VAR_SUBDIRECTOR":"",
+"VAR_FIRMA_SUB":"",
+"VAR_FIRMA_JEFE":""
 }');
 
-INSERT INTO EMPLEADOSXDOCUMENTO (ID_EMPLEADO, ID_DOCUMENTO, DATOS_JSON)
-VALUES 
-(5, 7, '{
-  "VAR_NUM_REGISTRO": "REG-ISC-2025-087",
-  "VAR_LUGAR_FECHA": "Culiacán, Sinaloa; 26 de Noviembre de 2025",
-  "VAR_DIRECTOR_INSTITUTO": "Ing. Marco Antonio Beltrán Sánchez",
-  "VAR_INSTITUTO": "Instituto Tecnológico de Culiacán",
-  "VAR_LICENCIATURA": "Ingeniería en Sistemas Computacionales",
-  "VAR_TABLA_MODULOS": "Algoritmos, Matemáticas Discretas, Redes de Computadoras",
-  "VAR_DIRECTOR_DOCENCIA": "Mtra. Laura Gabriela Rodríguez Salinas"
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Oficio de Comisión','{
+"VAR_NUM_OFICIO":"",
+"VAR_LUGAR_FECHA":"",
+"VAR_PROFESOR":"",
+"VAR_DEPARTAMENTO":"",
+"VAR_PROGRAMA":"",
+"VAR_OBJETIVO_COMISION":"",
+"VAR_FECHA_INICIO":"",
+"VAR_FECHA_FIN":"",
+"VAR_JEFE_DEP":""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Oficio de Registro de Módulos','{
+"VAR_NUM_REGISTRO":"",
+"VAR_LUGAR_FECHA":"",
+"VAR_DIRECTOR_INSTITUTO":"",
+"VAR_INSTITUTO":"",
+"VAR_LICENCIATURA":"",
+"VAR_CLAVE1":"",
+"VAR_CLAVE2":"",
+"VAR_MODULO1":"",
+"VAR_MODULO2":"",
+"VAR_HORAS1":"",
+"VAR_HORAS2":"",
+"VAR_FECHA_INI1":"",
+"VAR_FECHA_INI2":"",
+"VAR_FECHA_FIN1":"",
+"VAR_FECHA_FIN2":"",
+"VAR_DIRECTOR_DOCENCIA":"",
+"VAR_FIRMA":""
+}');
+
+-- MIGUELAX
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia de participación en cuerpos colegiados', '{
+"Var_Fecha":"",
+"Var_Oficio":"",
+"Var_Nombre":"",
+"Var_Semestre":"",
+"Var_NumDictamen":"",
+"Var_TotalAlumnos":"",
+"Var_AlumnosConCredito":"",
+"Var_Sello":"",
+"Var_FirmaJefaDpto":"",
+"Var_NombreJefaDpto":"",
+"Var_PuestoJefaDpto":"",
+"Var_FirmaJefeCentro":"",
+"Var_FirmaResponsable":"",
+"Var_NombreJefeCentro":"",
+"Var_PuestoJefeCentro":"",
+"Var_NombreResponsable":"",
+"Var_PuestoResponsable":""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Recursos educativos digitales', '{
+"Var_Fecha":"",
+"Var_Oficio":"",
+"Var_Nombre":"",
+"Var_Semestre":"",
+"Var_Asignatura":"",
+"Var_ProgramaNombre":"",
+"Var_Sello":"",
+"Var_NombreJefa":"",
+"Var_PuestoJefa":"",
+"Var_FirmaJefa":"",
+"Var_NombrePresidente":"",
+"Var_PuestoPresidente":"",
+"Var_FirmaPresidente":"",
+"Var_NombreResponsable":"",
+"Var_PuestoResponsable":"",
+"Var_FirmaResponsable":""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Formato de implementación de estrategias', '{
+"Var_Fecha":"",
+"Var_Oficio":"",
+"Var_Nombre":"",
+"Var_Asignatura":"",
+"Var_Estrategia":"",
+"Var_ProgramaNombre":"",
+"Var_Habilidades":"",
+"Var_Sello":"",
+"Var_FirmaJefa":"",
+"Var_NombreJefa":"",
+"Var_PuestoJefa":"",
+"Var_FirmaPresidente":"",
+"Var_FirmaResponsable":"",
+"Var_NombrePresidente":"",
+"Var_PuestoPresidente":"",
+"Var_NombreResponsable":"",
+"Var_PuestoResponsable":""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Formato asesorías estudiantes', '{
+"Var_Fecha":"",
+"Var_Oficio":"",
+"Var_Nombre":"",
+"Var_Rol":"",
+"Var_NombreDeCurso":"",
+"Var_FechaInicio":"",
+"Var_FechaFin":"",
+"Var_Alcance":"",
+"Var_funcionesRealizadas":"",
+"Var_Sello":"",
+"Var_FirmaTitular":"",
+"Var_NombreTitular":"",
+"Var_PuestoTitular":"",
+"Var_FirmaResponsable":"",
+"Var_NombreResponsable":"",
+"Var_PuestoResponsable":""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia asesoría lugares', '{
+"Var_Fecha":"",
+"Var_Oficio":"",
+"Var_Nombre":"",
+"Var_NombreProyecto":"",
+"Var_NombreEvento":"",
+"Var_Nivel":"",
+"Var_Lugar":"",
+"Var_FechaInicio":"",
+"Var_FechaFin":"",
+"Var_NumDictamen":"",
+"Var_Sello":"",
+"Var_FirmaTitular":"",
+"Var_NombreTitular":"",
+"Var_PuestoTitular":"",
+"Var_FirmaResponsable":"",
+"Var_NombreResponsable":"",
+"Var_PuestoResponsable":""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia de participación como jurado', '{
+"Var_Fecha":"",
+"Var_Oficio":"",
+"Var_Nombre":"",
+"Var_NombreEvento":"",
+"Var_FechaInicio":"",
+"Var_FechaFin":"",
+"Var_Nivel":"",
+"Var_Sello":"",
+"Var_FirmaTitular":"",
+"Var_NombreTitular":"",
+"Var_PuestoTitular":"",
+"Var_FirmaResponsable":"",
+"Var_NombreResponsable":"",
+"Var_PuestoResponsable":""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Participación de comités', '{
+"Var_Fecha":"",
+"Var_Oficio":"",
+"Var_Nombre":"",
+"Var_NombreEvento":"",
+"Var_FechaInicio":"",
+"Var_FechaFin":"",
+"Var_Nivel":"",
+"Var_Sello":"",
+"Var_FirmaTitular":"",
+"Var_NombreTitular":"",
+"Var_PuestoTitular":"",
+"Var_FirmaResponsable":"",
+"Var_NombreResponsable":"",
+"Var_PuestoResponsable":""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Oficio de Comisión por la persona titular del ITec', '{
+"Var_Fecha":"",
+"Var_Oficio":"",
+"Var_Nombre":"",
+"Var_Cargo":"",
+"Var_NombreEvento":"",
+"Var_FechaInicio":"",
+"Var_FechaFin":"",
+"Var_Nivel":"",
+"Var_Sello":"",
+"Var_FirmaTitular":"",
+"Var_NombreTitular":""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia de la institución organizadora', '{
+"Var_NombreInstitucion":"",
+"Var_LugarEvento":"",
+"Var_Fecha":"",
+"Var_Nombre":"",
+"Var_Cargo":"",
+"Var_NombreEvento":"",
+"Var_FechaInicio":"",
+"Var_FechaFin":"",
+"Var_Nivel":"",
+"Var_FirmaTitular":"",
+"Var_NombreTitular":"",
+"Var_PuestoTitular":""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Participación en auditorías de sistemas de gestión', '{
+"Var_Fecha":"",
+"Var_Nombre":"",
+"Var_RolAuditor":"",
+"Var_sistema":"",
+"Var_FechaInicio":"",
+"Var_FechaFin":"",
+"Var_LugarAuditoria":"",
+"Var_FirmaTitular":"",
+"Var_NombreTitular":""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Consejo Nacional de Acreditación','{
+"V_FECHA_INICIO":"",
+"V_FECHA_FINAL":"",
+"V_ESTADO":"",
+"V_FECHA":"",
+"VAR_FIRMA":"",
+"VAR_PRESIDENTE":""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia de Productos Obtenidos y su Impacto','{
+"VAR_FECHA":"",
+"VAR_NOMB_DOCENTE":"",
+"VAR_NOMB_MATERIA":"",
+"VAR_NOMB_ESTRATEGIA":"",
+"VAR_NOMB_CARRERA":"",
+"VAR_DESC_PRODUCTO":"",
+"VAR_DESC_IMPACTO":"",
+"VAR_DIA":"",
+"VAR_MES":"",
+"VAR_AÑO":"",
+"VAR_FIRMA1":"",
+"VAR_JEFE_DEPTO1":"",
+"VAR_FIRMA2":"",
+"VAR_JEFE_DEPTO2":"",
+"VAR_FIRMA3":"",
+"VAR_JEFE_DEPTO3":""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia de Trabajo','{
+"VAR_FECHA":"",
+"VAR_NOMB_DOCENTE":"",
+"VAR_NOMB_ASIGNATURA":"",
+"VAR_NOMB_CARRERA":"",
+"VAR_DIA":"",
+"VAR_MES":"",
+"VAR_AÑO":"",
+"VAR_FIRMA1":"",
+"VAR_JEFE_DEPTO1":"",
+"VAR_FIRMA2":"",
+"VAR_JEFE_DEPTO2":"",
+"VAR_FIRMA3":"",
+"VAR_JEFE_DEPTO3":""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia de Tutoría','{
+"VAR_NOM_DOCENTE":"",
+"VAR_DEPARTAMENTO":"",
+"VAR_PERIODO1":"",
+"VAR_CANTIDAD_ALUMNOS1":"",
+"VAR_CARRERA1":"",
+"VAR_PERIODO2":"",
+"VAR_CANTIDAD_ALUMNOS2":"",
+"VAR_CARRERA2":"",
+"VAR_TOTAL_ALUMNOS":"",
+"VAR_FIRMA1":"",
+"VAR_JEFE_DEPTO1":"",
+"VAR_FIRMA2":"",
+"VAR_JEFE_DEPTO2":""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia Exención Examen Licenciatura','{
+"VAR_FOLIO":"",
+"VAR_NOMBRE_COMPLETO":"",
+"VAR_NOCONTROL":"",
+"VAR_INSTITUTO":"",
+"VAR_CLAVE":"",
+"VAR_CARRERA":"",
+"VAR_OPCION_TITULACION":"",
+"VAR_DIA":"",
+"VAR_MES":"",
+"VAR_AÑO":"",
+"VAR_FIRMA1":"",
+"VAR_NOMBRE_PRESI":"",
+"VAR_CEDULA_PRESI":"",
+"VAR_FIRMA2":"",
+"VAR_NOMBRE_SECRE":"",
+"VAR_CEDULA_SECRE":"",
+"VAR_FIRMA3":"",
+"VAR_NOMBRE_VOCAL":"",
+"VAR_CEDULA_VOCAL":""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia Exención Examen Maestría','{
+"VAR_FOLIO":"",
+"VAR_NOMBRE_COMPLETO":"",
+"VAR_NOCONTROL":"",
+"VAR_INSTITUTO":"",
+"VAR_CLAVE":"",
+"VAR_CARRERA":"",
+"VAR_OPCION_TITULACION":"",
+"VAR_DIA":"",
+"VAR_MES":"",
+"VAR_AÑO":"",
+"VAR_FIRMA1":"",
+"VAR_NOMBRE_PRESI":"",
+"VAR_CEDULA_PRESI":"",
+"VAR_FIRMA2":"",
+"VAR_NOMBRE_SECRE":"",
+"VAR_CEDULA_SECRE":"",
+"VAR_FIRMA3":"",
+"VAR_NOMBRE_VOCAL":"",
+"VAR_CEDULA_VOCAL":""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia Exención Examen Maestría (Codirector)','{
+"VAR_FOLIO":"",
+"VAR_NOMBRE_COMPLETO":"",
+"VAR_NOCONTROL":"",
+"VAR_INSTITUTO":"",
+"VAR_CLAVE":"",
+"VAR_CARRERA":"",
+"VAR_OPCION_TITULACION":"",
+"VAR_DIA":"",
+"VAR_MES":"",
+"VAR_AÑO":"",
+"VAR_FIRMA1":"",
+"VAR_NOMBRE_PRESI":"",
+"VAR_CEDULA_PRESI":"",
+"VAR_FIRMA2":"",
+"VAR_NOMBRE_SECRE":"",
+"VAR_CEDULA_SECRE":"",
+"VAR_FIRMA3":"",
+"VAR_NOMBRE_VOCAL":"",
+"VAR_CEDULA_VOCAL":""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia Exención Examen Doctorado','{
+"VAR_FOLIO":"",
+"VAR_NOMBRE_COMPLETO":"",
+"VAR_NOCONTROL":"",
+"VAR_INSTITUTO":"",
+"VAR_CLAVE":"",
+"VAR_CARRERA":"",
+"VAR_OPCION_TITULACION":"",
+"VAR_DIA":"",
+"VAR_MES":"",
+"VAR_AÑO":"",
+"VAR_FIRMA1":"",
+"VAR_NOMBRE_PRESI":"",
+"VAR_CEDULA_PRESI":"",
+"VAR_FIRMA2":"",
+"VAR_NOMBRE_SECRE":"",
+"VAR_CEDULA_SECRE":"",
+"VAR_FIRMA3":"",
+"VAR_NOMBRE_VOCAL":"",
+"VAR_CEDULA_VOCAL":""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia Exención Examen Doctorado (Codirector)','{
+"VAR_FOLIO":"",
+"VAR_NOMBRE_COMPLETO":"",
+"VAR_NOCONTROL":"",
+"VAR_INSTITUTO":"",
+"VAR_CLAVE":"",
+"VAR_CARRERA":"",
+"VAR_OPCION_TITULACION":"",
+"VAR_DIA":"",
+"VAR_MES":"",
+"VAR_AÑO":"",
+"VAR_FIRMA1":"",
+"VAR_NOMBRE_PRESI":"",
+"VAR_CEDULA_PRESI":"",
+"VAR_FIRMA2":"",
+"VAR_NOMBRE_SECRE":"",
+"VAR_CEDULA_SECRE":"",
+"VAR_FIRMA3":"",
+"VAR_NOMBRE_VOCAL":"",
+"VAR_CEDULA_VOCAL":""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia Exención Examen Especialización','{
+"VAR_FOLIO":"",
+"VAR_NOMBRE_COMPLETO":"",
+"VAR_NOCONTROL":"",
+"VAR_INSTITUTO":"",
+"VAR_CLAVE":"",
+"VAR_CARRERA":"",
+"VAR_OPCION_TITULACION":"",
+"VAR_DIA":"",
+"VAR_MES":"",
+"VAR_AÑO":"",
+"VAR_FIRMA1":"",
+"VAR_NOMBRE_PRESI":"",
+"VAR_CEDULA_PRESI":"",
+"VAR_FIRMA2":"",
+"VAR_NOMBRE_SECRE":"",
+"VAR_CEDULA_SECRE":"",
+"VAR_FIRMA3":"",
+"VAR_NOMBRE_VOCAL":"",
+"VAR_CEDULA_VOCAL":""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia SINODAL Técnico Superior','{
+"VAR_NOMB_DOCENTE":"",
+"VAR_FECHA_INICIO":"",
+"VAR_FECHA_FIN":"",
+"VAR_FOLIO1":"",
+"VAR_FECHA1":"",
+"VAR_NOM_ALUM1":"",
+"VAR_CARRERA1":"",
+"VAR_FUNCION1":"",
+"VAR_FOLIO2":"",
+"VAR_FECHA2":"",
+"VAR_NOM_ALUM2":"",
+"VAR_CARRERA2":"",
+"VAR_FUNCION2":"",
+"VAR_FOLIO3":"",
+"VAR_FECHA3":"",
+"VAR_NOM_ALUM3":"",
+"VAR_CARRERA3":"",
+"VAR_FUNCION3":"",
+"VAR_LDIA":"",
+"VAR_LMES":"",
+"VAR_LAÑO":"",
+"VAR_FIRMA":"",
+"VAR_JEFE_DEPTO":""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia SINODAL Maestría','{
+"VAR_NOMB_DOCENTE":"",
+"VAR_FECHA_INICIO":"",
+"VAR_FECHA_FIN":"",
+"VAR_FOLIO1":"",
+"VAR_FECHA1":"",
+"VAR_NOM_ALUM1":"",
+"VAR_CARRERA1":"",
+"VAR_FUNCION1":"",
+"VAR_FOLIO2":"",
+"VAR_FECHA2":"",
+"VAR_NOM_ALUM2":"",
+"VAR_CARRERA2":"",
+"VAR_FUNCION2":"",
+"VAR_FOLIO3":"",
+"VAR_FECHA3":"",
+"VAR_NOM_ALUM3":"",
+"VAR_CARRERA3":"",
+"VAR_FUNCION3":"",
+"VAR_LDIA":"",
+"VAR_LMES":"",
+"VAR_LAÑO":"",
+"VAR_FIRMA":"",
+"VAR_JEFE_DEPTO":""
 }');
 
 
-go
---1.2.2.1
-INSERT INTO EMPLEADOSXDOCUMENTO
-    (ID_EMPLEADO, ID_DOCUMENTO, DATOS_JSON)
-VALUES
-    (2, 18, 
-    '{"VAR_OFICIO_COMISION": "DDA/CEN-101/2024", 
-    "VAR_NOMBRE_DOCENTE": "María Lozano Hernández", 
-    "VAR_NOMBRE_CURSO": "Taller de Programación en Python", 
-    "VAR_FECHA_INICIO_COMISION": "10 de abril de 2024", 
-    "VAR_FECHA_FIN_COMISION": "15 de abril de 2024", 
-    "VAR_NOMBRE_JEFE_DDA": "Ana Bertha Soto"}');
---1.2.2.2
-INSERT INTO EMPLEADOSXDOCUMENTO
-    (ID_EMPLEADO, ID_DOCUMENTO, DATOS_JSON)
-VALUES
-    (2, 19,
-    '{
-    "VAR_OFICIO_COMISION": "DDA/DDIE-001/2024",
-    "VAR_NOMBRE_DOCENTE": "María Lozano Hernández",
-    "VAR_NOMBRE_CURSO": "Desarrollo de Competencias Digitales Docentes",
-    "VAR_FECHA_INICIO_COMISION": "10 de marzo de 2024",
-    "VAR_FECHA_FIN_COMISION": "10 de abril de 2024",
-    "VAR_NOMBRE_JEFE_DDA": "Ana Bertha Soto"}');
 
---1.2.2.4
-INSERT INTO EMPLEADOSXDOCUMENTO
-    (ID_EMPLEADO, ID_DOCUMENTO, DATOS_JSON)
-VALUES
-    (2, 21,
-    '{
-    "VAR_FOLIO_CONSTANCIA": "DDIE/DFDT-150/2024",
-    "VAR_NOMBRE_DOCENTE": "María Lozano Hernández",
-    "VAR_DURACION_HRS": "120",
-    "VAR_PERIODO": "01 de abril al 30 de junio de 2024",
-    "VAR_DIA": "20",
-    "VAR_MES": "Julio",
-    "VAR_ANIO": "2024",
-    "VAR_NOMBRE_DIRECTOR_DDIE": "Mario Alberto González" }');
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES 
+('Oficio Comisión (Proyecto Estratégico)',
+'{
+  "VAR_OFICIO_COMISION": "",
+  "VAR_NOMBRE_DOCENTE": "",
+  "VAR_NOMBRE_CURSO": "",
+  "VAR_FECHA_INICIO_COMISION": "",
+  "VAR_FECHA_FIN_COMISION": "",
+  "VAR_NOMBRE_JEFE_DDA": "",
+  "VAR_FIRMA_JEFE_DDA": ""
+}');
 
---1.2.2.5
-INSERT INTO EMPLEADOSXDOCUMENTO
-    (ID_EMPLEADO, ID_DOCUMENTO, DATOS_JSON)
-VALUES
-    (2, 22,
-    '{"VAR_OFICIO_COMISION": "DDA/RAV-008/2024",
-    "VAR_NOMBRE_DOCENTE": "María Lozano Hernández",
-    "VAR_NOMBRE_CURSO": "Diplomado Recursos Educativos en Ambientes Virtuales",
-    "VAR_FECHA_INICIO_COMISION": "01 de septiembre de 2024",
-    "VAR_FECHA_FIN_COMISION": "30 de noviembre de 2024",
-    "VAR_NOMBRE_JEFE_DDA": "Ana Bertha Soto"}');
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES 
+('Constancia Cumplimiento SPD',
+'{
+  "VAR_FOLIO_CONSTANCIA": "",
+  "VAR_NOMBRE_DOCENTE": "",
+  "VAR_ASIGNATURA_ASESORIA": "",
+  "VAR_PERIODO_CONSTANCIA": "",
+  "VAR_TOTAL_ESTUDIANTES": "",
+  "VAR_DIA_CONSTANCIA": "",
+  "VAR_MES_CONSTANCIA": "",
+  "VAR_ANIO_CONSTANCIA": "",
+  "VAR_NOMBRE_JEFE_CB": "",
+  "VAR_NOMBRE_SUBDIRECTOR_ACADEMICO": "",
+  "VAR_FIRMA_JEFE_CD": "",
+  "VAR_FIRMA_SUB_ACADEM": ""
+}');
 
---1.2.2.6
-INSERT INTO EMPLEADOSXDOCUMENTO
-    (ID_EMPLEADO, ID_DOCUMENTO, DATOS_JSON)
-VALUES
-    (2, 23,
-    '{"VAR_OFICIO_COMISION": "DDA/DEI-001/2024",
-    "VAR_NOMBRE_DOCENTE": "María Lozano Hernández",
-    "VAR_NOMBRE_CURSO": "Diplomado en Educación Inclusiva para Profesores(as) del TecNM",
-    "VAR_FECHA_INICIO_COMISION": "01 de octubre de 2024",
-    "VAR_FECHA_FIN_COMISION": "30 de noviembre de 2024",
-    "VAR_NOMBRE_JEFE_DDA": "Ana Bertha Soto"}');
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES 
+('Constancia DDIE (Competencias de Tutores)',
+'{
+  "VAR_FOLIO_CONSTANCIA": "",
+  "VAR_NOMBRE_DOCENTE": "",
+  "VAR_DURACION_HRS": "",
+  "VAR_PERIODO": "",
+  "VAR_DIA": "",
+  "VAR_MES": "",
+  "VAR_ANIO": "",
+  "VAR_NOMBRE_DIRECTOR_DDIE": "",
+  "VAR_FIRMA_DIRECTOR_DDIE": ""
+}');
 
---1.2.2.7
-INSERT INTO EMPLEADOSXDOCUMENTO
-    (ID_EMPLEADO, ID_DOCUMENTO, DATOS_JSON)
-VALUES
-    (2, 24,
-    '{"VAR_OFICIO_COMISION": "DDA/PE-001/2024",
-    "VAR_NOMBRE_DOCENTE": "María Lozano Hernández",
-    "VAR_NOMBRE_CURSO": "Diplomado en Tecnologías 4.0",
-    "VAR_FECHA_INICIO_COMISION": "01 de noviembre de 2024",
-    "VAR_FECHA_FIN_COMISION": "30 de diciembre de 2024",
-    "VAR_NOMBRE_JEFE_DDA": "Ana Bertha Soto"}');
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES 
+('Oficio Comisión (Ambientes Virtuales)',
+'{
+  "VAR_OFICIO_COMISION": "",
+  "VAR_NOMBRE_DOCENTE": "",
+  "VAR_NOMBRE_CURSO": "",
+  "VAR_FECHA_INICIO_COMISION": "",
+  "VAR_FECHA_FIN_COMISION": "",
+  "VAR_NOMBRE_JEFE_DDA": "",
+  "VAR_FIRMA_JEFE_DDA": ""
+}');
 
--- 1.4.1 (Constancia Cumplimiento SPD)
-INSERT INTO EMPLEADOSXDOCUMENTO
-    (ID_EMPLEADO, ID_DOCUMENTO, DATOS_JSON)
-VALUES
-    (2, 25,
-    '{"VAR_FOLIO_CONSTANCIA": "CB/AAC/15/2024",
-    "VAR_NOMBRE_DOCENTE": "María Lozano Hernández",
-    "VAR_ASIGNATURA_ASESORIA": "Cálculo Integral",
-    "VAR_PERIODO_CONSTANCIA": "Agosto - Diciembre 2024",
-    "VAR_TOTAL_ESTUDIANTES": "12",
-    "VAR_DIA_CONSTANCIA": "15",
-    "VAR_MES_CONSTANCIA": "Enero",
-    "VAR_ANIO_CONSTANCIA": "2024",
-    "VAR_NOMBRE_JEFE_CB": "Dr. Juan Carlos Soria",
-    "VAR_NOMBRE_SUBDIRECTOR_ACADEMICO": "M.C. Rigoberto Tarín Salazar"}');*/
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES 
+('Oficio Comisión (curso_diplomado)',
+'{
+  "VAR_OFICIO_COMISION": "",
+  "VAR_NOMBRE_DOCENTE": "",
+  "VAR_NOMBRE_CURSO": "",
+  "VAR_INSTITUCION_CURSO": "",
+  "VAR_FECHA_INICIO_COMISION": "",
+  "VAR_FECHA_FIN_COMISION": "",
+  "VAR_NOMBRE_JEFE_DDA": "",
+  "VAR_FIRMA_JEFE_DDA": ""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES 
+('Oficio Comisión (curso-diplomado DDIE)',
+'{
+  "VAR_OFICIO_COMISION": "",
+  "VAR_NOMBRE_DOCENTE": "",
+  "VAR_NOMBRE_CURSO": "",
+  "VAR_FECHA_INICIO_COMISION": "",
+  "VAR_FECHA_FIN_COMISION": "",
+  "VAR_NOMBRE_JEFE_DDA": "",
+  "VAR_FIRMA_JEFE_DDA": ""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES 
+('Oficio Comisión (Educación Inclusiva)',
+'{
+  "VAR_OFICIO_COMISION": "",
+  "VAR_NOMBRE_DOCENTE": "",
+  "VAR_NOMBRE_CURSO": "",
+  "VAR_FECHA_INICIO_COMISION": "",
+  "VAR_FECHA_FIN_COMISION": "",
+  "VAR_NOMBRE_JEFE_DDA": "",
+  "VAR_FIRMA_JEFE_DDA": ""
+}');

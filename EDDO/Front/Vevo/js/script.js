@@ -172,19 +172,13 @@ async function actualizarDatosCuenta(datos1){
 async function agregarRegistroDocumento(expediente, documentos) {
   const tbody = document.querySelector("#tablaDocumentos tbody");
 
-  if (!expediente || !expediente.expediente) {
-    console.error("No se pudieron obtener los datos del expediente.");
-    const lblError = document.getElementById("lblError");
-    lblError.hidden = false;
-    lblError.textContent = "No se pudieron obtener los datos del expediente.";
-    return;
+  let docsOrdenados = [];
+  if(!expediente || !expediente.expediente){
+    docsOrdenados = documentos.Documentos;
   }
-  
-
-  tbody.innerHTML = "";
-
+  else{
   // Ordenar: primero Generada, luego Pendiente
-  const docsOrdenados = documentos.Documentos.sort((a, b) => {
+   docsOrdenados = documentos.Documentos.sort((a, b) => {
     const existeA = expediente.expediente.some(item => item.Nombre_documento === a.NOMBRE);
     const existeB = expediente.expediente.some(item => item.Nombre_documento === b.NOMBRE);
 
@@ -192,10 +186,22 @@ async function agregarRegistroDocumento(expediente, documentos) {
     return (existeA === existeB) ? 0 : existeA ? -1 : 1;
   });
 
+  }
+
+  tbody.innerHTML = "";
+
+  let estado = "Pendiente";
+  let existe = false;
   // Ya recorremos la lista ordenada
   docsOrdenados.forEach(doc => {
-    const existe = expediente.expediente.some(item => item.Nombre_documento === doc.NOMBRE);
-    const estado = existe ? "Generada" : "Pendiente";
+    if(!expediente || !expediente.expediente){
+      estado = "Pendiente";
+
+    }else{
+      existe = expediente.expediente.some(item => item.Nombre_documento === doc.NOMBRE);
+      estado = existe ? "Generada" : "Pendiente";
+    }
+      
 
     const tr = document.createElement("tr");
 
@@ -216,10 +222,9 @@ function agregarReclamo(reclamos) {
     const tbody = document.querySelector("#tablaReclamos tbody");
     console.log("Reclamos recibidos para agregar:", reclamos);
     if (!reclamos || reclamos.reclamos.length === 0) {
-        console.error("No se pudieron obtener los datos de los reclamos.");
         const lblError = document.getElementById("lblErrorReclamo");
         lblError.hidden = false;
-        lblError.textContent = "No se pudieron obtener los datos de los reclamos.";
+        lblError.textContent = "No tiene reclamos registrados.";
         return;
     }
     reclamos.reclamos.forEach(rec => {
@@ -315,11 +320,13 @@ async function descargarDocumento(nombreDoc){
 }
 function descargarTodosDocumentos(){
   const btnDescargarTodos = document.getElementById("btnDescargarTodos");
+
   btnDescargarTodos.addEventListener("click", async () => {
     console.log("Iniciando descarga de todos los documentos...");
     const documentos1 = await traerDatosExpediente();
     const documentos = documentos1.expediente;
     console.log("Descargando todos los documentos:", documentos);
+
     for (const doc of documentos) {
       const nombreDoc = doc.Nombre_documento;
       console.log("Descargando documento:", nombreDoc);
@@ -420,13 +427,38 @@ function regresarPaginaExpediente(){
 
 
 
+async function traerCorreoDocente(idDocente){
+  try{
+    const response = await fetch("http://localhost:5000/traerCorreo", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ idDocente: idDocente })
+    });
+    const data = await response.json();
+
+    if (data.estatus) {
+      console.log("Datos de cuenta:", data);
+      return data.correo;
+    } else {
+      console.log("Error:", data.error);
+      return null;
+    }
+  } catch (error) {
+    console.error("Error en traerDatosCuenta:", error);
+    return null;
+  }
+}
 
 async function traerDatosCuenta(){
+  const correo = await traerCorreoDocente(sessionStorage.getItem("idUsuario"));
+  // traerCorreoDocente ahora devuelve directamente el correo (o null)
+  console.log("Correo obtenido:", correo);
+  console.log("ID Usuario:", sessionStorage.getItem("idUsuario"));
   try{
     const response = await fetch("http://localhost:5000/cuenta", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ idUsuario: sessionStorage.getItem("idUsuario") })
+      body: JSON.stringify({ idUsuario: sessionStorage.getItem("idUsuario"), correo: correo})
     });
     const data = await response.json();
 
@@ -442,6 +474,7 @@ async function traerDatosCuenta(){
     return null;
   }
 }
+
 
 
 async function traerDatosExpediente() {
@@ -546,23 +579,25 @@ async function registrarDocente(correo,contra){
   }
 }
 
-async function validarRequi(){
-  fetch("http://localhost:5000/validarRequisito", {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ idUsuario: sessionStorage.getItem("idUsuario")})
-      })
-      .then(response => response.json())
-      .then(data => {
-          return data.estatus;
-          }).catch(error => {
-            lblError.hidden = false;
-            lblError.textContent = "Error de conexión.";
-            btniniciar.innerHTML = "Iniciar Sesión";
-      });
+async function validarRequi() {
+  try {
+    const response = await fetch("http://localhost:5000/validarRequisito", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ idUsuario: sessionStorage.getItem("idUsuario") })
+    });
+
+    const data = await response.json();
+
+    // Devuelve true o false según la respuesta
+    return data.cumpleRequisito === true;
+
+  } catch (error) {
+    console.error("Error en validarRequi:", error);
+    return false;
+  }
 }
+
 
 /* Funcion que cambia de html dependiendo la page*/ 
 function loadPage(page) {
@@ -593,7 +628,7 @@ function loadPage(page) {
         }
         guardarNombreDoc();
         const nombre_documento = sessionStorage.getItem("documentoSeleccionado");
-        descargarDocumento(nombre_documento);
+        //descargarDocumento(nombre_documento);
       });
       inputFiltro.addEventListener("input", () => {
         if(inputFiltro.value === ""){
@@ -610,10 +645,13 @@ function loadPage(page) {
     }
     if(page === "inicio.html"){
       //const validarRequitos = await validarRequi();
+      //console.log("Cumple requisitos:", validarRequitos);
+
       const validarRequitos = true;
       const resultado = await traerDatosCuenta();
+      console.log("Datos de cuenta:", resultado);
 
-      if (validarRequitos){
+      if (validarRequitos || sessionStorage.getItem("idUsuario") >= 1000) {
         const nombreDocente = resultado.cuenta[0].NOMBRE+" "+resultado.cuenta[0].APELLIDO_PAT+" "+resultado.cuenta[0].APELLIDO_MAT;
         const saludoElemento = document.getElementById("saludoDocente");
         if (saludoElemento && nombreDocente) {
@@ -643,11 +681,10 @@ function loadPage(page) {
           agregarReclamo(expediente);
         }
       }*/
-      const expediente = await traerDatosReclamo();
-      if (expediente) {
-        agregarReclamo(expediente);
-        btnsAbrirReclamo();
-      }
+      const reclamos = await traerDatosReclamo();
+      agregarReclamo(reclamos);
+      btnsAbrirReclamo();
+      
     }
 
     if (page === "cuenta.html") {
@@ -661,17 +698,57 @@ function loadPage(page) {
         });
     }
     if (page === "chat.html"){
-      actualizarChat();
+      await actualizarChat();
       mandarMsj();
+      chat();
     }
+
     if (page === "cambiarContra.html") {
       cambiarContraActual();
     }
+
   }).catch((error) => {
     console.error("Error al cargar la página:", page, error);
     content.innerHTML = "<h2>Error al cargar la página</h2>";
   });
 }
+
+async function enviarDocumento(){
+      const input = document.getElementById("archivo");
+      const label = document.getElementById("labelArchivo");
+    if (input.files.length === 0) {
+      label.textContent = "Seleccionar archivo";
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", input.files[0]); // "file" es el nombre del campo
+
+    const resp = await fetch("http://localhost:5000/upload", {
+        method: "POST",
+        body: formData
+    });
+
+    const data = await resp.json();
+    label.textContent = "Seleccionar archivo";
+    console.log("Respuesta de la subida:", data);
+    return data.ruta;
+}
+
+function chat(){
+  const archivoInput = document.getElementById("archivo");
+  archivoInput.addEventListener("change", () => {
+      const label = document.getElementById("labelArchivo");
+    const archivo = archivoInput.files[0];
+    console.log(archivo);
+    if (archivo) {
+        label.textContent = archivo.name;
+    } else {
+        label.textContent = "Seleccionar archivo";
+    }
+  });
+}
+
 
 async function traerMensajes() {
   try {
@@ -724,28 +801,59 @@ async function actualizarChat(){
   console.log("Tipo de usuario:", tipo);
   console.log("Mensajes recibidos:", sessionStorage.getItem("idUsuario"));
 
-  mensajes.msjs.forEach(msj => {
+  for (const msj of mensajes.msjs) {
     const fecha = msj["fecha"];
     const horaMin = fecha.split(" ")[1].slice(0, 5);
-    actualizarMsjVentana(msj["descripcion"],msj["remitente"] === tipo ? "uno" : "dos", horaMin);
-  });
 
+    await actualizarMsjVentana(
+        msj["descripcion"],
+        msj["remitente"] === tipo ? "uno" : "dos",
+        msj["rutaArchivo"],
+        horaMin
+    );
+  }
 }
 
-function actualizarMsjVentana(msj,tipo,horaMin="00:00"){ 
+async function actualizarMsjVentana(msj,tipo,ruta,horaMin="00:00"){ 
     const ventanaMensajes = document.getElementById('ventanaMensajes');
     const inputMsj = document.getElementById('inputMensaje');
     const tr = document.createElement("div");
+    let blob = null;
+    let url = null;
+    let nombreOriginal = null;
+    const resp = await fetch("http://localhost:5000/descargar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ ruta: ruta
+      })
+    });
+    if (!resp.ok) {
 
+    } else {
+        // Recibir archivo solo si fue exitoso
+        blob = await resp.blob();
+        url = window.URL.createObjectURL(blob);
+        console.log("URL del archivo recibido:", ruta);
+        let pos = ruta.indexOf("_");
+
+        // de esa posición hacia la derecha
+        nombreOriginal = ruta.substring(pos + 1);
+    } 
+    console.log("Mensaje a agregar a la ventana:", msj, tipo, horaMin, ruta);
     tr.innerHTML = `
     <div class="divMsj ${tipo}">
-    <div class="msj ${tipo}">
-                <p>${msj}</p>
-                <p class = "horaMsj">${horaMin}</p>
-            </div>
+        <button type="button" class="btn descargarArchivo" ${resp.ok ? "" : "hidden"}>
+          <a href="${resp.ok ? url : '#'}" download class="a descargarArchivo">${nombreOriginal}</a>
+        </button>
+        <div class="msj ${tipo}" ${msj === "" ? "hidden" : ""}>
+          <p>${msj}</p>
+          <p class="horaMsj">${horaMin}</p>
         </div>
+    </div>
     `;
-
+        
     ventanaMensajes.appendChild(tr);
     inputMsj.value = "";
 }
@@ -754,16 +862,18 @@ function mandarMsj() {
   const btnEnviarMsj = document.getElementById('btnEnviarMsj');
   const inputMsj = document.getElementById('inputMensaje');
 
-  btnEnviarMsj.addEventListener('click', () => {
+  btnEnviarMsj.addEventListener('click', async () => {
     const msj = inputMsj.value.trim(); 
 
-    if (msj === "") return; 
+    ruta = await enviarDocumento();
+    console.log("Ruta del archivo después de enviar:", ruta);
+    if (msj === "" && ruta == null) return; 
+    console.log("Mensaje a enviar:", msj, "Ruta del archivo:", ruta);
     
-    
-    if(mandarMsjAlBackend(msj)){
+    if(mandarMsjAlBackend(msj,ruta)){
       alert("Error al enviar el mensaje.");
     }
-    actualizarMsjVentana(msj, "uno");
+    actualizarMsjVentana(msj, "uno", ruta);
   });
     inputMsj.addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
@@ -773,13 +883,13 @@ function mandarMsj() {
     });
 }
 
-function mandarMsjAlBackend(mensaje) {
+function mandarMsjAlBackend(mensaje,ruta) {
   fetch("http://localhost:5000/guardar-mensaje", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ idUsuario: sessionStorage.getItem("idUsuario"), idReclamo: sessionStorage.getItem("idReclamo"), mensaje: mensaje,  nombreDoc: sessionStorage.getItem("documentoSeleccionado") })
+    body: JSON.stringify({ idUsuario: sessionStorage.getItem("idUsuario"), idReclamo: sessionStorage.getItem("idReclamo"), mensaje: mensaje,  nombreDoc: sessionStorage.getItem("documentoSeleccionado"), rutaArchivo: ruta })
   })
   .then(response => response.json())
   .then(data => {
@@ -808,6 +918,7 @@ function cambiarContraActual(){
       const passwordActual = document.getElementById("passwordActual").value;
       const passwordNueva = document.getElementById("passwordNueva").value;
       const lblError = document.getElementById("lblError");
+
       if(validadarContra('passwordNueva', 'passwordConfirmar')){
           fetch("http://localhost:5000/cambiarContraActual", {
           method: "POST",

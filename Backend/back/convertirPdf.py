@@ -92,8 +92,14 @@ def generar_constancia(datos,nombreDoc,datos2):
         if depa and nombreJefe:
             variableFirma = "VAR_FIRMA_" + depa.replace(" ", "_").upper()
             ruta_imagen = r"C:\\VisualStudio\\Python\\EDDO\\EDDO\\EDDO\\firmas\\firma_{nombreJefe}.png".format(nombreJefe=nombreJefe)
-
+            print("Ruta de la imagen:", variableFirma)            
             reemplazar_imagen_en_documento(doc, variableFirma, ruta_imagen)
+        print("Imagen procesada para departamento:", depa)
+
+    for clave, valor in datos.items():
+        print(f"Reemplazando {clave} por {valor}")
+        reemplazar_en_documento(doc, clave, valor)
+
     # Guardar el nuevo documento
     doc.save(salida_docx)
 
