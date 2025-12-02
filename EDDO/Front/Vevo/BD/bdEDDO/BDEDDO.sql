@@ -1,11 +1,8 @@
 
 create database EDDO
-select * from DOCENTE
-select * from EXPEDIENTE
-select * from DOCUMENTO_EXPEDIENTE
-select * from DEPARTAMENTO
-select * from DOCUMENTO
-
+go
+use EDDO
+go
 CREATE TABLE DOCENTE (
     ID_DOCENTE INT NOT NULL,
     NOMBRE VARCHAR(100),
@@ -84,97 +81,94 @@ CREATE TABLE COMENTARIOS (
     REMITENTE VARCHAR(10),
     FECHA DATETIME,
     DESCRIPCION VARCHAR(255),
+	RUTA VARCHAR(MAX),
     CONSTRAINT PK_COMENTARIOS PRIMARY KEY (ID_COMENTARIO),
     CONSTRAINT FK_COMENTARIOS_RECLAMO FOREIGN KEY (ID_RECLAMO) REFERENCES RECLAMO(ID_RECLAMO)
 );
+select * from JEFE
+select * from DEPARTAMENTO
+SELECT * FROM COMENTARIOS
+select * from DOCUMENTO
+select * from DOCENTE
 go
 INSERT INTO JEFE (JEFE_ID, NOMBRE, VIGENTE, CONTRA, CORREO) VALUES
-(1, 'JUAN LOPEZ HERNANDEZ', 1, 'Pass1234', 'j.lopez@tecnm.mx'),
-(2, 'HECTOR VIZCARRA JIMENEZ', 1, 'Pass1234', 'h.vizcarra@tecnm.mx'),
-(3, 'MARIA JOSE SALAZAR SOSA', 1, 'Pass1234', 'm.salazar@tecnm.mx'),
-(4, 'JOSE LANDEROS MANZO', 1, 'Pass1234', 'j.landeros@tecnm.mx'),
-(5, 'JESUS RAMON CASTRO BUENO', 1, 'Pass1234', 'j.castro@tecnm.mx'),
-(6, 'ELIAS PEREZ CORRALES', 1, 'Pass1234', 'e.perez@tecnm.mx'),
-(7, 'EMILIO LOPEZ SALGADO', 1, 'Pass1234', 'e.lopez@tecnm.mx'),
-(8, 'MARIA JOSÉ DOMINGUEZ GONZALEZ', 1, 'Pass1234', 'm.dominguez@tecnm.mx'),
-(9, 'RAUL MILLAN ZEPEDA', 1, 'Pass1234', 'r.millan@tecnm.mx'),
-(10, 'BRIANDA LIZARRAGA MURIETA', 1, 'Pass1234', 'b.lizarraga@tecnm.mx'),
-(11, 'PEDRO PASCAL DOMINGUEZ', 1, 'Pass1234', 'p.dominguez@tecnm.mx'),
-(12, 'JOSE VERDUGO ALAPIZCO', 1, 'Pass1234', 'j.verdugo@tecnm.mx');
+(1001, 'JUAN LOPEZ HERNANDEZ', 1, 'Pass1234', 'j.lopez@tecnm.mx'),
+(1002, 'HECTOR VIZCARRA JIMENEZ', 1, 'Pass1234', 'h.vizcarra@tecnm.mx'),
+(1003, 'MARIA JOSE SALAZAR SOSA', 1, 'Pass1234', 'm.salazar@tecnm.mx'),
+(1004, 'JOSE LANDEROS MANZO', 1, 'Pass1234', 'j.landeros@tecnm.mx'),
+(1005, 'JESUS RAMON CASTRO BUENO', 1, 'Pass1234', 'j.castro@tecnm.mx'),
+(1006, 'ELIAS PEREZ CORRALES', 1, 'Pass1234', 'e.perez@tecnm.mx'),
+(1007, 'EMILIO LOPEZ SALGADO', 1, 'Pass1234', 'e.lopez@tecnm.mx'),
+(1008, 'MARIA JOSE DOMINGUEZ GONZALEZ', 1, 'Pass1234', 'm.dominguez@tecnm.mx'),
+(1009, 'RAUL MILLAN ZEPEDA', 1, 'Pass1234', 'r.millan@tecnm.mx'),
+(1010, 'BRIANDA LIZARRAGA MURIETA', 1, 'Pass1234', 'b.lizarraga@tecnm.mx'),
+(1011, 'PEDRO PASCAL DOMINGUEZ', 1, 'Pass1234', 'p.dominguez@tecnm.mx'),
+(1012, 'JOSE VERDUGO ALAPIZCO', 1, 'Pass1234', 'j.verdugo@tecnm.mx');
 go
 
 INSERT INTO DEPARTAMENTO (ID_DEPARTAMENTO, JEFE_ID, NOMBRE) VALUES
-(1, 1, 'INSTITUTO TECNOLOGICO DE CULIACAN'),  
-(2, 2, 'DIRECCION GENERAL'),                 
-(3, 3, 'SUBDIRECCION ACADEMICA'),            
-(4, 4, 'DEPARTAMENTO ACADEMICO'),            
-(5, 5, 'CENTRO DE INFORMACION'),             
-(6, 6, 'SERVICIOS ESCOLARES'),               
-(7, 7, 'DOCENCIA E INNOVACIÓN EDUCATIVA'),   
-(8, 8, 'PRESIDENTA DE ACADEMIA'),            
-(9, 9, 'DEPARTAMENTO SISTEMAS Y COMPUTACION'),
-(10, 10, 'ACADEMIA DE ING. EN SISTEMAS COMPUTACIONALES'),
-(11, 11, 'Ciencias Básicas'),
-(12, 12, 'PRESIDENCIA DE CONAIC');
+(1, 1001, 'INSTITUTO TECNOLOGICO DE CULIACAN'),  
+(2, 1002, 'DIRECCION GENERAL'),                 
+(3, 1003, 'SUBDIRECCION ACADEMICA'),            
+(4, 1004, 'DEPARTAMENTO ACADEMICO'),            
+(5, 1005, 'CENTRO DE INFORMACION'),             
+(6, 1006, 'SERVICIOS ESCOLARES'),               
+(7, 1007, 'DOCENCIA E INNOVACIÓN EDUCATIVA'),   
+(8, 1008, 'PRESIDENTA DE ACADEMIA'),            
+(9, 1009, 'DEPARTAMENTO SISTEMAS Y COMPUTACION'),
+(10, 1010, 'ACADEMIA DE ING. EN SISTEMAS COMPUTACIONALES'),
+(11, 1011, 'CIENCIAS BASICAS'),
+(12, 1012, 'PRESIDENCIA DE CONAIC');
 
 
-go
--- SALOME -------------------------------------------------------------
+GO
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (1, 'Copia Examen de Grado', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (2, 'Oficio de Autorización de Apertura', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (4, 'Constancia con Nombres de Participantes', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (3, 'Constancia de Participación', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (4, 'Constancia de Participación 1.4.8.2', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (3, 'Oficio de Comisión', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (7, 'Oficio de Registro de Módulos', NULL);
 
-INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES
-(1, 'Copia Examen de Grado', NULL),
-(1, 'Oficio de Autorización de Apertura', NULL),
-(8, 'Constancia con Nombres de Participantes', NULL),
-(8, 'Constancia de Participación', NULL),
-(8, 'Constancia de Participación', NULL),
-(2, 'Oficio de Comisión', NULL),
-(3, 'Oficio de Registro de Módulos', NULL);
+-- MIGUELAX
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (4, 'Constancia de participación en cuerpos colegiados', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (4, 'Recursos educativos digitales', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (4, 'Formato de implementación de estrategias', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (1, 'Formato asesorías estudiantes', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (1, 'Constancia asesoría lugares', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (1, 'Constancia de participación como jurado', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (1, 'Participación de comités', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (1, 'Oficio de Comisión (ITec)', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (1, 'Constancia de la institución organizadora', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (1, 'Participación en auditorías de sistemas de gestión', NULL);
 
--- MIGUEL -------------------------------------------------------------
+-- BR
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (11, 'Constancia Cumplimiento SPD', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (7, 'Constancia DDIE (Competencias de Tutores)', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (4, 'Oficio Comisión (Proyecto Estratégico)', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (4, 'Oficio Comisión (Ambientes Virtuales)', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (4, 'Oficio Comisión (curso_diplomado)', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (4, 'Oficio Comisión (curso-diplomado DDIE)', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (4, 'Oficio Comisión (Educación Inclusiva)', NULL);
 
-INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES
-(8, 'Constancia de participación en cuerpos colegiados', NULL),
-(8, 'Recursos Educativos Digitales', NULL),
-(8, 'Formato de implementación de estrategias', NULL),
-(8, 'Formato asesorías estudiantes', NULL),
-(8, 'Constancia asesoría lugares', NULL),
-(4, 'Constancia de participación como jurado', NULL),
-(4, 'Participación de comités', NULL),
-(2, 'Participación en auditorías de sistemas de gestión', NULL),
-(4, 'Constancia de la institución organizadora', NULL),
-(4, 'Oficio de Comisión (ITec)', NULL);
+-- Yisus
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (12, 'Consejo Nacional de Acreditación', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (9, 'Constancia de Productos Obtenidos y su Impacto', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (9, 'Constancia de Trabajo', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (4, 'Constancia de Tutoría', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (1, 'Constancia Exención Examen Licenciatura', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (1, 'Constancia Exención Examen Maestría', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (1, 'Constancia Exención Examen Maestría (Codirector)', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (1, 'Constancia Exención Examen Doctorado', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (1, 'Constancia Exención Examen Doctorado (Codirector)', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (1, 'Constancia Exención Examen Especialización', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (6, 'Constancia SINODAL Técnico Superior', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (6, 'Constancia SINODAL Maestría', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (6, 'Constancia SINODAL Licenciatura', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (6, 'Constancia SINODAL Especialización', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (6, 'Constancia SINODAL Doctorado', NULL);
+INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES (3, 'Formato para el Horario de Actividades', NULL);
 
--- BR -------------------------------------------------------------
-
-INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES
-(5, 'Oficio Comisión (curso/diplomado)', NULL),
-(5, 'Oficio Comisión (curso/diplomado DDIE)', NULL),
-(5, 'Oficio Comisión (Formación y Competencias Docentes)', NULL),
-(3, 'Constancia DDIE (Competencias de Tutores)', NULL),
-(5, 'Oficio Comisión (Ambientes Virtuales)', NULL),
-(5, 'Oficio Comisión (Educación Inclusiva)', NULL),
-(5, 'Oficio Comisión (Proyecto Estratégico)', NULL),
-(6, 'Constancia Cumplimiento SPD', NULL);
-
--- JESUS -------------------------------------------------------------
-
-INSERT INTO DOCUMENTO (ID_DEPARTAMENTO, NOMBRE, FECHA) VALUES
-(7, 'Formato para el Horario de Actividades', NULL),
-(5, 'Constancia de Tutoría', NULL),
-(8, 'Consejo Nacional de Acreditación', NULL),
-(8, 'Constancia de Trabajo', NULL),
-(8, 'Constancia de Productos Obtenidos y su Impacto', NULL),
-(7, 'Constancia Exención Examen Licenciatura', NULL),
-(7, 'Constancia Exención Examen Especialización', NULL),
-(7, 'Constancia Exención Examen Maestría', NULL),
-(7, 'Constancia Exención Examen Maestría (Codirector)', NULL),
-(7, 'Constancia Exención Examen Doctorado', NULL),
-(7, 'Constancia Exención Examen Doctorado (Codirector)', NULL),
-(7, 'Constancia SINODAL Técnico Superior', NULL),
-(7, 'Constancia SINODAL Licenciatura', NULL),
-(7, 'Constancia SINODAL Especialización', NULL),
-(7, 'Constancia SINODAL Maestría', NULL),
-(7, 'Constancia SINODAL Doctorado', NULL);
 
 
 

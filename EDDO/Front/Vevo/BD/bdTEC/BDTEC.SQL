@@ -105,6 +105,7 @@ VALUES (1,'COMPLETO',40)
 
 insert into PLAZA (ID_PLAZA,HORARIO,HORAS)
 VALUES (2,'MEDIO TIEMPO',20)
+
 INSERT INTO DEPARTAMENTO (ID_DEPARTAMENTO, NOMBRE)
 VALUES
 (1, 'Departamento Académico'),
@@ -137,27 +138,313 @@ VALUES (6, 1, 5, 'Ricardo', 'Quintero', 'Torres', 'Los Mochis', 1, 'Quintero.t@i
 INSERT INTO EMPLEADO (ID_EMPLEADO, ID_PLAZA, ID_DEPARTAMENTO, NOMBRE, APELLIDO_MAT, APELLIDO_PAT, CAMPUS, VIGENCIA, CORREO, TELEFONO)
 VALUES (7, 1, 5, 'JUAN', 'HERNANDEZ', 'Lopez', 'Los Mochis', 1, 'j.lopez@tecnm.mx', '6674923943');
 
+INSERT INTO EMPLEADO (ID_EMPLEADO, ID_PLAZA, ID_DEPARTAMENTO, NOMBRE, APELLIDO_MAT, APELLIDO_PAT, CAMPUS, VIGENCIA, CORREO, TELEFONO)
+values(8,1,5 ,'JOSE', 'LANDEROS',' MANZO', 'Mochis',1, 'j.landeros@tecnm.mx','5545454545');
+select nombre from documento
+---Salome
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Copia Examen de Grado', '{
+  "VAR_PROFESOR": "",
+  "VAR_GRADO": "",
+  "VAR_MAESTRIA": "",
+  "VAR_CIUDAD_ESTADO": "",
+  "VAR_DIA": "",
+  "VAR_MES": "",
+  "VAR_ANIO": "",
+  "VAR_TITULO_TESIS": "",
+  "VAR_JEFE_DIRECCION_GENERAL": "",
+  "VAR_JEFE_SERVICIOS_ESCOLARES": "",
+  "VAR_FIRMA_DIRECCION_GENERAL": "",
+  "VAR_FIRMA_SERVICIOS_ESCOLARES": ""
+}');
 
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES 
-('Copia Examen de Grado', '{
-    "VAR_PROFESOR": "",
-    "VAR_GRADO": "",
-    "VAR_MAESTRIA": "",
-    "VAR_CIUDAD_ESTADO": "",
-    "VAR_DIA": "",
-    "VAR_MES": "",
-    "VAR_ANIO": "",
-    "VAR_TITULO_TESIS": "",
-    "VAR_JEFE_DIRECCION_GENERAL": "",
-    "VAR_JEFE_SERVICIOS_ESCOLARES": "",
-    "VAR_FIRMA_DIRECCION_GENERAL": "",
-    "VAR_FIRMA_SERVICIOS_ESCOLARES": ""
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Oficio de Autorización de Apertura', '{
+  "VAR_NUM_OFICIO": "",
+  "VAR_FECHA": "",
+  "VAR_NOMBRE_INSTITUTO": "",
+  "VAR_NIVEL_PROGRAMA": "",
+  "VAR_NOMBRE_PROGRAMA": "",
+  "VAR_CLAVE_REGISTRO": "",
+  "VAR_PERIODO_INICIO": "",
+  "VAR_JEFE_DIRECCION_GENERAL": "",
+  "VAR_FIRMA_DIRECCION_GENERAL": ""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia con Nombres de Participantes', '{
+  "VAR_DEPARTAMENTO": "",
+  "VAR_FECHA": "",
+  "VAR_JEFE_DEPARTAMENTO_ACADEMICO": "",
+  "VAR_NIVEL": "",
+  "VAR_PROGRAMA": "",
+  "VAR_FECHA_INICIO": "",
+  "VAR_FECHA_FIN": "",
+  "VAR_JEFE_SUBDIRECCION_ACADEMICA": "",
+  "NOMBRE_PARTICIPANTE_1": "",
+  "NUMERO_1": "",
+  "NOMBRE_PARTICIPANTE_2": "",
+  "NUMERO_2": "",
+  "NOMBRE_PARTICIPANTE_3": "",
+  "NUMERO_3": "",
+  "VAR_FIRMA_SUBDIRECCION_ACADEMICA": "",
+  "VAR_FIRMA_DEPARTAMENTO_ACADEMICO": ""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia de Participación', '{
+  "VAR_JEFE_SUBDIRECCION_ACADEMICA": "",
+  "VAR_PROFESOR": "",
+  "VAR_ID_PROFESOR": "",
+  "VAR_DEPARTAMENTO": "",
+  "VAR_FECHA_INICIO": "",
+  "VAR_FECHA_TERMINO": "",
+  "VAR_FECHA_EMISION": "",
+  "VAR_FIRMA_SUBDIRECCION_ACADEMICA": ""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia de Participación 1.4.8.2', '{
+  "VAR_INSTITUTO": "",
+  "VAR_LUGAR_FECHA": "",
+  "VAR_PROFESOR": "",
+  "VAR_JEFE_DEPARTAMENTO_ACADEMICO": "",
+  "VAR_LICENCIATURA": "",
+  "VAR_FECHA_INICIO": "",
+  "VAR_FECHA_FIN": "",
+  "VAR_MODULO1": "",
+  "VAR_MODULO2": "",
+  "VAR_JEFE_SUBDIRECCION_ACADEMICA": "",
+  "VAR_FIRMA_SUBDIRECCION_ACADEMICA": "",
+  "VAR_FIRMA_DEPARTAMENTO_ACADEMICO": ""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Oficio de Comisión', '{
+  "VAR_NUM_OFICIO": "",
+  "VAR_FECHA": "",
+  "VAR_PROFESOR": "",
+  "VAR_DEPARTAMENTO": "",
+  "VAR_PROGRAMA": "",
+  "VAR_OBJETIVO_COMISION": "",
+  "VAR_FECHA_INICIO": "",
+  "VAR_FECHA_FIN": "",
+  "VAR_FIRMA_DEPARTAMENTO_ACADEMICO": "",
+  "VAR_JEFE_SUBDIRECCION_ACADEMICA": ""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Oficio de Registro de Módulos', '{
+  "VAR_NUM_REGISTRO": "",
+  "VAR_LUGAR_FECHA": "",
+  "VAR_INSTITUTO": "",
+  "VAR_LICENCIATURA": "",
+  "VAR_CLAVE1": "",
+  "VAR_CLAVE2": "",
+  "VAR_MODULO1": "",
+  "VAR_MODULO2": "",
+  "VAR_HORAS1": "",
+  "VAR_HORAS2": "",
+  "VAR_FECHA_INI1": "",
+  "VAR_FECHA_INI2": "",
+  "VAR_FECHA_FIN1": "",
+  "VAR_FECHA_FIN2": "",
+  "VAR_JEFE_DOCENCIA_E_INNOVACIÓN_EDUCATIVA": "",
+  "VAR_FIRMA_DOCENCIA_E_INNOVACIÓN_EDUCATIVA": ""
 }');
 
 
 
+-- MIGUELAX
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES (
+'Constancia de participación en cuerpos colegiados',
+'{
+  "Var_Fecha": "",
+  "Var_Oficio": "",
+  "Var_Nombre": "",
+  "Var_Semestre": "",
+  "Var_NumDictamen": "",
+  "Var_TotalAlumnos": "",
+  "Var_AlumnosConCredito": "",
+  "Var_Sello": "",
+  "VAR_FIRMA_DEPARTAMENTO_ACADEMICO": "",
+  "VAR_JEFE_DEPARTAMENTO_ACADEMICO": "",
+  "Var_PuestoJefaDpto": "",
+  "VAR_FIRMA_CENTRO_DE_INFORMACION": "",
+  "VAR_FIRMA_SUBDIRECCION_ACADEMICA": "",
+  "VAR_JEFE_CENTRO_DE_INFORMACION": "",
+  "Var_PuestoJefeCentro": "",
+  "VAR_JEFE_SUBDIRECCION_ACADEMICA": "",
+  "Var_PuestoResponsable": ""
+}');
 
-INSERT INTO DOCUMENTO(NOMBRE, DATOS_JSON) VALUES ('Constancia Cumplimiento SPD',
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES (
+'Recursos educativos digitales',
+'{
+  "Var_Fecha": "",
+  "Var_Oficio": "",
+  "Var_Nombre": "",
+  "Var_Semestre": "",
+  "Var_Asignatura": "",
+  "Var_ProgramaNombre": "",
+  "Var_Sello": "",
+  "VAR_JEFE_DEPARTAMENTO_ACADEMICO": "",
+  "Var_PuestoJefa": "",
+  "VAR_FIRMA_DEPARTAMENTO_ACADEMICO": "",
+  "VAR_JEFE_PRESIDENTA_DE_ACADEMIA": "",
+  "Var_PuestoPresidente": "",
+  "VAR_FIRMA_PRESIDENTA_DE_ACADEMIA": "",
+  "VAR_JEFE_SUBDIRECCION_ACADEMICA": "",
+  "Var_PuestoResponsable": "",
+  "VAR_FIRMA_SUBDIRECCION_ACADEMICA": ""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES (
+'Formato de implementación de estrategias',
+'{
+  "Var_Fecha": "",
+  "Var_Oficio": "",
+  "Var_Nombre": "",
+  "Var_Asignatura": "",
+  "Var_Estrategia": "",
+  "Var_ProgramaNombre": "",
+  "Var_Habilidades": "",
+  "Var_Sello": "",
+  "VAR_FIRMA_DEPARTAMENTO_ACADEMICO": "",
+  "VAR_JEFE_DEPARTAMENTO_ACADEMICO": "",
+  "Var_PuestoJefa": "",
+  "VAR_FIRMA_PRESIDENTA_DE_ACADEMIA": "",
+  "Var_FirmaResponsable": "",
+  "VAR_JEFE_PRESIDENTA_DE_ACADEMIA": "",
+  "VAR_FIRMA_SUBDIRECCION_ACADEMICA": "",
+  "VAR_JEFE_SUBDIRECCION_ACADEMICA": "",
+  "Var_PuestoResponsable": ""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES (
+'Formato asesorías estudiantes',
+'{
+  "Var_Fecha": "",
+  "Var_Oficio": "",
+  "Var_Nombre": "",
+  "Var_Rol": "",
+  "Var_NombreDeCurso": "",
+  "Var_FechaInicio": "",
+  "Var_FechaFin": "",
+  "Var_Alcance": "",
+  "Var_funcionesRealizadas": "",
+  "Var_Sello": "",
+  "VAR_FIRMA_INSTITUTO_TECNOLOGICO_DE_CULIACAN": "",
+  "VAR_JEFE_INSTITUTO_TECNOLOGICO_DE_CULIACAN": "",
+  "Var_PuestoTitular": "",
+  "VAR_FIRMA_SUBDIRECCION_ACADEMICA": "",
+  "VAR_JEFE_SUBDIRECCION_ACADEMICA": "",
+  "Var_PuestoResponsable": ""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES (
+'Constancia asesoría lugares',
+'{
+  "Var_Fecha": "",
+  "Var_Oficio": "",
+  "Var_Nombre": "",
+  "Var_NombreProyecto": "",
+  "Var_NombreEvento": "",
+  "Var_Nivel": "",
+  "Var_Lugar": "",
+  "Var_FechaInicio": "",
+  "Var_FechaFin": "",
+  "Var_NumDictamen": "",
+  "Var_Sello": "",
+  "VAR_FIRMA_INSTITUTO_TECNOLOGICO_DE_CULIACAN": "",
+  "VAR_JEFE_INSTITUTO_TECNOLOGICO": "",
+  "Var_PuestoTitular": "",
+  "VAR_FIRMA_SUBDIRECCION_ACADEMICA": "",
+  "VAR_JEFE_SUBDIRECCION_ACADEMICA": "",
+  "Var_PuestoResponsable": ""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES (
+'Constancia de participación como jurado',
+'{
+  "Var_Fecha": "",
+  "Var_Oficio": "",
+  "Var_Nombre": "",
+  "Var_NombreEvento": "",
+  "Var_FechaInicio": "",
+  "Var_FechaFin": "",
+  "Var_Nivel": "",
+  "Var_Sello": "",
+  "VAR_FIRMA_INSTITUTO_TECNOLOGICO_DE_CULIACAN": "",
+  "VAR_JEFE_INSTITUTO_TECNOLOGICO_DE_CULIACAN": "",
+  "Var_PuestoTitular": "",
+  "VAR_JEFE_SUBDIRECCION_ACADEMICA": "",
+  "VAR_FIRMA_SUBDIRECCION_ACADEMICA": "",
+  "Var_PuestoResponsable": ""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES (
+'Participación de comités',
+'{
+  "Var_Fecha": "",
+  "Var_Oficio": "",
+  "Var_Nombre": "",
+  "Var_NombreEvento": "",
+  "Var_FechaInicio": "",
+  "Var_FechaFin": "",
+  "Var_Nivel": "",
+  "Var_Sello": "",
+  "VAR_FIRMA_INSTITUTO_TECNOLOGICO_DE_CULIACAN": "",
+  "VAR_JEFE_INSTITUTO_TECNOLOGICO_DE_CULIACAN": "",
+  "Var_PuestoTitular": "",
+  "VAR_JEFE_SUBDIRECCION_ACADEMICA": "",
+  "VAR_FIRMA_SUBDIRECCION_ACADEMICA": "",
+  "Var_PuestoResponsable": ""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES (
+'Oficio de Comisión (ITec)',
+'{
+  "Var_Fecha": "",
+  "Var_Oficio": "",
+  "Var_Nombre": "",
+  "Var_Cargo": "",
+  "Var_NombreEvento": "",
+  "Var_FechaInicio": "",
+  "Var_FechaFin": "",
+  "Var_Nivel": "",
+  "Var_Sello": "",
+  "VAR_FIRMA_INSTITUTO_TECNOLOGICO_DE_CULIACAN": "",
+  "VAR_JEFE_INSTITUTO_TECNOLOGICO_DE_CULIACAN": ""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES (
+'Constancia de la institución organizadora',
+'{
+  "Var_NombreInstitucion": "",
+  "Var_LugarEvento": "",
+  "Var_Fecha": "",
+  "Var_Nombre": "",
+  "Var_Cargo": "",
+  "Var_NombreEvento": "",
+  "Var_FechaInicio": "",
+  "Var_FechaFin": "",
+  "Var_Nivel": "",
+  "VAR_FIRMA_INSTITUTO_TECNOLOGICO_DE_CULIACAN": "",
+  "VAR_JEFE_INSTITUTO_TECNOLOGICO_DE_CULIACAN": "",
+  "Var_PuestoTitular": ""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES (
+'Participación en auditorías de sistemas de gestión',
+'{
+  "Var_Fecha": "",
+  "Var_Nombre": "",
+  "Var_RolAuditor": "",
+  "Var_sistema": "",
+  "Var_FechaInicio": "",
+  "Var_FechaFin": "",
+  "Var_LugarAuditoria": "",
+  "VAR_FIRMA_INSTITUTO_TECNOLOGICO_DE_CULIACAN": "",
+  "VAR_JEFE_INSTITUTO_TECNOLOGICO_DE_CULIACAN": ""
+}');
+
+-------------BR
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia Cumplimiento SPD',
 '{
   "VAR_FOLIO_CONSTANCIA": "",
   "VAR_NOMBRE_DOCENTE": "",
@@ -172,7 +459,8 @@ INSERT INTO DOCUMENTO(NOMBRE, DATOS_JSON) VALUES ('Constancia Cumplimiento SPD',
   "VAR_FIRMA_CIENCIAS_BASICAS": "",
   "VAR_FIRMA_SUBDIRECCION_ACADEMICA": ""
 }');
-INSERT INTO DOCUMENTO(NOMBRE, DATOS_JSON) VALUES ('Constancia DDIE (Competencias de Tutores)',
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia DDIE (Competencias de Tutores)',
 '{
   "VAR_FOLIO_CONSTANCIA": "",
   "VAR_NOMBRE_DOCENTE": "",
@@ -181,10 +469,11 @@ INSERT INTO DOCUMENTO(NOMBRE, DATOS_JSON) VALUES ('Constancia DDIE (Competencias
   "VAR_DIA": "",
   "VAR_MES": "",
   "VAR_ANIO": "",
-  "VAR_JEFE_DOCENCIA_E_INNOVACION_EDUCATIVA": "",
-  "VAR_FIRMA_DOCENCIA_E_INNOVACION_EDUCATIVA": ""
+  "VAR_JEFE_DOCENCIA_E_INNOVACIÓN_EDUCATIVA": "",
+  "VAR_FIRMA_DOCENCIA_E_INNOVACIÓN_EDUCATIVA": ""
 }');
-INSERT INTO DOCUMENTO(NOMBRE, DATOS_JSON) VALUES ('Oficio Comisión (Proyecto Estratégico)',
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Oficio Comisión (Proyecto Estratégico)',
 '{
   "VAR_OFICIO_COMISION": "",
   "VAR_NOMBRE_DOCENTE": "",
@@ -195,7 +484,7 @@ INSERT INTO DOCUMENTO(NOMBRE, DATOS_JSON) VALUES ('Oficio Comisión (Proyecto Es
   "VAR_FIRMA_DEPARTAMENTO_ACADEMICO": ""
 }');
 
-INSERT INTO DOCUMENTO(NOMBRE, DATOS_JSON) VALUES ('Oficio Comisión (Ambientes Virtuales)',
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Oficio Comisión (Ambientes Virtuales)',
 '{
   "VAR_OFICIO_COMISION": "",
   "VAR_NOMBRE_DOCENTE": "",
@@ -206,7 +495,7 @@ INSERT INTO DOCUMENTO(NOMBRE, DATOS_JSON) VALUES ('Oficio Comisión (Ambientes V
   "VAR_FIRMA_DEPARTAMENTO_ACADEMICO": ""
 }');
 
-INSERT INTO DOCUMENTO(NOMBRE, DATOS_JSON) VALUES ('Oficio Comisión (curso_diplomado)',
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Oficio Comisión (curso_diplomado)',
 '{
   "VAR_OFICIO_COMISION": "",
   "VAR_NOMBRE_DOCENTE": "",
@@ -218,7 +507,7 @@ INSERT INTO DOCUMENTO(NOMBRE, DATOS_JSON) VALUES ('Oficio Comisión (curso_diplo
   "VAR_FIRMA_DEPARTAMENTO_ACADEMICO": ""
 }');
 
-INSERT INTO DOCUMENTO(NOMBRE, DATOS_JSON) VALUES ('Oficio Comisión (curso-diplomado DDIE)',
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Oficio Comisión (curso-diplomado DDIE)',
 '{
   "VAR_OFICIO_COMISION": "",
   "VAR_NOMBRE_DOCENTE": "",
@@ -229,7 +518,7 @@ INSERT INTO DOCUMENTO(NOMBRE, DATOS_JSON) VALUES ('Oficio Comisión (curso-diplo
   "VAR_FIRMA_DEPARTAMENTO_ACADEMICO": ""
 }');
 
-INSERT INTO DOCUMENTO(NOMBRE, DATOS_JSON) VALUES ('Oficio Comisión (Educación Inclusiva)',
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Oficio Comisión (Educación Inclusiva)',
 '{
   "VAR_OFICIO_COMISION": "",
   "VAR_NOMBRE_DOCENTE": "",
@@ -246,619 +535,437 @@ INSERT INTO DOCUMENTO(NOMBRE, DATOS_JSON) VALUES ('Oficio Comisión (Educación 
 
 
 
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Copia Examen de Grado', '{
-"VAR_PROFESOR":"",
-"VAR_GRADO":"",
-"VAR_MAESTRIA":"",
-"VAR_CIUDAD_ESTADO":"",
-"VAR_DIA":"",
-"VAR_MES":"",
-"VAR_ANIO":"",
-"VAR_TITULO_TESIS":"",
-"VAR_DIRECTOR":"",
-"VAR_JEFE_ESCOLARES":"",
-"VAR_FIRMA_DIR":"",
-"VAR_FIRMA_JEF":""
+
+
+
+
+
+
+
+----Yisus
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Consejo Nacional de Acreditación', '{
+  "V_FECHA_INICIO": "",
+  "V_FECHA_FINAL": "",
+  "V_ESTADO": "",
+  "V_FECHA": "",
+  "VAR_FIRMA_PRESIDENCIA_CONAIC": "",
+  "VAR_JEFE_PRESIDENCIA_CONAIC": ""
 }');
 
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Oficio de Autorización de Apertura','{
-"VAR_NUM_OFICIO":"",
-"VAR_FECHA":"",
-"VAR_NOMBRE_INSTITUTO":"",
-"VAR_NIVEL_PROGRAMA":"",
-"VAR_NOMBRE_PROGRAMA":"",
-"VAR_CLAVE_REGISTRO":"",
-"VAR_PERIODO_INICIO":"",
-"VAR_DIRECTOR":"",
-"VAR_FIRMA":""
-}');
-
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia con Nombres de Participantes','{
-"VAR_DEPARTAMENTO":"",
-"VAR_FECHA":"",
-"VAR_JEFE_NOMBRE":"",
-"VAR_NIVEL":"",
-"VAR_PROGRAMA":"",
-"VAR_FECHA_INICIO":"",
-"VAR_FECHA_FIN":"",
-"VAR_SUBDIRECTOR":"",
-"NOMBRE_PARTICIPANTE_1":"",	
-"NUMERO_1":"",
-"NOMBRE_PARTICIPANTE_2":"",	
-"NUMERO_2":"",
-"NOMBRE_PARTICIPANTE_3":"",	
-"NUMERO_3":"",
-"VAR_FIRMA_SUB":"",
-"VAR_FIRMA_JEFE":""
-}');
-
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia de Participación','{
-"VAR_JEFE_DEP":"",
-"VAR_PROFESOR":"",
-"VAR_ID_PROFESOR":"",
-"VAR_DEPARTAMENTO":"",
-"VAR_FECHA_INICIO":"",
-"VAR_FECHA_TERMINO":"",
-"VAR_FECHA_EMISION":"",
-"VAR_FIRMA_JEF":""
-}');
-
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia de Participación 1.4.8.2','{
-"VAR_INSTITUTO":"",
-"VAR_LUGAR_FECHA":"",
-"VAR_PROFESOR":"",
-"VAR_JEFE_DEPTO":"",
-"VAR_LICENCIATURA":"",
-"VAR_FECHA_INICIO":"",
-"VAR_FECHA_FIN":"",
-"VAR_MODULO1":"",
-"VAR_MODULO2":"",
-"VAR_SUBDIRECTOR":"",
-"VAR_FIRMA_SUB":"",
-"VAR_FIRMA_JEFE":""
-}');
-
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Oficio de Comisión','{
-"VAR_NUM_OFICIO":"",
-"VAR_LUGAR_FECHA":"",
-"VAR_PROFESOR":"",
-"VAR_DEPARTAMENTO":"",
-"VAR_PROGRAMA":"",
-"VAR_OBJETIVO_COMISION":"",
-"VAR_FECHA_INICIO":"",
-"VAR_FECHA_FIN":"",
-"VAR_JEFE_DEP":""
-}');
-
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Oficio de Registro de Módulos','{
-"VAR_NUM_REGISTRO":"",
-"VAR_LUGAR_FECHA":"",
-"VAR_DIRECTOR_INSTITUTO":"",
-"VAR_INSTITUTO":"",
-"VAR_LICENCIATURA":"",
-"VAR_CLAVE1":"",
-"VAR_CLAVE2":"",
-"VAR_MODULO1":"",
-"VAR_MODULO2":"",
-"VAR_HORAS1":"",
-"VAR_HORAS2":"",
-"VAR_FECHA_INI1":"",
-"VAR_FECHA_INI2":"",
-"VAR_FECHA_FIN1":"",
-"VAR_FECHA_FIN2":"",
-"VAR_DIRECTOR_DOCENCIA":"",
-"VAR_FIRMA":""
-}');
-
--- MIGUELAX
-
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia de participación en cuerpos colegiados', '{
-"Var_Fecha":"",
-"Var_Oficio":"",
-"Var_Nombre":"",
-"Var_Semestre":"",
-"Var_NumDictamen":"",
-"Var_TotalAlumnos":"",
-"Var_AlumnosConCredito":"",
-"Var_Sello":"",
-"Var_FirmaJefaDpto":"",
-"Var_NombreJefaDpto":"",
-"Var_PuestoJefaDpto":"",
-"Var_FirmaJefeCentro":"",
-"Var_FirmaResponsable":"",
-"Var_NombreJefeCentro":"",
-"Var_PuestoJefeCentro":"",
-"Var_NombreResponsable":"",
-"Var_PuestoResponsable":""
-}');
-
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Recursos educativos digitales', '{
-"Var_Fecha":"",
-"Var_Oficio":"",
-"Var_Nombre":"",
-"Var_Semestre":"",
-"Var_Asignatura":"",
-"Var_ProgramaNombre":"",
-"Var_Sello":"",
-"Var_NombreJefa":"",
-"Var_PuestoJefa":"",
-"Var_FirmaJefa":"",
-"Var_NombrePresidente":"",
-"Var_PuestoPresidente":"",
-"Var_FirmaPresidente":"",
-"Var_NombreResponsable":"",
-"Var_PuestoResponsable":"",
-"Var_FirmaResponsable":""
-}');
-
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Formato de implementación de estrategias', '{
-"Var_Fecha":"",
-"Var_Oficio":"",
-"Var_Nombre":"",
-"Var_Asignatura":"",
-"Var_Estrategia":"",
-"Var_ProgramaNombre":"",
-"Var_Habilidades":"",
-"Var_Sello":"",
-"Var_FirmaJefa":"",
-"Var_NombreJefa":"",
-"Var_PuestoJefa":"",
-"Var_FirmaPresidente":"",
-"Var_FirmaResponsable":"",
-"Var_NombrePresidente":"",
-"Var_PuestoPresidente":"",
-"Var_NombreResponsable":"",
-"Var_PuestoResponsable":""
-}');
-
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Formato asesorías estudiantes', '{
-"Var_Fecha":"",
-"Var_Oficio":"",
-"Var_Nombre":"",
-"Var_Rol":"",
-"Var_NombreDeCurso":"",
-"Var_FechaInicio":"",
-"Var_FechaFin":"",
-"Var_Alcance":"",
-"Var_funcionesRealizadas":"",
-"Var_Sello":"",
-"Var_FirmaTitular":"",
-"Var_NombreTitular":"",
-"Var_PuestoTitular":"",
-"Var_FirmaResponsable":"",
-"Var_NombreResponsable":"",
-"Var_PuestoResponsable":""
-}');
-
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia asesoría lugares', '{
-"Var_Fecha":"",
-"Var_Oficio":"",
-"Var_Nombre":"",
-"Var_NombreProyecto":"",
-"Var_NombreEvento":"",
-"Var_Nivel":"",
-"Var_Lugar":"",
-"Var_FechaInicio":"",
-"Var_FechaFin":"",
-"Var_NumDictamen":"",
-"Var_Sello":"",
-"Var_FirmaTitular":"",
-"Var_NombreTitular":"",
-"Var_PuestoTitular":"",
-"Var_FirmaResponsable":"",
-"Var_NombreResponsable":"",
-"Var_PuestoResponsable":""
-}');
-
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia de participación como jurado', '{
-"Var_Fecha":"",
-"Var_Oficio":"",
-"Var_Nombre":"",
-"Var_NombreEvento":"",
-"Var_FechaInicio":"",
-"Var_FechaFin":"",
-"Var_Nivel":"",
-"Var_Sello":"",
-"Var_FirmaTitular":"",
-"Var_NombreTitular":"",
-"Var_PuestoTitular":"",
-"Var_FirmaResponsable":"",
-"Var_NombreResponsable":"",
-"Var_PuestoResponsable":""
-}');
-
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Participación de comités', '{
-"Var_Fecha":"",
-"Var_Oficio":"",
-"Var_Nombre":"",
-"Var_NombreEvento":"",
-"Var_FechaInicio":"",
-"Var_FechaFin":"",
-"Var_Nivel":"",
-"Var_Sello":"",
-"Var_FirmaTitular":"",
-"Var_NombreTitular":"",
-"Var_PuestoTitular":"",
-"Var_FirmaResponsable":"",
-"Var_NombreResponsable":"",
-"Var_PuestoResponsable":""
-}');
-
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Oficio de Comisión por la persona titular del ITec', '{
-"Var_Fecha":"",
-"Var_Oficio":"",
-"Var_Nombre":"",
-"Var_Cargo":"",
-"Var_NombreEvento":"",
-"Var_FechaInicio":"",
-"Var_FechaFin":"",
-"Var_Nivel":"",
-"Var_Sello":"",
-"Var_FirmaTitular":"",
-"Var_NombreTitular":""
-}');
-
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia de la institución organizadora', '{
-"Var_NombreInstitucion":"",
-"Var_LugarEvento":"",
-"Var_Fecha":"",
-"Var_Nombre":"",
-"Var_Cargo":"",
-"Var_NombreEvento":"",
-"Var_FechaInicio":"",
-"Var_FechaFin":"",
-"Var_Nivel":"",
-"Var_FirmaTitular":"",
-"Var_NombreTitular":"",
-"Var_PuestoTitular":""
-}');
-
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Participación en auditorías de sistemas de gestión', '{
-"Var_Fecha":"",
-"Var_Nombre":"",
-"Var_RolAuditor":"",
-"Var_sistema":"",
-"Var_FechaInicio":"",
-"Var_FechaFin":"",
-"Var_LugarAuditoria":"",
-"Var_FirmaTitular":"",
-"Var_NombreTitular":""
-}');
-
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Consejo Nacional de Acreditación','{
-"V_FECHA_INICIO":"",
-"V_FECHA_FINAL":"",
-"V_ESTADO":"",
-"V_FECHA":"",
-"VAR_FIRMA":"",
-"VAR_PRESIDENTE":""
-}');
-
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia de Productos Obtenidos y su Impacto','{
-"VAR_FECHA":"",
-"VAR_NOMB_DOCENTE":"",
-"VAR_NOMB_MATERIA":"",
-"VAR_NOMB_ESTRATEGIA":"",
-"VAR_NOMB_CARRERA":"",
-"VAR_DESC_PRODUCTO":"",
-"VAR_DESC_IMPACTO":"",
-"VAR_DIA":"",
-"VAR_MES":"",
-"VAR_AÑO":"",
-"VAR_FIRMA1":"",
-"VAR_JEFE_DEPTO1":"",
-"VAR_FIRMA2":"",
-"VAR_JEFE_DEPTO2":"",
-"VAR_FIRMA3":"",
-"VAR_JEFE_DEPTO3":""
-}');
-
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia de Trabajo','{
-"VAR_FECHA":"",
-"VAR_NOMB_DOCENTE":"",
-"VAR_NOMB_ASIGNATURA":"",
-"VAR_NOMB_CARRERA":"",
-"VAR_DIA":"",
-"VAR_MES":"",
-"VAR_AÑO":"",
-"VAR_FIRMA1":"",
-"VAR_JEFE_DEPTO1":"",
-"VAR_FIRMA2":"",
-"VAR_JEFE_DEPTO2":"",
-"VAR_FIRMA3":"",
-"VAR_JEFE_DEPTO3":""
-}');
-
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia de Tutoría','{
-"VAR_NOM_DOCENTE":"",
-"VAR_DEPARTAMENTO":"",
-"VAR_PERIODO1":"",
-"VAR_CANTIDAD_ALUMNOS1":"",
-"VAR_CARRERA1":"",
-"VAR_PERIODO2":"",
-"VAR_CANTIDAD_ALUMNOS2":"",
-"VAR_CARRERA2":"",
-"VAR_TOTAL_ALUMNOS":"",
-"VAR_FIRMA1":"",
-"VAR_JEFE_DEPTO1":"",
-"VAR_FIRMA2":"",
-"VAR_JEFE_DEPTO2":""
-}');
-
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia Exención Examen Licenciatura','{
-"VAR_FOLIO":"",
-"VAR_NOMBRE_COMPLETO":"",
-"VAR_NOCONTROL":"",
-"VAR_INSTITUTO":"",
-"VAR_CLAVE":"",
-"VAR_CARRERA":"",
-"VAR_OPCION_TITULACION":"",
-"VAR_DIA":"",
-"VAR_MES":"",
-"VAR_AÑO":"",
-"VAR_FIRMA1":"",
-"VAR_NOMBRE_PRESI":"",
-"VAR_CEDULA_PRESI":"",
-"VAR_FIRMA2":"",
-"VAR_NOMBRE_SECRE":"",
-"VAR_CEDULA_SECRE":"",
-"VAR_FIRMA3":"",
-"VAR_NOMBRE_VOCAL":"",
-"VAR_CEDULA_VOCAL":""
-}');
-
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia Exención Examen Maestría','{
-"VAR_FOLIO":"",
-"VAR_NOMBRE_COMPLETO":"",
-"VAR_NOCONTROL":"",
-"VAR_INSTITUTO":"",
-"VAR_CLAVE":"",
-"VAR_CARRERA":"",
-"VAR_OPCION_TITULACION":"",
-"VAR_DIA":"",
-"VAR_MES":"",
-"VAR_AÑO":"",
-"VAR_FIRMA1":"",
-"VAR_NOMBRE_PRESI":"",
-"VAR_CEDULA_PRESI":"",
-"VAR_FIRMA2":"",
-"VAR_NOMBRE_SECRE":"",
-"VAR_CEDULA_SECRE":"",
-"VAR_FIRMA3":"",
-"VAR_NOMBRE_VOCAL":"",
-"VAR_CEDULA_VOCAL":""
-}');
-
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia Exención Examen Maestría (Codirector)','{
-"VAR_FOLIO":"",
-"VAR_NOMBRE_COMPLETO":"",
-"VAR_NOCONTROL":"",
-"VAR_INSTITUTO":"",
-"VAR_CLAVE":"",
-"VAR_CARRERA":"",
-"VAR_OPCION_TITULACION":"",
-"VAR_DIA":"",
-"VAR_MES":"",
-"VAR_AÑO":"",
-"VAR_FIRMA1":"",
-"VAR_NOMBRE_PRESI":"",
-"VAR_CEDULA_PRESI":"",
-"VAR_FIRMA2":"",
-"VAR_NOMBRE_SECRE":"",
-"VAR_CEDULA_SECRE":"",
-"VAR_FIRMA3":"",
-"VAR_NOMBRE_VOCAL":"",
-"VAR_CEDULA_VOCAL":""
-}');
-
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia Exención Examen Doctorado','{
-"VAR_FOLIO":"",
-"VAR_NOMBRE_COMPLETO":"",
-"VAR_NOCONTROL":"",
-"VAR_INSTITUTO":"",
-"VAR_CLAVE":"",
-"VAR_CARRERA":"",
-"VAR_OPCION_TITULACION":"",
-"VAR_DIA":"",
-"VAR_MES":"",
-"VAR_AÑO":"",
-"VAR_FIRMA1":"",
-"VAR_NOMBRE_PRESI":"",
-"VAR_CEDULA_PRESI":"",
-"VAR_FIRMA2":"",
-"VAR_NOMBRE_SECRE":"",
-"VAR_CEDULA_SECRE":"",
-"VAR_FIRMA3":"",
-"VAR_NOMBRE_VOCAL":"",
-"VAR_CEDULA_VOCAL":""
-}');
-
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia Exención Examen Doctorado (Codirector)','{
-"VAR_FOLIO":"",
-"VAR_NOMBRE_COMPLETO":"",
-"VAR_NOCONTROL":"",
-"VAR_INSTITUTO":"",
-"VAR_CLAVE":"",
-"VAR_CARRERA":"",
-"VAR_OPCION_TITULACION":"",
-"VAR_DIA":"",
-"VAR_MES":"",
-"VAR_AÑO":"",
-"VAR_FIRMA1":"",
-"VAR_NOMBRE_PRESI":"",
-"VAR_CEDULA_PRESI":"",
-"VAR_FIRMA2":"",
-"VAR_NOMBRE_SECRE":"",
-"VAR_CEDULA_SECRE":"",
-"VAR_FIRMA3":"",
-"VAR_NOMBRE_VOCAL":"",
-"VAR_CEDULA_VOCAL":""
-}');
-
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia Exención Examen Especialización','{
-"VAR_FOLIO":"",
-"VAR_NOMBRE_COMPLETO":"",
-"VAR_NOCONTROL":"",
-"VAR_INSTITUTO":"",
-"VAR_CLAVE":"",
-"VAR_CARRERA":"",
-"VAR_OPCION_TITULACION":"",
-"VAR_DIA":"",
-"VAR_MES":"",
-"VAR_AÑO":"",
-"VAR_FIRMA1":"",
-"VAR_NOMBRE_PRESI":"",
-"VAR_CEDULA_PRESI":"",
-"VAR_FIRMA2":"",
-"VAR_NOMBRE_SECRE":"",
-"VAR_CEDULA_SECRE":"",
-"VAR_FIRMA3":"",
-"VAR_NOMBRE_VOCAL":"",
-"VAR_CEDULA_VOCAL":""
-}');
-
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia SINODAL Técnico Superior','{
-"VAR_NOMB_DOCENTE":"",
-"VAR_FECHA_INICIO":"",
-"VAR_FECHA_FIN":"",
-"VAR_FOLIO1":"",
-"VAR_FECHA1":"",
-"VAR_NOM_ALUM1":"",
-"VAR_CARRERA1":"",
-"VAR_FUNCION1":"",
-"VAR_FOLIO2":"",
-"VAR_FECHA2":"",
-"VAR_NOM_ALUM2":"",
-"VAR_CARRERA2":"",
-"VAR_FUNCION2":"",
-"VAR_FOLIO3":"",
-"VAR_FECHA3":"",
-"VAR_NOM_ALUM3":"",
-"VAR_CARRERA3":"",
-"VAR_FUNCION3":"",
-"VAR_LDIA":"",
-"VAR_LMES":"",
-"VAR_LAÑO":"",
-"VAR_FIRMA":"",
-"VAR_JEFE_DEPTO":""
-}');
-
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia SINODAL Maestría','{
-"VAR_NOMB_DOCENTE":"",
-"VAR_FECHA_INICIO":"",
-"VAR_FECHA_FIN":"",
-"VAR_FOLIO1":"",
-"VAR_FECHA1":"",
-"VAR_NOM_ALUM1":"",
-"VAR_CARRERA1":"",
-"VAR_FUNCION1":"",
-"VAR_FOLIO2":"",
-"VAR_FECHA2":"",
-"VAR_NOM_ALUM2":"",
-"VAR_CARRERA2":"",
-"VAR_FUNCION2":"",
-"VAR_FOLIO3":"",
-"VAR_FECHA3":"",
-"VAR_NOM_ALUM3":"",
-"VAR_CARRERA3":"",
-"VAR_FUNCION3":"",
-"VAR_LDIA":"",
-"VAR_LMES":"",
-"VAR_LAÑO":"",
-"VAR_FIRMA":"",
-"VAR_JEFE_DEPTO":""
-}');
-
-
-
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES 
-('Oficio Comisión (Proyecto Estratégico)',
-'{
-  "VAR_OFICIO_COMISION": "",
-  "VAR_NOMBRE_DOCENTE": "",
-  "VAR_NOMBRE_CURSO": "",
-  "VAR_FECHA_INICIO_COMISION": "",
-  "VAR_FECHA_FIN_COMISION": "",
-  "VAR_NOMBRE_JEFE_DDA": "",
-  "VAR_FIRMA_JEFE_DDA": ""
-}');
-
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES 
-('Constancia Cumplimiento SPD',
-'{
-  "VAR_FOLIO_CONSTANCIA": "",
-  "VAR_NOMBRE_DOCENTE": "",
-  "VAR_ASIGNATURA_ASESORIA": "",
-  "VAR_PERIODO_CONSTANCIA": "",
-  "VAR_TOTAL_ESTUDIANTES": "",
-  "VAR_DIA_CONSTANCIA": "",
-  "VAR_MES_CONSTANCIA": "",
-  "VAR_ANIO_CONSTANCIA": "",
-  "VAR_NOMBRE_JEFE_CB": "",
-  "VAR_NOMBRE_SUBDIRECTOR_ACADEMICO": "",
-  "VAR_FIRMA_JEFE_CD": "",
-  "VAR_FIRMA_SUB_ACADEM": ""
-}');
-
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES 
-('Constancia DDIE (Competencias de Tutores)',
-'{
-  "VAR_FOLIO_CONSTANCIA": "",
-  "VAR_NOMBRE_DOCENTE": "",
-  "VAR_DURACION_HRS": "",
-  "VAR_PERIODO": "",
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia de Productos Obtenidos y su Impacto', '{
+  "VAR_FECHA": "",
+  "VAR_NOMB_DOCENTE": "",
+  "VAR_NOMB_MATERIA": "",
+  "VAR_NOMB_ESTRATEGIA": "",
+  "VAR_NOMB_CARRERA": "",
+  "VAR_DESC_PRODUCTO": "",
+  "VAR_DESC_IMPACTO": "",
   "VAR_DIA": "",
   "VAR_MES": "",
-  "VAR_ANIO": "",
-  "VAR_NOMBRE_DIRECTOR_DDIE": "",
-  "VAR_FIRMA_DIRECTOR_DDIE": ""
+  "VAR_AÑO": "",
+  "VAR_FIRMA_DEPARTAMENTO_SISTEMAS_Y_COMPUTACION": "",
+  "VAR_JEFE_DEPARTAMENTO_SISTEMAS_Y_COMPUTACION": "",
+  "VAR_FIRMA_ACADEMIA_DE_ING._EN_SISTEMAS_COMPUTACIONALES": "",
+  "VAR_JEFE_ACADEMIA_DE_ING._EN_SISTEMAS_COMPUTACIONALES": "",
+  "VAR_FIRMA_SUBDIRECCION_ACADEMICA": "",
+  "VAR_JEFE_SUBDIRECCION_ACADEMICA": ""
 }');
 
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES 
-('Oficio Comisión (Ambientes Virtuales)',
-'{
-  "VAR_OFICIO_COMISION": "",
-  "VAR_NOMBRE_DOCENTE": "",
-  "VAR_NOMBRE_CURSO": "",
-  "VAR_FECHA_INICIO_COMISION": "",
-  "VAR_FECHA_FIN_COMISION": "",
-  "VAR_NOMBRE_JEFE_DDA": "",
-  "VAR_FIRMA_JEFE_DDA": ""
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia de Trabajo', '{
+  "VAR_FECHA": "",
+  "VAR_NOMB_DOCENTE": "",
+  "VAR_NOMB_ASIGNATURA": "",
+  "VAR_NOMB_CARRERA": "",
+  "VAR_DIA": "",
+  "VAR_MES": "",
+  "VAR_AÑO": "",
+  "VAR_FIRMA_DEPARTAMENTO_SISTEMAS_Y_COMPUTACION": "",
+  "VAR_JEFE_DEPARTAMENTO_SISTEMAS_Y_COMPUTACION": "",
+  "VAR_FIRMA_ACADEMIA_DE_ING._EN_SISTEMAS_COMPUTACIONALES": "",
+  "VAR_JEFE_ACADEMIA_DE_ING._EN_SISTEMAS_COMPUTACIONALES": "",
+  "VAR_FIRMA_SUBDIRECCION_ACADEMICA": "",
+  "VAR_JEFE_SUBDIRECCION_ACADEMICA": ""
 }');
 
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES 
-('Oficio Comisión (curso_diplomado)',
-'{
-  "VAR_OFICIO_COMISION": "",
-  "VAR_NOMBRE_DOCENTE": "",
-  "VAR_NOMBRE_CURSO": "",
-  "VAR_INSTITUCION_CURSO": "",
-  "VAR_FECHA_INICIO_COMISION": "",
-  "VAR_FECHA_FIN_COMISION": "",
-  "VAR_NOMBRE_JEFE_DDA": "",
-  "VAR_FIRMA_JEFE_DDA": ""
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia de Tutoría', '{
+  "VAR_NOM_DOCENTE": "",
+  "VAR_DEPARTAMENTO": "",
+  "VAR_PERIODO1": "",
+  "VAR_CANTIDAD_ALUMNOS1": "",
+  "VAR_CARRERA1": "",
+  "VAR_PERIODO2": "",
+  "VAR_CANTIDAD_ALUMNOS2": "",
+  "VAR_CARRERA2": "",
+  "VAR_TOTAL_ALUMNOS": "",
+  "VAR_FIRMA_DEPARTAMENTO_ACADEMICO": "",
+  "VAR_JEFE_DEPARTAMENTO_ACADEMICO": "",
+  "VAR_FIRMA_SUBDIRECCION_ACADEMICA": "",
+  "VAR_JEFE_SUBDIRECCION_ACADEMICA": ""
 }');
 
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES 
-('Oficio Comisión (curso-diplomado DDIE)',
-'{
-  "VAR_OFICIO_COMISION": "",
-  "VAR_NOMBRE_DOCENTE": "",
-  "VAR_NOMBRE_CURSO": "",
-  "VAR_FECHA_INICIO_COMISION": "",
-  "VAR_FECHA_FIN_COMISION": "",
-  "VAR_NOMBRE_JEFE_DDA": "",
-  "VAR_FIRMA_JEFE_DDA": ""
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia Exención Examen Licenciatura', '{
+  "VAR_FOLIO": "",
+  "VAR_NOMBRE_COMPLETO": "",
+  "VAR_NOCONTROL": "",
+  "VAR_INSTITUTO": "",
+  "VAR_CLAVE": "",
+  "VAR_CARRERA": "",
+  "VAR_OPCION_TITULACION": "",
+  "VAR_DIA": "",
+  "VAR_MES": "",
+  "VAR_AÑO": "",
+  "VAR_FIRMA1": "",
+  "VAR_NOMBRE_PRESI": "",
+  "VAR_CEDULA_PRESI": "",
+  "VAR_FIRMA2": "",
+  "VAR_NOMBRE_SECRE": "",
+  "VAR_CEDULA_SECRE": "",
+  "VAR_FIRMA3": "",
+  "VAR_NOMBRE_VOCAL": "",
+  "VAR_CEDULA_VOCAL": ""
 }');
 
-INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES 
-('Oficio Comisión (Educación Inclusiva)',
-'{
-  "VAR_OFICIO_COMISION": "",
-  "VAR_NOMBRE_DOCENTE": "",
-  "VAR_NOMBRE_CURSO": "",
-  "VAR_FECHA_INICIO_COMISION": "",
-  "VAR_FECHA_FIN_COMISION": "",
-  "VAR_NOMBRE_JEFE_DDA": "",
-  "VAR_FIRMA_JEFE_DDA": ""
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia Exención Examen Maestría', '{
+  "VAR_FOLIO": "",
+  "VAR_NOMBRE_COMPLETO": "",
+  "VAR_NOCONTROL": "",
+  "VAR_INSTITUTO": "",
+  "VAR_CLAVE": "",
+  "VAR_CARRERA": "",
+  "VAR_OPCION_TITULACION": "",
+  "VAR_DIA": "",
+  "VAR_MES": "",
+  "VAR_AÑO": "",
+  "VAR_FIRMA1": "",
+  "VAR_NOMBRE_PRESI": "",
+  "VAR_CEDULA_PRESI": "",
+  "VAR_FIRMA2": "",
+  "VAR_NOMBRE_SECRE": "",
+  "VAR_CEDULA_SECRE": "",
+  "VAR_FIRMA3": "",
+  "VAR_NOMBRE_VOCAL": "",
+  "VAR_CEDULA_VOCAL": ""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia Exención Examen Maestría (Codirector)', '{
+  "VAR_FOLIO": "",
+  "VAR_NOMBRE_COMPLETO": "",
+  "VAR_NOCONTROL": "",
+  "VAR_INSTITUTO": "",
+  "VAR_CLAVE": "",
+  "VAR_CARRERA": "",
+  "VAR_OPCION_TITULACION": "",
+  "VAR_DIA": "",
+  "VAR_MES": "",
+  "VAR_AÑO": "",
+  "VAR_FIRMA1": "",
+  "VAR_NOMBRE_PRESI": "",
+  "VAR_CEDULA_PRESI": "",
+  "VAR_FIRMA2": "",
+  "VAR_NOMBRE_SECRE": "",
+  "VAR_CEDULA_SECRE": "",
+  "VAR_FIRMA3": "",
+  "VAR_NOMBRE_VOCAL": "",
+  "VAR_CEDULA_VOCAL": ""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia Exención Examen Doctorado', '{
+  "VAR_FOLIO": "",
+  "VAR_NOMBRE_COMPLETO": "",
+  "VAR_NOCONTROL": "",
+  "VAR_INSTITUTO": "",
+  "VAR_CLAVE": "",
+  "VAR_CARRERA": "",
+  "VAR_OPCION_TITULACION": "",
+  "VAR_DIA": "",
+  "VAR_MES": "",
+  "VAR_AÑO": "",
+  "VAR_FIRMA1": "",
+  "VAR_NOMBRE_PRESI": "",
+  "VAR_CEDULA_PRESI": "",
+  "VAR_FIRMA2": "",
+  "VAR_NOMBRE_SECRE": "",
+  "VAR_CEDULA_SECRE": "",
+  "VAR_FIRMA3": "",
+  "VAR_NOMBRE_VOCAL": "",
+  "VAR_CEDULA_VOCAL": ""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia Exención Examen Doctorado (Codirector)', '{
+  "VAR_FOLIO": "",
+  "VAR_NOMBRE_COMPLETO": "",
+  "VAR_NOCONTROL": "",
+  "VAR_INSTITUTO": "",
+  "VAR_CLAVE": "",
+  "VAR_CARRERA": "",
+  "VAR_OPCION_TITULACION": "",
+  "VAR_DIA": "",
+  "VAR_MES": "",
+  "VAR_AÑO": "",
+  "VAR_FIRMA1": "",
+  "VAR_NOMBRE_PRESI": "",
+  "VAR_CEDULA_PRESI": "",
+  "VAR_FIRMA2": "",
+  "VAR_NOMBRE_SECRE": "",
+  "VAR_CEDULA_SECRE": "",
+  "VAR_FIRMA3": "",
+  "VAR_NOMBRE_VOCAL": "",
+  "VAR_CEDULA_VOCAL": ""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia Exención Examen Especialización', '{
+  "VAR_FOLIO": "",
+  "VAR_NOMBRE_COMPLETO": "",
+  "VAR_NOCONTROL": "",
+  "VAR_INSTITUTO": "",
+  "VAR_CLAVE": "",
+  "VAR_CARRERA": "",
+  "VAR_OPCION_TITULACION": "",
+  "VAR_DIA": "",
+  "VAR_MES": "",
+  "VAR_AÑO": "",
+  "VAR_FIRMA1": "",
+  "VAR_NOMBRE_PRESI": "",
+  "VAR_CEDULA_PRESI": "",
+  "VAR_FIRMA2": "",
+  "VAR_NOMBRE_SECRE": "",
+  "VAR_CEDULA_SECRE": "",
+  "VAR_FIRMA3": "",
+  "VAR_NOMBRE_VOCAL": "",
+  "VAR_CEDULA_VOCAL": ""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia SINODAL Técnico Superior', '{
+  "VAR_NOMB_DOCENTE": "",
+  "VAR_FECHA_INICIO": "",
+  "VAR_FECHA_FIN": "",
+  "VAR_FOLIO1": "",
+  "VAR_FECHA1": "",
+  "VAR_NOM_ALUM1": "",
+  "VAR_CARRERA1": "",
+  "VAR_FUNCION1": "",
+  "VAR_FOLIO2": "",
+  "VAR_FECHA2": "",
+  "VAR_NOM_ALUM2": "",
+  "VAR_CARRERA2": "",
+  "VAR_FUNCION2": "",
+  "VAR_FOLIO3": "",
+  "VAR_FECHA3": "",
+  "VAR_NOM_ALUM3": "",
+  "VAR_CARRERA3": "",
+  "VAR_FUNCION3": "",
+  "VAR_LDIA": "",
+  "VAR_LMES": "",
+  "VAR_LAÑO": "",
+  "VAR_FIRMA_SERVICIOS_ESCOLARES": "",
+  "VAR_JEFE_SERVICIOS_ESCOLARES": ""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia SINODAL Maestría', '{
+  "VAR_NOMB_DOCENTE": "",
+  "VAR_FECHA_INICIO": "",
+  "VAR_FECHA_FIN": "",
+  "VAR_FOLIO1": "",
+  "VAR_FECHA1": "",
+  "VAR_NOM_ALUM1": "",
+  "VAR_CARRERA1": "",
+  "VAR_FUNCION1": "",
+  "VAR_FOLIO2": "",
+  "VAR_FECHA2": "",
+  "VAR_NOM_ALUM2": "",
+  "VAR_CARRERA2": "",
+  "VAR_FUNCION2": "",
+  "VAR_FOLIO3": "",
+  "VAR_FECHA3": "",
+  "VAR_NOM_ALUM3": "",
+  "VAR_CARRERA3": "",
+  "VAR_FUNCION3": "",
+  "VAR_LDIA": "",
+  "VAR_LMES": "",
+  "VAR_LAÑO": "",
+  "VAR_FIRMA_SERVICIOS_ESCOLARES": "",
+  "VAR_JEFE_SERVICIOS_ESCOLARES": ""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia SINODAL Licenciatura', '{
+  "VAR_NOMB_DOCENTE": "",
+  "VAR_FECHA_INICIO": "",
+  "VAR_FECHA_FIN": "",
+  "VAR_FOLIO1": "",
+  "VAR_FECHA1": "",
+  "VAR_NOM_ALUM1": "",
+  "VAR_CARRERA1": "",
+  "VAR_FUNCION1": "",
+  "VAR_FOLIO2": "",
+  "VAR_FECHA2": "",
+  "VAR_NOM_ALUM2": "",
+  "VAR_CARRERA2": "",
+  "VAR_FUNCION2": "",
+  "VAR_FOLIO3": "",
+  "VAR_FECHA3": "",
+  "VAR_NOM_ALUM3": "",
+  "VAR_CARRERA3": "",
+  "VAR_FUNCION3": "",
+  "VAR_LDIA": "",
+  "VAR_LMES": "",
+  "VAR_LAÑO": "",
+  "VAR_FIRMA_SERVICIOS_ESCOLARES": "",
+  "VAR_JEFE_SERVICIOS_ESCOLARES": ""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia SINODAL Especialización', '{
+  "VAR_NOMB_DOCENTE": "",
+  "VAR_FECHA_INICIO": "",
+  "VAR_FECHA_FIN": "",
+  "VAR_FOLIO1": "",
+  "VAR_FECHA1": "",
+  "VAR_NOM_ALUM1": "",
+  "VAR_CARRERA1": "",
+  "VAR_FUNCION1": "",
+  "VAR_FOLIO2": "",
+  "VAR_FECHA2": "",
+  "VAR_NOM_ALUM2": "",
+  "VAR_CARRERA2": "",
+  "VAR_FUNCION2": "",
+  "VAR_FOLIO3": "",
+  "VAR_FECHA3": "",
+  "VAR_NOM_ALUM3": "",
+  "VAR_CARRERA3": "",
+  "VAR_FUNCION3": "",
+  "VAR_LDIA": "",
+  "VAR_LMES": "",
+  "VAR_LAÑO": "",
+  "VAR_FIRMA_SERVICIOS_ESCOLARES": "",
+  "VAR_JEFE_SERVICIOS_ESCOLARES": ""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Constancia SINODAL Doctorado', '{
+  "VAR_NOMB_DOCENTE": "",
+  "VAR_FECHA_INICIO": "",
+  "VAR_FECHA_FIN": "",
+  "VAR_FOLIO1": "",
+  "VAR_FECHA1": "",
+  "VAR_NOM_ALUM1": "",
+  "VAR_CARRERA1": "",
+  "VAR_FUNCION1": "",
+  "VAR_FOLIO2": "",
+  "VAR_FECHA2": "",
+  "VAR_NOM_ALUM2": "",
+  "VAR_CARRERA2": "",
+  "VAR_FUNCION2": "",
+  "VAR_FOLIO3": "",
+  "VAR_FECHA3": "",
+  "VAR_NOM_ALUM3": "",
+  "VAR_CARRERA3": "",
+  "VAR_FUNCION3": "",
+  "VAR_LDIA": "",
+  "VAR_LMES": "",
+  "VAR_LAÑO": "",
+  "VAR_FIRMA_SERVICIOS_ESCOLARES": "",
+  "VAR_JEFE_SERVICIOS_ESCOLARES": ""
+}');
+
+INSERT INTO DOCUMENTO (NOMBRE, DATOS_JSON) VALUES ('Formato para el Horario de Actividades', '{
+  "VAR_NOM_DOCENTE": "",
+  "VAR_CARRERA": "",
+  "VAR_MAESTRIA": "",
+  "VAR_DEPARTAMENTO": "",
+  "V_CLAVE_PLAZA": "",
+  "V_PER_ESC": "",
+  "V_TIPO_NOMBRAMIENTO": "",
+  "V_NO_TARJETA_CONTROL": "",
+  "V_FECHA_INGRESO_SEP": "",
+  "V_FECHA_INGRESO_TEC": "",
+
+  "VARIABLE_ASIGNATURA1": "",
+  "V_GRUPO1": "",
+  "V_EST1": "",
+  "V_TIPO_AULA1": "",
+  "V_NIVEL1": "",
+  "V_MOD1": "",
+  "V_CARRERA1": "",
+  "V_HRSLUNES1": "",
+  "V_HRSMARTES1": "",
+  "V_HRSMIERCOLE1": "",
+  "V_HRSJUEVES1": "",
+  "V_HRSVIERNES1": "",
+  "V_TTL_HRS1": "",
+
+  "VARIABLE_ASIGNATURA2": "",
+  "V_GRUPO2": "",
+  "V_EST2": "",
+  "V_TIPO_AULA2": "",
+  "V_NIVEL2": "",
+  "V_MOD2": "",
+  "V_CARRERA2": "",
+  "V_HRSLUNES2": "",
+  "V_HRSMARTES2": "",
+  "V_HRSMIERCOLE2": "",
+  "V_HRSJUEVES2": "",
+  "V_HRSVIERNES2": "",
+  "V_TTL_HRS2": "",
+
+  "VARIABLE_ASIGNATURA3": "",
+  "V_GRUPO3": "",
+  "V_EST3": "",
+  "V_TIPO_AULA3": "",
+  "V_NIVEL3": "",
+  "V_MOD3": "",
+  "V_CARRERA3": "",
+  "V_HRSLUNES3": "",
+  "V_HRSMARTES3": "",
+  "V_HRSMIERCOLE3": "",
+  "V_HRSJUEVES3": "",
+  "V_HRSVIERNES3": "",
+  "V_TTL_HRS3": "",
+
+  "VARIABLE_ASIGNATURA4": "",
+  "V_GRUPO4": "",
+  "V_EST4": "",
+  "V_TIPO_AULA4": "",
+  "V_NIVEL4": "",
+  "V_MOD4": "",
+  "V_CARRERA4": "",
+  "V_HRSLUNES4": "",
+  "V_HRSMARTES4": "",
+  "V_HRSMIERCOLE4": "",
+  "V_HRSJUEVES4": "",
+  "V_HRSVIERNES4": "",
+  "V_TTL_HRS4": "",
+
+  "V_HRSL": "",
+  "V_HRSMA": "",
+  "V_HRSMI": "",
+  "V_HRSJ": "",
+  "V_HRSV": "",
+  "V_TTL_HRST1": "",
+  "V_SBTTL_HRST1": "",
+
+  "V_NOMB_ACT1": "",
+  "V_HRSLUNES5": "",
+  "V_HRSMARTES5": "",
+  "V_HRSMIERCOLE5": "",
+  "V_HRSJUEVES5": "",
+  "V_HRSVIERNES5": "",
+  "V_TTL_HRS5": "",
+
+  "V_NOMB_ACT2": "",
+  "V_HRSLUNES6": "",
+  "V_HRSMARTES6": "",
+  "V_TTL_HRS6": "",
+
+  "V_NOMB_ACT3": "",
+  "V_HRSMIERCOLE7": "",
+  "V_HRSJUEVES7": "",
+  "V_TTL_HRS7": "",
+  "V_SBTTL_HRST2": "",
+  "V_TTL_HRST2": "",
+
+  "V_SBTTL_HRST3": "",
+  "V_TTL_HRST3": "",
+  "V_TTL_HRST4": "",
+
+  "VAR_FIRMA1": "",
+  "VAR_FIRMA_SUBDIRECCION_ACADEMICA": "",
+  "VAR_JEFE_SUBDIRECCION_ACADEMICA": ""
 }');
