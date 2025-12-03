@@ -64,19 +64,16 @@ def traerReclamos(conexion, idUsuario):
     try:
         cursor = conexion.cursor()
         cursor.execute("""
-            SELECT 
-                R.id_reclamo,
-                DOC.NOMBRE AS nombre_documento,
-                DOC.folio,
-                R.fecha
-            FROM DOCUMENTO DOC
-            JOIN DOCUMENTO_EXPEDIENTE DE ON DOC.FOLIO = DE.ID_DOCUMENTO
-            JOIN EXPEDIENTE E ON DE.ID_EXPEDIENTE = E.ID_EXPEDIENTE
-            JOIN DOCENTE D ON E.ID_DOCENTE = D.ID_DOCENTE
-            JOIN DEPARTAMENTO DEP ON DOC.ID_DEPARTAMENTO = DEP.ID_DEPARTAMENTO
-            JOIN JEFE J ON DEP.JEFE_ID = J.JEFE_ID
-            JOIN RECLAMO R ON DOC.FOLIO = R.ID_DOCUMENTO
-            where D.ID_DOCENTE = ? or J.JEFE_ID = ?
+    SELECT 
+        R.ID_RECLAMO,
+        DOC.NOMBRE AS nombre_doc,
+        DOC.folio,
+        R.fecha
+    FROM RECLAMO R
+    JOIN DOCUMENTO DOC ON R.ID_DOCUMENTO = DOC.FOLIO
+    JOIN DEPARTAMENTO DEP ON DOC.ID_DEPARTAMENTO = DEP.ID_DEPARTAMENTO
+    JOIN JEFE J ON DEP.JEFE_ID = J.JEFE_ID
+    WHERE R.ID_DOCENTE = ? OR J.JEFE_ID = ?;
         """, (idUsuario, idUsuario)) 
 
         filas = cursor.fetchall()
@@ -84,10 +81,10 @@ def traerReclamos(conexion, idUsuario):
         if filas:
             reclamos = []
             for fila in filas:
-                id_reclamo, nombre_doc, folio, fecha = fila  # Desempaqueta la tupla
-                if id_reclamo or fecha or nombre_doc or folio:
+                ID_RECLAMO, nombre_doc, folio, fecha = fila  # Desempaqueta la tupla
+                if ID_RECLAMO or fecha or nombre_doc or folio:
                     reclamos.append({
-                        "id_reclamo": id_reclamo,
+                        "id_reclamo": ID_RECLAMO,
                         "nombre_documento": nombre_doc,
                         "folio": folio,
                         "fecha": fecha
@@ -224,9 +221,9 @@ def guardarMensaje(conexion, idUsuario, idReclamo, mensaje, nombreDoc,rutaArchiv
             else:
                 # Crear reclamo nuevo
                 cursor.execute("""
-                    INSERT INTO RECLAMO (ID_DOCUMENTO, FECHA)
-                    VALUES ((SELECT FOLIO FROM DOCUMENTO WHERE NOMBRE = ?), GETDATE())
-                """, (nombreDoc,))
+                    INSERT INTO RECLAMO (ID_DOCUMENTO, FECHA,id_docente)
+                    VALUES ((SELECT FOLIO FROM DOCUMENTO WHERE NOMBRE = ?), GETDATE(), ?)
+                """, (nombreDoc,idUsuario))
                 conexion.commit()
 
                 # Volvemos a consultar el ID recién creado
@@ -261,34 +258,31 @@ def traerMsjs(conexion, idReclamo, idUsuario,nombreDoc):
     try:
         cursor = conexion.cursor()
         query = """
-
-                SELECT 
-            CO.remitente,
-            CO.fecha,
-            CO.descripcion,
-            CO.ruta,
-            DOC.NOMBRE
-            
-        FROM DOCUMENTO DOC
-        JOIN DOCUMENTO_EXPEDIENTE DE ON DOC.FOLIO = DE.ID_DOCUMENTO
-        JOIN EXPEDIENTE E ON DE.ID_EXPEDIENTE = E.ID_EXPEDIENTE
-        JOIN DOCENTE D ON E.ID_DOCENTE = D.ID_DOCENTE
-        JOIN DEPARTAMENTO DEP ON DOC.ID_DEPARTAMENTO = DEP.ID_DEPARTAMENTO
-        JOIN JEFE J ON DEP.JEFE_ID = J.JEFE_ID
-        JOIN RECLAMO R ON DOC.FOLIO = R.ID_DOCUMENTO
-        JOIN COMENTARIOS CO ON CO.ID_RECLAMO = R.ID_RECLAMO
-        WHERE 
-            (
-                D.ID_DOCENTE = ?
-                OR J.JEFE_ID = ?
-            )
-            AND 
-            (
-                R.ID_RECLAMO = ?
-                OR DOC.NOMBRE = ?
-            );
-
-
+    SELECT 
+        CO.remitente,
+        CO.fecha,
+        CO.descripcion,
+        CO.ruta,
+        DOC.NOMBRE
+    FROM RECLAMO R
+    JOIN DOCUMENTO DOC 
+        ON R.ID_DOCUMENTO = DOC.FOLIO
+    JOIN COMENTARIOS CO 
+        ON CO.ID_RECLAMO = R.ID_RECLAMO
+    LEFT JOIN DEPARTAMENTO DEP 
+        ON DOC.ID_DEPARTAMENTO = DEP.ID_DEPARTAMENTO
+    LEFT JOIN JEFE J 
+        ON DEP.JEFE_ID = J.JEFE_ID
+    WHERE 
+        (
+            R.ID_DOCENTE = ?     -- el reclamo pertenece al docente
+            OR J.JEFE_ID = ?     -- el jefe ve reclamos del departamento
+        )
+        AND 
+        (
+            R.ID_RECLAMO = ?     -- traer mensajes del reclamo específico
+            OR DOC.NOMBRE = ?    -- o filtrar por nombre de documento
+        );
         """
         cursor.execute(query, (
             idUsuario,
